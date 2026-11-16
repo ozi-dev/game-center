@@ -1,0 +1,14 @@
+name: Feature request
+description: Suggest a concrete improvement or compatibility addition.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would this help you do?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested behavior and relevant devices / software

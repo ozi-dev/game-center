@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Installation guides
+    url: https://github.com/ozi-dev/game-center/tree/main/docs/guides
+    about: English, Turkish, French and Spanish setup instructions.
+  - name: Upstream project credits
+    url: https://github.com/ozi-dev/game-center/blob/main/docs/CREDITS.md
+    about: Find the projects that provide the library, streaming and emulator features.

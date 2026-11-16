@@ -1,0 +1,140 @@
+{
+  "Schema": 1,
+  "Packages": [
+    {
+      "Id": "playnite",
+      "Name": "Playnite",
+      "Url": "https://github.com/JosefNemec/Playnite/releases/download/10.64/10.64.7z",
+      "FileName": "Playnite-10.64.7z",
+      "Sha256": "a4538628d6a0f49cd337c8a8640294849d736217bf4d2d7c99c1eb1b68428611",
+      "Kind": "7z",
+      "Version": "10.64"
+    },
+    {
+      "Id": "steam",
+      "Name": "Steam",
+      "Url": "https://playnite.link/download/extensions/bins/SteamLibrary_Builtin_2_48.pext",
+      "FileName": "SteamLibrary_Builtin-2.48.pext",
+      "Sha256": "bb1125d1338a5beeecfaff86e1ef3b4b3148046f5548e6381d0662edfd0c728e",
+      "Kind": "pext",
+      "Version": "2.48"
+    },
+    {
+      "Id": "epic",
+      "Name": "Epic",
+      "Url": "https://playnite.link/download/extensions/bins/EpicGamesLibrary_Builtin_2_35.pext",
+      "FileName": "EpicGamesLibrary_Builtin-2.35.pext",
+      "Sha256": "cadc037703de5e54f8fb4f6a75f61fff732e2baf89077518be1d87c627898ac1",
+      "Kind": "pext",
+      "Version": "2.35"
+    },
+    {
+      "Id": "igdb",
+      "Name": "IGDB",
+      "Url": "https://playnite.link/download/extensions/bins/IGDBMetadata_Builtin_2_15.pext",
+      "FileName": "IGDB-2.15.pext",
+      "Sha256": "16372f39becf54ab32d274e5f71ff4321b0ff64c1f76db13cbb37802edd52f1e",
+      "Kind": "pext",
+      "Version": "2.15"
+    },
+    {
+      "Id": "ea",
+      "Name": "EA app",
+      "Url": "https://github.com/Jeshibu/PlayniteExtensions/releases/download/ea3.2.2/EaLibrary_3_2_2.pext",
+      "FileName": "EA-3.2.2.pext",
+      "Sha256": "abfd96cfae66a57d9c951b3a3db8436069171b2f341adc80485ac797b18f9730",
+      "Kind": "pext",
+      "Version": "3.2.2"
+    },
+    {
+      "Id": "ubisoft",
+      "Name": "Ubisoft",
+      "Url": "https://playnite.link/download/extensions/bins/UplayLibrary_Builtin_2_11.pext",
+      "FileName": "UplayLibrary_Builtin-2.11.pext",
+      "Sha256": "4d26eb13ea8e3df528d38108d2222a0120978f6d3abe36597c3966ec500a0d9a",
+      "Kind": "pext",
+      "Version": "2.11"
+    },
+    {
+      "Id": "xbox",
+      "Name": "Xbox",
+      "Url": "https://playnite.link/download/extensions/bins/XboxLibrary_Builtin_2_17.pext",
+      "FileName": "XboxLibrary_Builtin-2.17.pext",
+      "Sha256": "ae431421d2a5b60a7433092cfa3119886a894bc34e843d242d0d5d306715b179",
+      "Kind": "pext",
+      "Version": "2.17"
+    },
+    {
+      "Id": "legendary-plugin",
+      "Name": "Legendary Playnite",
+      "Url": "https://github.com/hawkeye116477/playnite-legendary-plugin/releases/download/1.17.0/LegendaryLibrary_1_17_0.pext",
+      "FileName": "LegendaryLibrary_1_17_0.pext",
+      "Sha256": "7438f316e2e1b8caa0c249d2b2d30fc948476428c8a22402b39385dd7478dca8",
+      "Kind": "pext",
+      "Version": "1.17.0"
+    },
+    {
+      "Id": "udm",
+      "Name": "İndirme yöneticisi",
+      "Url": "https://github.com/hawkeye116477/playnite-unifiedDownloadManager-plugin/releases/download/1.1.1/UnifiedDownloadManager_1_1_1.pext",
+      "FileName": "UnifiedDownloadManager_1_1_1.pext",
+      "Sha256": "3c92dad0f1c3019c911aaca52bc44ba6fa47a6e325b9290910e98412aaf8f25e",
+      "Kind": "pext",
+      "Version": "1.1.1"
+    },
+    {
+      "Id": "legendary-cli",
+      "Name": "Legendary",
+      "Url": "https://github.com/legendary-gl/legendary/releases/download/0.21.1/legendary_windows_x64.exe",
+      "FileName": "legendary.exe",
+      "Sha256": "6be77857dc0a6dd33ea7442ce8b5291944ec6da53757f81ca95b57ce794baf5b",
+      "Kind": "exe",
+      "Version": "0.21.1"
+    },
+    {
+      "Id": "sunshine",
+      "Name": "Sunshine",
+      "Url": "https://github.com/SunshineStream/Sunshine/releases/download/v2026.914.233613/Sunshine-Windows-AMD64-installer.msi",
+      "FileName": "Sunshine-Windows-AMD64-installer.msi",
+      "Sha256": "1d7fed8beecd5889dc7ff14cf9f42d6d38f37c3066c13c6c2a5f4e91847e0ccf",
+      "Kind": "msi",
+      "Version": "2026.914.233613"
+    },
+    {
+      "Id": "vdd",
+      "Name": "Virtual Display Driver",
+      "Url": "https://github.com/VirtualDrivers/Virtual-Display-Driver/releases/download/25.7.23/VirtualDisplayDriver-x86.Driver.Only.zip",
+      "FileName": "VirtualDisplayDriver-x86.Driver.Only.zip",
+      "Sha256": "e24210692b442b39af763536330ce78b423f19342b7a7792c26de3944e418b3a",
+      "Kind": "driver",
+      "Version": "25.7.23"
+    },
+    {
+      "Id": "vigem",
+      "Name": "ViGEmBus",
+      "Url": "https://github.com/nefarius/ViGEmBus/releases/download/v1.22.0/ViGEmBus_1.22.0_x64_x86_arm64.exe",
+      "FileName": "ViGEmBus_1.22.0_x64_x86_arm64.exe",
+      "Sha256": "89220a7865076b342892f98865f3499fb7c4cfd673159e89d352c360fd014c6a",
+      "Kind": "exe",
+      "Version": "1.22.0"
+    },
+    {
+      "Id": "adb",
+      "Name": "Android Platform Tools",
+      "Url": "https://dl.google.com/android/repository/platform-tools_r36.0.2-win.zip",
+      "FileName": "platform-tools_r36.0.2-win.zip",
+      "Sha256": "b024d4f319d6ad3004de1ba7b96a5c7c5f3512e8b14126308d598b4ab93dcead",
+      "Kind": "zip",
+      "Version": "36.0.2"
+    },
+    {
+      "Id": "moonlight",
+      "Name": "Moonlight Android",
+      "Url": "https://github.com/moonlight-stream/moonlight-android/releases/download/v12.1/app-nonRoot-release.apk",
+      "FileName": "moonlight-12.1.apk",
+      "Sha256": "87012ee6949cd51f211d029ee1194d0daa03adc6ed3fc9448afa92b1dc43cd9f",
+      "Kind": "apk",
+      "Version": "12.1"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+name: Build and validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Check public source and documentation
+        shell: powershell
+        run: python scripts/maintainer/CheckPublic.py --tracked
+      - name: Fetch pinned Playnite SDK
+        shell: powershell
+        run: |
+          Import-Module .\scripts\Common.psm1 -Force -DisableNameChecking
+          $archive = Get-Component 'playnite' $PWD (Join-Path $PWD 'downloads')
+          & .\assets\tools\7zip\7za.exe x $archive '-odownloads\Playnite' -y -bso0 -bsp0
+          if ($LASTEXITCODE) { throw 'Playnite extraction failed' }
+      - name: Compile and test core
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1
+      - name: Test backend against isolated fixtures
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\BackendTests.ps1
+      - name: Check wizard
+        shell: powershell
+        run: |
+          $process = Start-Process .\build\OyunMerkezi.exe -ArgumentList '--selftest' -Wait -PassThru
+          if ($process.ExitCode) { throw 'Wizard self-test failed' }

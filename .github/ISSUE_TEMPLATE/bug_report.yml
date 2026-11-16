@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible setup, library or streaming integration issue.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Please remove account names, IPs, ROM paths, tokens and pairing codes from logs/screenshots. English, Turkish, French and Spanish reports are welcome."
+  - type: input
+    id: version
+    attributes:
+      label: Game Center version
+      placeholder: "2.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Host and client
+      description: Windows, GPU, Playnite/Sunshine/Moonlight versions, client model, resolution and refresh rate.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps and expected / actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted diagnostics or screenshots
+      description: Use the redacted diagnostic export when possible. Never attach credentials or whole user-data directories.

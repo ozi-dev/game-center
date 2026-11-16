@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
+<title id="title">Game Center · Oyun Merkezi</title><desc id="desc">An open source setup companion for a unified Playnite library and Sunshine/Moonlight streaming.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#101d35"/><stop offset="1" stop-color="#070c16"/></linearGradient><linearGradient id="accent"><stop stop-color="#74dcff"/><stop offset="1" stop-color="#89a5ff"/></linearGradient><pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#6584a5" opacity=".13"/></pattern></defs>
+<rect width="1280" height="520" rx="24" fill="url(#bg)"/><rect width="1280" height="520" rx="24" fill="url(#dots)"/>
+<g font-family="Segoe UI,Arial,sans-serif"><rect x="64" y="54" width="316" height="30" rx="15" fill="#213e56"/><text x="82" y="75" font-size="13" letter-spacing="2" fill="#92deff">OPEN SOURCE · WINDOWS · COUCH PLAY</text>
+<text x="60" y="166" font-size="70" font-weight="700" fill="white">Game Center</text><text x="64" y="206" font-size="25" fill="#99b1cc">Oyun Merkezi</text>
+<text x="64" y="280" font-size="30" fill="#e3edf9">Your library. Your screen. Your couch.</text><text x="64" y="321" font-size="19" fill="#9fb1ca">Bring your PC games and emulators into Playnite.</text><text x="64" y="350" font-size="19" fill="#9fb1ca">Stream with Sunshine + Moonlight.</text>
+<rect x="64" y="407" width="165" height="42" rx="21" fill="url(#accent)"/><text x="87" y="435" font-size="16" font-weight="700" fill="#0b172c">Made by ozi-dev</text>
+<text x="249" y="434" font-size="15" fill="#91a8c0">Built on a great open-source ecosystem.</text>
+<g transform="translate(815,96)"><rect width="372" height="240" rx="18" fill="#1c2d46" stroke="#486684" stroke-width="2"/><rect x="14" y="14" width="344" height="211" rx="9" fill="#0b1322"/>
+<g fill="#62badb"><rect x="34" y="39" width="84" height="115" rx="7"/><rect x="131" y="39" width="84" height="115" rx="7" fill="#8a8ede"/><rect x="228" y="39" width="84" height="115" rx="7" fill="#e19b7e"/></g>
+<g fill="none" stroke="#e3f5ff" stroke-width="3" opacity=".75"><path d="M57 99l19-36 20 36-20 28z"/><circle cx="173" cy="96" r="24"/><path d="M253 116l19-42 19 42z"/></g>
+<rect x="34" y="174" width="178" height="8" rx="4" fill="#53708b"/><rect x="34" y="192" width="115" height="7" rx="3" fill="#334b66"/>
+<path d="M163 241v21h48v-21M121 264h132" fill="none" stroke="#486684" stroke-width="8" stroke-linecap="round"/>
+<g transform="translate(56,290)"><path d="M29 0h72c19 0 29 17 36 45 8 31-13 38-27 16L98 42H32L20 61C6 83-15 76-7 45 0 17 10 0 29 0z" fill="#d8e8f4"/><path d="M23 17v25M11 29h25" stroke="#203a54" stroke-width="6" stroke-linecap="round"/><circle cx="100" cy="21" r="5" fill="#6889cf"/><circle cx="114" cy="34" r="5" fill="#6cb3a0"/></g>
+<path d="M284 309q29-32 58 0m-46 9q17-19 34 0m-23 9q6-7 12 0" fill="none" stroke="#74dcff" stroke-width="4" stroke-linecap="round"/></g></g></svg>
