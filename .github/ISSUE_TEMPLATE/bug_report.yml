@@ -8,7 +8,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Game Center version
+      label: SofaRelay version
       placeholder: "2.0.0"
     validations:
       required: true

@@ -1,12 +1,12 @@
-# Instalar y usar Game Center
+# Instalar y usar SofaRelay
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proyecto](../readme/es.md)
 
-El instalador 2.1.0 admite inglés, turco, francés y español. Elige **Español** en la barra lateral; la selección se guarda y la ayuda sin conexión usa ese idioma. Aplicar los ajustes también selecciona español en Playnite. Necesitas Windows 10/11 Intel/AMD x64, .NET Framework 4.8, PowerShell 5.1, un controlador GPU actual y un codificador compatible con Sunshine. La conexión a Internet descarga los componentes; PC y cliente deben estar en la misma red.
+El instalador 2.2.0 admite inglés, turco, francés y español. Elige **Español** en la barra lateral; la selección se guarda y la ayuda sin conexión usa ese idioma. Aplicar los ajustes también selecciona español en Playnite. Necesitas Windows 10/11 Intel/AMD x64, .NET Framework 4.8, PowerShell 5.1, un controlador GPU actual y un codificador compatible con Sunshine. La conexión a Internet descarga los componentes; PC y cliente deben estar en la misma red.
 
 ## Configuración paso a paso
 
-Descarga el ZIP de [Versiones](https://github.com/ozi-dev/game-center/releases/latest), extrae todo y abre `Kurulum.exe`.
+Descarga el ZIP de [Versiones](https://github.com/ozi-dev/sofarelay/releases/latest), extrae todo y abre `Installer.exe`.
 
 | Página | Etiqueta | Acción |
 | --- | --- | --- |
@@ -24,20 +24,20 @@ Usa `Guardar ajustes` para conservar tus preferencias. Después, los cambios del
 
 En Playnite de escritorio: menú principal → Add-ons/F9 → ajustes de extensiones → bibliotecas → proveedor → Authenticate. Para Epic directo, elige **Legendary (Epic Games)**. Completa tú mismo la autenticación y actualiza con F5. No envíes contraseñas ni códigos al responsable del proyecto.
 
-Instala Moonlight desde la tienda del Shield/TV. En el PC, abre [Sunshine](https://localhost:47990), crea su cuenta local la primera vez e introduce el PIN que muestra Moonlight. Si no detecta el PC, añade su IPv4 manualmente. Abre **Biblioteca - Playnite** para la biblioteca o **Escritorio** para el escritorio.
+Instala Moonlight desde la tienda del Shield/TV. En el PC, abre [Sunshine](https://localhost:47990), crea su cuenta local la primera vez e introduce el PIN que muestra Moonlight. Si no detecta el PC, añade su IPv4 manualmente. Abre **Game Library - Playnite** para la biblioteca o **Escritorio** para el escritorio.
 
 Empieza con 1080p60 / 20 Mbps y aumenta la calidad si la red lo permite. Shield tiene un límite de 4K60; la frecuencia del panel de TV no aumenta su salida 4K. Activa **Optimize game settings** en Moonlight para cambiar de pantalla automáticamente. No necesitas ADB para la transmisión normal.
 
 ## Uso diario
 
-- Ajustes posteriores: Inicio → Oyun Merkezi → **Ajustes de Game Center**.
+- Ajustes posteriores: Inicio → SofaRelay → **SofaRelay Settings**.
 - Confirmaciones de tiendas: mantén Start en el mando para activar el modo ratón; mueve el stick, A para clic izquierdo y B para clic derecho. Steam puede necesitar reiniciarse con `-cef-force-accessibility`. EA/Ubisoft/Xbox y ciertos juegos abren sus propios pasos de instalación.
 - Historial: carpeta de datos Fritchii/Lichii con un `play_time\playtime.bin` compatible o registros `.lrtl` de RetroArch. No se puede reconstruir tiempo nunca guardado. Los archivos que no sean NUP pueden necesitar un identificador hexadecimal correcto de 16 dígitos o una correspondencia explícita.
 - Carátula local: `Juego.cover.jpg` o `Juego.cover.png` junto a `Juego.xci`. Los iconos NUP disponibles y los metadatos de Playnite cubren otros casos.
 
 ## Solución de problemas
 
-Pantalla negra o monitor físico sin señal: termina la transmisión y usa **Ctrl+Alt+F11**, o Inicio → Oyun Merkezi → **Restaurar pantalla**. También puedes usar Win+P y los ajustes de pantalla de Windows.
+Pantalla negra o monitor físico sin señal: termina la transmisión y usa **Ctrl+Alt+F11**, o Inicio → SofaRelay → **Restaurar pantalla**. También puedes usar Win+P y los ajustes de pantalla de Windows.
 
 Si falta una frecuencia, comprueba la salida del cliente, la decodificación, el cable y los FPS de Moonlight. Reinicia cuando se solicite tras añadir un modo VDD. Si ADB aparece como unauthorized, acepta el aviso RSA del TV; puedes seguir usando la ruta de la tienda sin ADB.
 

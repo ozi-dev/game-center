@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web.Script.Serialization;
 
-namespace OyunMerkezi {
+namespace SofaRelay {
  static class Program {
   [System.Runtime.InteropServices.DllImport("user32.dll")] static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
   [STAThread] static int Main(string[] args) {
    if(args.Contains("--preview"))SetThreadDpiAwarenessContext(new IntPtr(-1));
    Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
    string root=AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
-   string settingsPath=Path.Combine(root,"data","settings.json");
+   string settingsPath=Branding.SettingsPath(root,Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
    for(int i=0;i<args.Length-1;i++)if(args[i]=="--config")settingsPath=Path.GetFullPath(args[i+1]);
    string uiLanguage=Data.Read<CenterSettings>(settingsPath).UILanguage;
    for(int i=0;i<args.Length-1;i++)if(args[i]=="--language")uiLanguage=args[i+1];
@@ -28,7 +28,7 @@ namespace OyunMerkezi {
     if(args.Contains("--preview")){string folder=Path.Combine(root,"preview");for(int i=0;i<args.Length-1;i++)if(args[i]=="--preview")folder=Path.GetFullPath(args[i+1]);form.Shown+=(s,e)=>{form.SavePreviews(folder);form.Close();};}
     if(args.Contains("--selftest")){form.CreateControl();form.RunSelfTest();return 0;}
     Application.Run(form);return 0;
-   }}catch(Exception ex){LocalizedMessage.Show(I18n.L("Uygulama açılamadı: ")+ex.Message+I18n.L("\nZIP dosyasını tüm dosyalarıyla bir klasöre çıkarıp yeniden deneyin."),I18n.L("Oyun Merkezi"),MessageBoxButtons.OK,MessageBoxIcon.Error);return 1;}
+   }}catch(Exception ex){LocalizedMessage.Show(I18n.L("Uygulama açılamadı: ")+ex.Message+I18n.L("\nZIP dosyasını tüm dosyalarıyla bir klasöre çıkarıp yeniden deneyin."),I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Error);return 1;}
   }
  }
  public class WorkerResult { public bool Success;public string Message="";public Dictionary<string,object> Data; }
@@ -77,19 +77,19 @@ namespace OyunMerkezi {
   readonly Color background=Color.FromArgb(15,22,34),panelColor=Color.FromArgb(24,34,49),accent=Color.FromArgb(104,191,255);
   public CenterForm(string appRoot,string config,bool quiet=false) {
    root=appRoot;settingsPath=config;settings=Data.Read<CenterSettings>(config);settings.UILanguage=I18n.Language;previewMode=quiet;
-   if(string.IsNullOrEmpty(settings.InstallRoot))settings.InstallRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"OyunMerkezi");
+   if(string.IsNullOrEmpty(settings.InstallRoot))settings.InstallRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"SofaRelay");
    AutoScaleDimensions=new SizeF(96,96);AutoScaleMode=AutoScaleMode.Dpi;
-   Text=I18n.L("Oyun Merkezi · Kurulum ve Ayarlar");Font=new Font("Segoe UI",10);BackColor=background;ForeColor=Color.White;
+   Text=I18n.L("SofaRelay · Kurulum ve Ayarlar");Font=new Font("Segoe UI",10);BackColor=background;ForeColor=Color.White;
    Width=Math.Min(1140,Screen.PrimaryScreen.WorkingArea.Width-70);Height=Math.Min(850,Screen.PrimaryScreen.WorkingArea.Height-70);MinimumSize=new Size(860,620);StartPosition=FormStartPosition.CenterScreen;
    var sidebar=new Panel {Dock=DockStyle.Left,Width=205,BackColor=panelColor,Padding=new Padding(16)};
-   var brand=new Label {Text=I18n.L("OYUN\nMERKEZİ"),Font=new Font("Segoe UI Semibold",22),ForeColor=accent,Size=new Size(173,104),Margin=new Padding(0,0,0,8)};
+   var brand=new Label {Text=I18n.L("SOFA\nRELAY"),Font=new Font("Segoe UI Semibold",22),ForeColor=accent,Size=new Size(173,104),Margin=new Padding(0,0,0,8)};
    var navFlow=new FlowLayoutPanel {Dock=DockStyle.Fill,FlowDirection=FlowDirection.TopDown,WrapContents=false,AutoScroll=true};sidebar.Controls.Add(navFlow);navFlow.Controls.Add(brand);
    string[] names={I18n.L("1  Başlangıç ve tanı"),I18n.L("2  Kitaplıklar ve giriş"),I18n.L("3  Emülatörler"),I18n.L("4  Yayın ve ekran"),I18n.L("5  Shield / TV bağlantısı"),I18n.L("6  Kurulum ve bakım"),I18n.L("7  Yardım ve geri alma")};
    for(int i=0;i<names.Length;i++){int n=i;var b=Button(names[i],()=>ShowPage(n));b.Width=173;b.Height=55;b.Font=new Font("Segoe UI",9);b.TextAlign=ContentAlignment.MiddleLeft;b.Margin=new Padding(0,0,0,7);nav.Add(b);navFlow.Controls.Add(b);}
    var header=new Panel {Dock=DockStyle.Top,Height=82,Padding=new Padding(28,18,28,10)};heading.Dock=DockStyle.Fill;heading.Font=new Font("Segoe UI Semibold",22);header.Controls.Add(heading);
    var languagePanel=new FlowLayoutPanel {Width=173,Height=70,FlowDirection=FlowDirection.TopDown,WrapContents=false,Margin=new Padding(0,0,0,10)};
    languagePanel.Controls.Add(new Label {Text=I18n.L("Arayüz dili"),AutoSize=true,Font=new Font("Segoe UI",9)});
-   languagePicker.DropDownStyle=ComboBoxStyle.DropDownList;languagePicker.Width=157;languagePicker.Items.AddRange(new object[]{"English","Türkçe","Français","Español"});languagePicker.SelectedIndex=Array.IndexOf(I18n.Languages,I18n.Language);languagePanel.Controls.Add(languagePicker);navFlow.Controls.Add(languagePanel);navFlow.Controls.SetChildIndex(languagePanel,1);
+   languagePicker.ForeColor=SystemColors.WindowText;languagePicker.BackColor=SystemColors.Window;languagePicker.DropDownStyle=ComboBoxStyle.DropDownList;languagePicker.Width=157;languagePicker.Items.AddRange(new object[]{"English","Türkçe","Français","Español"});languagePicker.SelectedIndex=Array.IndexOf(I18n.Languages,I18n.Language);languagePanel.Controls.Add(languagePicker);navFlow.Controls.Add(languagePanel);navFlow.Controls.SetChildIndex(languagePanel,1);
    var footer=new Panel {Dock=DockStyle.Bottom,Height=78,Padding=new Padding(24,8,24,8)};
    status.Dock=DockStyle.Top;status.Height=24;status.ForeColor=Color.LightSteelBlue;progress.Dock=DockStyle.Bottom;progress.Height=5;footer.Controls.Add(status);footer.Controls.Add(progress);
    var save=Button(I18n.L("Ayarları kaydet"),()=>SaveWithNotice());save.Dock=DockStyle.Right;save.Width=155;footer.Controls.Add(save);
@@ -100,7 +100,7 @@ namespace OyunMerkezi {
    if(quiet)status.Text=I18n.L("Tanıtım önizlemesi: tanı veya kurulum işlemi çalışmıyor.");
    languagePicker.SelectedIndexChanged+=(s,e)=>{if(!initializing&&!busy)ChangeLanguage(I18n.Languages[languagePicker.SelectedIndex],true);};
    if(!quiet)Shown+=async(s,e)=>await Run("Diagnose",false);
-   FormClosing+=(s,e)=>{if(busy){e.Cancel=true;LocalizedMessage.Show(this,I18n.L("İşlem devam ediyor. Tamamlanmasını bekleyin; pencereyi küçültebilirsiniz."),I18n.L("Oyun Merkezi"));}};
+   FormClosing+=(s,e)=>{if(busy){e.Cancel=true;LocalizedMessage.Show(this,I18n.L("İşlem devam ediyor. Tamamlanmasını bekleyin; pencereyi küçültebilirsiniz."),I18n.L("SofaRelay"));}};
   }
   Button Button(string text,Action action) {
    var b=new Button {Text=text,AutoSize=false,Size=new Size(240,38),FlatStyle=FlatStyle.Flat,BackColor=Color.FromArgb(37,55,77),ForeColor=Color.White,Margin=new Padding(0,6,10,6),Cursor=Cursors.Hand,UseVisualStyleBackColor=false};
@@ -120,7 +120,7 @@ namespace OyunMerkezi {
   NumericUpDown Number(int min,int max,int value){return new NumericUpDown {Minimum=min,Maximum=max,Value=value,Width=105,BackColor=panelColor,ForeColor=Color.White,Margin=new Padding(0,6,15,6)};}
   void BuildPages() {
    var p=Page();p.Controls.Add(Paragraph(I18n.L("Tek kütüphane, kumanda veya klavye/fare, Moonlight üzerinden TV yayını. Bu uygulama kurulumu yapar; daha sonra aynı yerden ayarları değiştirebilirsiniz.")));
-   install=PathField(p,I18n.L("Oyun Merkezi kurulum klasörü"),v=>settings.InstallRoot=v);
+   install=PathField(p,I18n.L("SofaRelay kurulum klasörü"),v=>settings.InstallRoot=v);
    playnite=PathField(p,I18n.L("Mevcut Playnite klasörü (yoksa boş bırakın; otomatik kurulur)"),v=>settings.PlaynitePath=v);
    sunshine=PathField(p,I18n.L("Sunshine klasörü (var olan kurulum tanıyla bulunur)"),v=>settings.SunshineDirectory=v);
    diagnosisText=Paragraph(I18n.L("Bilgisayar kontrol ediliyor…"));p.Controls.Add(diagnosisText);p.Controls.Add(Button(I18n.L("Bilgisayarı yeniden denetle"),async()=>await Run("Diagnose",false)));
@@ -164,7 +164,7 @@ namespace OyunMerkezi {
    p.Controls.Add(Button(I18n.L("Ayrıntılı rehberi aç"),()=>Open(GuidePath())));p.Controls.Add(Button(I18n.L("Fiziksel ekranı şimdi geri getir"),async()=>await Run("Recover",false)));p.Controls.Add(Button(I18n.L("Yedeklenen ayarları geri al"),async()=>{if(LocalizedMessage.Show(this,I18n.L("Kurulumun yedeklediği ayarlar geri alınacak. Playnite'ı ve yayını kapatın. Sonradan değişen dosyaların üzerine yazılmaz; oyun ve sürücüler silinmez. Devam edilsin mi?"),I18n.L("Ayarları geri al"),MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)await Run("Restore",false);}));p.Controls.Add(Button(I18n.L("Yerel yedek ve günlük klasörünü aç"),()=>Open(DataRoot())));
    p.Controls.Add(Section(I18n.L("Yaygın sorunlar")));p.Controls.Add(Paragraph(I18n.L("PC görünmüyor: aynı ağda olun; Windows ağı Özel olsun ve Sunshine güvenlik duvarı iznini kontrol edin. Modemin portlarını internete açmanız gerekmez.\nSiyah ekran / monitör dönmüyor: Ctrl+Alt+F11 veya Ekranı geri getir. Yayını kapatıp Tanı'yı yenileyin.\nYüksek Hz yok: Shield çıkış modu, HDMI kablo/port ve Moonlight FPS ayarı birlikte desteklemeli.\nOyun listesi boş: ilgili hesabı Playnite F9'dan bağlayıp F5'e basın.\nEski emülatör süresi boş: doğru veri klasörü ve başlık kimliğini seçin; sıfır geçmiş için süre uydurulmaz.\nWindows imzalı uygulama değil uyarısı: bu proje özel kod imzalama sertifikasına sahip değil. Paketi güvendiğiniz kaynaktan alın; SHA-256 dosyasını kontrol edin veya kaynaklardan derleyin. Windows korumalarını kapatmanız gerekmez.")));
    var links=new FlowLayoutPanel {AutoSize=true};links.Controls.Add(Button("App Installer / WinGet",()=>Open("https://apps.microsoft.com/detail/9nblggh4nns1")));links.Controls.Add(Button(I18n.L("GPU sürücüleri / gereksinimler"),()=>Open(GuidePath()+"#gereksinimler")));p.Controls.Add(links);
-   p.Controls.Add(Paragraph(I18n.L("Oyun Merkezi 2.1.0 · Windows 10/11 x64 · .NET Framework 4.8\nOyun kurulumları Steam/Epic'te otomatik; EA/Ubisoft istemci akışı kullanılır. Emülatörler ve oyun dosyaları otomatik olarak internetten aranmaz.")));pages.Add(p);
+   p.Controls.Add(Paragraph(I18n.L("SofaRelay 2.2.0 · Windows 10/11 x64 · .NET Framework 4.8\nOyun kurulumları Steam/Epic'te otomatik; EA/Ubisoft istemci akışı kullanılır. Emülatörler ve oyun dosyaları otomatik olarak internetten aranmaz.")));pages.Add(p);
   }
   void LoadFields() {
    install.Text=settings.InstallRoot;playnite.Text=settings.PlaynitePath;sunshine.Text=settings.SunshineDirectory;ip.Text=settings.DeviceAddress;vdd.Text=settings.VddDirectory;
@@ -202,7 +202,7 @@ namespace OyunMerkezi {
    foreach(var b in nav)b.Enabled=false;languagePicker.Enabled=false;
    try {
     var result=await Task.Run(()=>WorkerRunner.Run(root,settingsPath,DataRoot(),action,AppendLog,fps));
-    if(!result.Success){status.Text=I18n.L("İşlem tamamlanmadı; aşağıdaki adımı uygulayın.");LocalizedMessage.Show(this,result.Message,I18n.L("Oyun Merkezi"),MessageBoxButtons.OK,MessageBoxIcon.Information);return;}
+    if(!result.Success){status.Text=I18n.L("İşlem tamamlanmadı; aşağıdaki adımı uygulayın.");LocalizedMessage.Show(this,result.Message,I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Information);return;}
     if(action=="Diagnose")UpdateDiagnosis(result.Data);
     else if(action=="ConnectDevice")UpdateDevice(result.Data);
     else if(action=="Install" || action=="Apply") {
@@ -211,11 +211,11 @@ namespace OyunMerkezi {
      initializing=true;LoadFields();initializing=false;
      status.Text=I18n.L("Kurulum/ayarlar tamamlandı. Kütüphaneyi açıp hesap girişlerini ve TV PIN eşleştirmesini tamamlayın.");
      var streaming=result.Data!=null && result.Data.ContainsKey("Streaming")?result.Data["Streaming"] as Dictionary<string,object>:null;bool reboot=streaming!=null && streaming.ContainsKey("RebootRequired") && Convert.ToBoolean(streaming["RebootRequired"]);
-     LocalizedMessage.Show(this,I18n.L("Kurulum tamamlandı.")+(reboot?I18n.L("\nSürücü kurulumu Windows'u yeniden başlatmanızı istiyor. Yayını denemeden önce PC'yi yeniden başlatın."):"")+I18n.L("\n\n1. Kitaplıklar sayfasından Playnite'ı açıp kendi hesaplarınızı bağlayın.\n2. Shield / TV bağlantısı sayfasını izleyerek PIN eşleştirmesini yapın.\n3. Moonlight'ta Oyun Kütüphanesi kutusunu seçin.\n\nAyar uygulaması Windows Başlat menüsündeki Oyun Merkezi klasörüne eklendi."),I18n.L("Oyun Merkezi"),MessageBoxButtons.OK,MessageBoxIcon.Information);
+     LocalizedMessage.Show(this,I18n.L("Kurulum tamamlandı.")+(reboot?I18n.L("\nSürücü kurulumu Windows'u yeniden başlatmanızı istiyor. Yayını denemeden önce PC'yi yeniden başlatın."):"")+I18n.L("\n\n1. Kitaplıklar sayfasından Playnite'ı açıp kendi hesaplarınızı bağlayın.\n2. Shield / TV bağlantısı sayfasını izleyerek PIN eşleştirmesini yapın.\n3. Moonlight'ta Oyun Kütüphanesi kutusunu seçin.\n\nAyar uygulaması Windows Başlat menüsündeki SofaRelay klasörüne eklendi."),I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Information);
     }else if(action=="Diagnostics" && result.Data!=null){string file=Convert.ToString(result.Data["File"]);status.Text=I18n.L("Kimlik bilgileri içermeyen rapor: ")+file;Open(Path.GetDirectoryName(file));}
     else if(action=="InstallRetroArch")LocalizedMessage.Show(this,Convert.ToString(result.Data["Next"]),I18n.L("RetroArch hazır"));
     else status.Text=I18n.L("İşlem tamamlandı.");
-   }catch(Exception ex){status.Text=I18n.L("İşlem tamamlanmadı.");LocalizedMessage.Show(this,ex.Message,I18n.L("Oyun Merkezi"),MessageBoxButtons.OK,MessageBoxIcon.Error);}
+   }catch(Exception ex){status.Text=I18n.L("İşlem tamamlanmadı.");LocalizedMessage.Show(this,ex.Message,I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Error);}
    finally{busy=false;progress.Style=ProgressBarStyle.Blocks;foreach(var b in nav)b.Enabled=true;languagePicker.Enabled=true;}
   }
   void UpdateDiagnosis(Dictionary<string,object> data) {
@@ -239,7 +239,16 @@ namespace OyunMerkezi {
   }
   string GuidePath(){string path=Path.Combine(root,"docs","guides",I18n.Language+".html");return File.Exists(path)?path:Path.Combine(root,"docs","guides","manual.tr.html");}
   public void RunSelfTest(){if(pages.Count!=7)throw new Exception("Missing wizard page");for(int i=0;i<pages.Count;i++){ShowPage(i);PerformLayout();}ReadFields();if(settings.Emulators==null)throw new Exception("Emulator collection missing");string before=install.Text;bool was=mouse.Checked;foreach(string language in I18n.Languages){ChangeLanguage(language,false);if(install.Text!=before||mouse.Checked!=was)throw new Exception("Language switch changed settings");if(!nav[0].Text.StartsWith("1  "))throw new Exception("Navigation localization failed");}Console.WriteLine("PASS wizard pages, settings binding and four-language switching");}
-  public void SavePreviews(string folder){Directory.CreateDirectory(folder);for(int i=0;i<pages.Count;i++){ShowPage(i);PerformLayout();using(var bitmap=new Bitmap(Width,Height)){DrawToBitmap(bitmap,new Rectangle(Point.Empty,Size));bitmap.Save(Path.Combine(folder,"page-"+(i+1)+".png"));}}}
+  static IEnumerable<ComboBox> PreviewCombos(Control parent){foreach(Control child in parent.Controls){var combo=child as ComboBox;if(combo!=null)yield return combo;foreach(var nested in PreviewCombos(child))yield return nested;}}
+  public void SavePreviews(string folder){Directory.CreateDirectory(folder);for(int i=0;i<pages.Count;i++){ShowPage(i);PerformLayout();Application.DoEvents();using(var bitmap=new Bitmap(Width,Height)){
+   DrawToBitmap(bitmap,new Rectangle(Point.Empty,Size));
+   // Win32 combo edit text is omitted by WM_PRINT when a preview runs hidden.
+   // Render the actual selected caption for those native controls.
+   using(var graphics=Graphics.FromImage(bitmap))foreach(var combo in PreviewCombos(pages[i]).Concat(new[]{languagePicker})){
+    string caption=combo.GetItemText(combo.SelectedItem);if(string.IsNullOrEmpty(caption))continue;Point point=PointToClient(combo.PointToScreen(new Point(4,0)));int border=(Width-ClientSize.Width)/2;point.Offset(border,Height-ClientSize.Height-border);
+    TextRenderer.DrawText(graphics,caption,combo.Font,new Rectangle(point,new Size(Math.Max(1,combo.Width-26),combo.Height)),SystemColors.WindowText,TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
+   }
+   bitmap.Save(Path.Combine(folder,"page-"+(i+1)+".png"));}}}
   class DisplayChoice {public string Id,Name;public override string ToString(){return Name;}}
  }
  public class EmulatorDialog : Form {
@@ -252,10 +261,10 @@ namespace OyunMerkezi {
    int row=0;Action<string,Control,bool,bool> add=(label,c,browse,isFile)=>{p.RowStyles.Add(new RowStyle(SizeType.Absolute,45));p.Controls.Add(new Label {Text=label,AutoSize=true,Anchor=AnchorStyles.Left},0,row);c.Dock=DockStyle.Fill;c.Margin=new Padding(4,8,4,7);p.Controls.Add(c,1,row);if(browse){var b=new Button {Text=I18n.L("Seç…"),Dock=DockStyle.Fill};b.Click+=(s,e)=>{if(isFile){using(var d=new OpenFileDialog {Filter=I18n.L("Uygulama/çekirdek|*.exe;*.dll|Tüm dosyalar|*.*")})if(d.ShowDialog(this)==DialogResult.OK)c.Text=d.FileName;}else{using(var d=new FolderBrowserDialog())if(d.ShowDialog(this)==DialogResult.OK)c.Text=d.SelectedPath;}};p.Controls.Add(b,2,row);}row++;};
    kind.DropDownStyle=ComboBoxStyle.DropDownList;kind.Items.AddRange(new object[]{I18n.L("Fritchii / Lichii / Yuzu türevi"),"RetroArch",I18n.L("Diğer emülatör")});add(I18n.L("Tür"),kind,false,false);add(I18n.L("Görünen ad"),name,false,false);add(I18n.L("Emülatör EXE"),exe,true,true);add(I18n.L("Oyun klasörü"),rom,true,false);add(I18n.L("Veri klasörü"),data,true,false);add(I18n.L("Platform / sistem"),platform,false,false);add(I18n.L("Dosya uzantıları"),extensions,false,false);add(I18n.L("RetroArch çekirdeği"),core,true,true);add(I18n.L("Başlatma komutu"),arguments,false,false);
    history.Text=I18n.L("Mevcut oynanma sürelerini oku");history.AutoSize=true;p.Controls.Add(history,1,row++);
-   var note=new Label {Text=I18n.L("Switch örneği: -f -g \"{ImagePath}\"\nRetroArch: -f --appendconfig \"{GameCenterDir}\\assets\\retroarch-tv.cfg\" -L \"{CorePath}\" \"{ImagePath}\"\nDiğer türlerde emülatörün kendi komutunu ve {ImagePath} yer tutucusunu kullanın. Veri klasörünü seçmek kayıtları taşımak veya kopyalamak anlamına gelmez."),AutoSize=true,MaximumSize=new Size(560,0)};p.Controls.Add(note,1,row++);
+   var note=new Label {Text=I18n.L("Switch örneği: -f -g \"{ImagePath}\"\nRetroArch: -f --appendconfig \"{SofaRelayDir}\\assets\\retroarch-tv.cfg\" -L \"{CorePath}\" \"{ImagePath}\"\nDiğer türlerde emülatörün kendi komutunu ve {ImagePath} yer tutucusunu kullanın. Veri klasörünü seçmek kayıtları taşımak veya kopyalamak anlamına gelmez."),AutoSize=true,MaximumSize=new Size(560,0)};p.Controls.Add(note,1,row++);
    var buttons=new FlowLayoutPanel {AutoSize=true,Dock=DockStyle.Fill};var ok=new Button {Text=I18n.L("Kaydet"),Width=130,Height=36};var cancel=new Button {Text=I18n.L("Vazgeç"),Width=130,Height=36};buttons.Controls.Add(ok);buttons.Controls.Add(cancel);p.Controls.Add(buttons,1,row);AcceptButton=ok;CancelButton=cancel;cancel.Click+=(s,e)=>{DialogResult=DialogResult.Cancel;Close();};
    kind.SelectedIndex=source.Kind=="Switch"?0:source.Kind=="RetroArch"?1:2;name.Text=source.Name;exe.Text=source.Executable;rom.Text=source.RomDirectory;data.Text=source.DataDirectory;core.Text=source.CorePath;platform.Text=source.Platform;extensions.Text=source.Extensions;arguments.Text=source.Arguments;history.Checked=source.ImportHistory;
-   kind.SelectedIndexChanged+=(s,e)=>{if(kind.SelectedIndex==1){if(string.IsNullOrEmpty(name.Text))name.Text="RetroArch";extensions.Text="n64,z64,v64";arguments.Text="-f --appendconfig \"{GameCenterDir}\\assets\\retroarch-tv.cfg\" -L \"{CorePath}\" \"{ImagePath}\"";platform.Text="Nintendo 64";}else if(kind.SelectedIndex==0){extensions.Text="nup,nsp,xci";arguments.Text="-f -g \"{ImagePath}\"";platform.Text="Nintendo Switch";if(string.IsNullOrEmpty(data.Text))data.Text=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"fritchii");}};
+   kind.SelectedIndexChanged+=(s,e)=>{if(kind.SelectedIndex==1){if(string.IsNullOrEmpty(name.Text))name.Text="RetroArch";extensions.Text="n64,z64,v64";arguments.Text="-f --appendconfig \"{SofaRelayDir}\\assets\\retroarch-tv.cfg\" -L \"{CorePath}\" \"{ImagePath}\"";platform.Text="Nintendo 64";}else if(kind.SelectedIndex==0){extensions.Text="nup,nsp,xci";arguments.Text="-f -g \"{ImagePath}\"";platform.Text="Nintendo Switch";if(string.IsNullOrEmpty(data.Text))data.Text=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"fritchii");}};
    ok.Click+=(s,e)=>{
     if(string.IsNullOrWhiteSpace(name.Text)||!File.Exists(Environment.ExpandEnvironmentVariables(exe.Text))||!Directory.Exists(Environment.ExpandEnvironmentVariables(rom.Text))||!arguments.Text.Contains("{ImagePath}")){LocalizedMessage.Show(this,I18n.L("Ad, mevcut EXE/oyun klasörü ve {ImagePath} içeren başlatma komutunu kontrol edin."));return;}
     if(kind.SelectedIndex==1&&!File.Exists(core.Text)){LocalizedMessage.Show(this,I18n.L("RetroArch için uygun çekirdek DLL dosyasını seçin. Ayrıntılı rehberde çekirdek indirme yolu var."));return;}

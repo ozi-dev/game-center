@@ -15,14 +15,14 @@ New-Item -ItemType Directory -Force -Path $DataRoot | Out-Null
 if(!$ResultPath){$ResultPath=Join-Path $DataRoot ('result-'+$Action+'.json')}
 $Settings=Read-Json $SettingsPath
 if(!$Settings){throw (L 'Ayar dosyası bulunamadı. Kurulum uygulamasını yeniden açın.')}
-Add-Type -Path (Join-Path $PackageRoot 'GamingCenter.Core.dll')
+Add-Type -Path (Join-Path $PackageRoot 'SofaRelay.Core.dll')
 Add-Type -AssemblyName System.Web.Extensions
-$selectedLanguage=if($Settings.PSObject.Properties['UILanguage']){$Settings.UILanguage}else{''};[OyunMerkezi.I18n]::Initialize($PackageRoot,$selectedLanguage)
+$selectedLanguage=if($Settings.PSObject.Properties['UILanguage']){$Settings.UILanguage}else{''};[SofaRelay.I18n]::Initialize($PackageRoot,$selectedLanguage)
 function Assert-Settings {
     $json=Get-Content -LiteralPath $SettingsPath -Raw -Encoding UTF8
     $serializer=[Web.Script.Serialization.JavaScriptSerializer]::new()
-    $value=$serializer.Deserialize($json,[OyunMerkezi.CenterSettings])
-    $errors=[OyunMerkezi.Validation]::Settings($value)
+    $value=$serializer.Deserialize($json,[SofaRelay.CenterSettings])
+    $errors=[SofaRelay.Validation]::Settings($value)
     if($errors.Count){throw ($errors -join "`n")}
     if(!$Settings.InstallRoot){throw (L 'Kurulum klasörü seçilmedi.')}
     $architecture=if($env:PROCESSOR_ARCHITEW6432){$env:PROCESSOR_ARCHITEW6432}else{$env:PROCESSOR_ARCHITECTURE}
@@ -36,11 +36,13 @@ function Initialize-Runtime {
     if($target -eq [IO.Path]::GetPathRoot($target)){throw (L 'Sürücü kökü kurulum klasörü olarak kullanılamaz.')}
     New-Item -ItemType Directory -Force -Path $target | Out-Null
     if($target.TrimEnd('\') -ne $PackageRoot.TrimEnd('\')){
-        foreach($name in @('OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md')){
+        foreach($name in @('SofaRelay.exe','SofaRelay.Core.dll','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md')){
             $source=Join-Path $PackageRoot $name;if(Test-Path -LiteralPath $source){$destination=Join-Path $target $name;if((Get-Item $source).PSIsContainer){New-Item -ItemType Directory -Force -Path $destination | Out-Null;Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force}else{Copy-Item -LiteralPath $source -Destination $destination -Force}}
         }
     }
     $destination=Join-Path $target 'data\settings.json';Write-Json $destination $Settings
+    $legacyEntry=Join-Path $target 'OyunMerkezi.exe'
+    if(Test-Path -LiteralPath $legacyEntry){[void](Backup-File $legacyEntry $DataRoot);Copy-Item -LiteralPath (Join-Path $PackageRoot 'assets\compat\LegacyLauncher.exe') -Destination $legacyEntry -Force;Mark-Applied $legacyEntry $DataRoot}
     return $target
 }
 function Install-Addon([string]$Id,[string]$Folder,[string]$Playnite) {
@@ -62,8 +64,8 @@ function Install-PlayniteCore {
         if(!(Test-Path (Join-Path $play 'Playnite.DesktopApp.exe'))){throw (L 'Playnite arşivi beklenen programı içermiyor.')}
         if((Get-AuthenticodeSignature (Join-Path $play 'Playnite.DesktopApp.exe')).Status -ne 'Valid'){throw (L 'Playnite imzası doğrulanamadı.')}
     }
-    $version=[Diagnostics.FileVersionInfo]::GetVersionInfo((Join-Path $play 'Playnite.DesktopApp.exe'))
-    if($version.FileMajorPart -lt 10 -or ($version.FileMajorPart -eq 10 -and $version.FileMinorPart -lt 64)){throw (L 'Playnite 10.64 veya üstü gerekiyor. Mevcut Playnite ana menüsünden güncellemeyi tamamlayıp tekrar deneyin; oyun kütüphaneniz değiştirilmedi.')}
+    $version=Get-PlayniteVersion $play
+    if($version -lt [version]'10.64'){throw (L 'Playnite 10.64 veya üstü gerekiyor. Mevcut Playnite ana menüsünden güncellemeyi tamamlayıp tekrar deneyin; oyun kütüphaneniz değiştirilmedi.')}
     $Settings.PlaynitePath=$play
     $playData=Get-PlayniteDataDirectory $play;New-Item -ItemType Directory -Force -Path $playData | Out-Null
     $db=Join-Path $playData 'library';$snapshot=Join-Path $DataRoot 'backups\playnite-before-setup'
@@ -76,11 +78,11 @@ function Install-PlayniteCore {
             if($Settings.EpicDirectInstall){
                 Install-Addon 'legendary-plugin' 'LegendaryLibrary' $playData;Install-Addon 'udm' 'UnifiedDownloadManager' $playData
                 $cli=Get-Component 'legendary-cli' $PackageRoot $DataRoot
-                New-Item -ItemType Directory -Force -Path (Join-Path $root 'araclar') | Out-Null
-                Copy-Item -LiteralPath $cli -Destination (Join-Path $root 'araclar\legendary.exe') -Force
+                New-Item -ItemType Directory -Force -Path (Join-Path $root 'tools') | Out-Null
+                Copy-Item -LiteralPath $cli -Destination (Join-Path $root 'tools\legendary.exe') -Force
                 $dir=Join-Path $playData 'ExtensionsData\ead65c3b-2f8f-4e37-b4e6-b3de6be540c6';$file=Join-Path $dir 'config.json';$c=Read-Json $file
                 if(!$c){$c=[pscustomobject]@{ConnectAccount=$false;ImportInstalledGames=$true;ImportUninstalledGames=$true;ImportUbisoftLauncherGames=$false;ImportEALauncherGames=$false;SelectedFullLauncherPath='';GamesInstallationPath='';UnattendedInstall=$true}}
-                foreach($entry in @{SelectedFullLauncherPath=(Join-Path $root 'araclar\legendary.exe');GamesInstallationPath=(Join-Path $root 'Games\Epic');UnattendedInstall=$true}.GetEnumerator()){$c | Add-Member -NotePropertyName $entry.Key -NotePropertyValue $entry.Value -Force}
+                foreach($entry in @{SelectedFullLauncherPath=(Join-Path $root 'tools\legendary.exe');GamesInstallationPath=(Join-Path $root 'Games\Epic');UnattendedInstall=$true}.GetEnumerator()){$c | Add-Member -NotePropertyName $entry.Key -NotePropertyValue $entry.Value -Force}
                 if(Test-Path $file){[void](Backup-File $file $DataRoot)};Write-Json $file $c;Mark-Applied $file $DataRoot;New-Item -ItemType Directory -Force -Path (Join-Path $root 'Games\Epic') | Out-Null
             }else{Install-Addon 'epic' 'EpicGamesLibrary_Builtin' $playData}
         }
@@ -89,13 +91,15 @@ function Install-PlayniteCore {
         Xbox {Install-Addon 'xbox' 'XboxLibrary_Builtin' $playData}
     }}
     Set-LibraryImportOptions $Settings $playData $DataRoot
-    $plugin=Join-Path $playData 'Extensions\GamingCenter';New-Item -ItemType Directory -Force -Path $plugin | Out-Null
+    $plugin=Join-Path $playData 'Extensions\SofaRelay'
+    $previous=Join-Path $playData 'Extensions\GamingCenter';if(Test-Path (Join-Path $previous 'extension.yaml')){$plugin=$previous}
     $legacy=Join-Path $playData 'Extensions\OziTvTools'
     if(Test-Path (Join-Path $legacy 'extension.yaml')){$plugin=$legacy}
+    New-Item -ItemType Directory -Force -Path $plugin | Out-Null
     Copy-Item -Path (Join-Path $PackageRoot 'assets\plugin\*') -Destination $plugin -Recurse -Force
-    New-Item -ItemType Directory -Force -Path (Join-Path $root 'araclar') | Out-Null
-    Copy-Item -LiteralPath (Join-Path $PackageRoot 'assets\plugin\SteamTvInstall.exe') -Destination (Join-Path $root 'araclar\SteamTvInstall.exe') -Force
-    Write-Json (Join-Path $plugin 'center-integration.json') @{SettingsPath=(Join-Path $root 'data\settings.json');RuntimeRoot=$root;SettingsApp=(Join-Path $root 'OyunMerkezi.exe')}
+    New-Item -ItemType Directory -Force -Path (Join-Path $root 'tools') | Out-Null
+    Copy-Item -LiteralPath (Join-Path $PackageRoot 'assets\plugin\SteamTvInstall.exe') -Destination (Join-Path $root 'tools\SteamTvInstall.exe') -Force
+    Write-Json (Join-Path $plugin 'center-integration.json') @{SettingsPath=(Join-Path $root 'data\settings.json');RuntimeRoot=$root;SettingsApp=(Join-Path $root 'SofaRelay.exe')}
     $config=Join-Path $playData 'fullscreenConfig.json';$full=Read-Json $config
     if(!$full){$full=[pscustomobject]@{}}
     if(Test-Path $config){[void](Backup-File $config $DataRoot)}
@@ -104,27 +108,23 @@ function Install-PlayniteCore {
     $appConfig=Join-Path $playData 'config.json';$app=Read-Json $appConfig;if(!$app){$app=[pscustomobject]@{}}
     if(!$app.PSObject.Properties['DatabasePath'] -or !$app.DatabasePath){$app | Add-Member -NotePropertyName DatabasePath -NotePropertyValue (Join-Path $playData 'library') -Force}
     if(Test-Path $appConfig){[void](Backup-File $appConfig $DataRoot)}
-    foreach($entry in @{Language=([OyunMerkezi.I18n]::PlayniteLanguage($selectedLanguage));FirstTimeWizardComplete=$true;AccessibilityInterface=1;CloseToTray=$false;DownloadMetadataOnImport=$true;CheckForLibraryUpdates=1;CheckForEmulatedLibraryUpdates=1}.GetEnumerator()){$app | Add-Member -NotePropertyName $entry.Key -NotePropertyValue $entry.Value -Force}
+    foreach($entry in @{Language=([SofaRelay.I18n]::PlayniteLanguage($selectedLanguage));FirstTimeWizardComplete=$true;AccessibilityInterface=1;CloseToTray=$false;DownloadMetadataOnImport=$true;CheckForLibraryUpdates=1;CheckForEmulatedLibraryUpdates=1}.GetEnumerator()){$app | Add-Member -NotePropertyName $entry.Key -NotePropertyValue $entry.Value -Force}
     Write-Json $appConfig $app;Mark-Applied $appConfig $DataRoot
-    $setup=Join-Path $playData 'Extensions\GamingCenterSetup';New-Item -ItemType Directory -Force -Path $setup | Out-Null
+    $setup=Join-Path $playData 'Extensions\SofaRelaySetup';$oldSetup=Join-Path $playData 'Extensions\GamingCenterSetup';if(Test-Path (Join-Path $oldSetup 'extension.yaml')){$setup=$oldSetup};New-Item -ItemType Directory -Force -Path $setup | Out-Null
     Copy-Item -LiteralPath (Join-Path $PackageRoot 'scripts\NativeSetup.psm1') -Destination (Join-Path $setup 'NativeSetup.psm1') -Force
     @'
 Id: GamingCenterSetup_e8bd5521-67bd-4600-a757-fbc0e93b385d
-Name: Oyun Merkezi Library Setup
-Author: Oyun Merkezi
-Version: 2.1.0
+Name: SofaRelay Library Setup
+Author: SofaRelay
+Version: 2.2.0
 Module: NativeSetup.psm1
 Type: Script
 '@ | Set-Content -LiteralPath (Join-Path $setup 'extension.yaml') -Encoding UTF8
     Write-Json (Join-Path $setup 'setup.json') @{SettingsPath=(Join-Path $root 'data\settings.json');ReportPath=(Join-Path $root 'data\library-setup.json')}
     Write-Json (Join-Path $root 'data\settings.json') $Settings;Write-Json $SettingsPath $Settings
-    if($NoShortcuts){return [pscustomobject]@{InstallRoot=$root;PlaynitePath=$play;SettingsPath=(Join-Path $root 'data\settings.json');App=(Join-Path $root 'OyunMerkezi.exe')}}
-    $menu=Join-Path ([Environment]::GetFolderPath('Programs')) 'Oyun Merkezi';New-Item -ItemType Directory -Force -Path $menu | Out-Null
-    $wsh=New-Object -ComObject WScript.Shell
-    foreach($definition in @(@{Name='Oyun Merkezi';Target=(Join-Path $play 'Playnite.FullscreenApp.exe');Args='--startfullscreen --hidesplashscreen'},@{Name=(L 'Oyun Merkezi Ayarları');Target=(Join-Path $root 'OyunMerkezi.exe');Args='--settings'},@{Name=(L 'Ekranı Geri Getir');Target=(Join-Path $root 'OyunMerkezi.exe');Args='--recover'})){
-        $link=$wsh.CreateShortcut((Join-Path $menu ($definition.Name+'.lnk')));$link.TargetPath=$definition.Target;$link.Arguments=$definition.Args;$link.WorkingDirectory=$root;if($definition.Args -eq '--recover'){$link.Hotkey='CTRL+ALT+F11'};$link.Save()
-    }
-    return [pscustomobject]@{InstallRoot=$root;PlaynitePath=$play;SettingsPath=(Join-Path $root 'data\settings.json');App=(Join-Path $root 'OyunMerkezi.exe')}
+    if($NoShortcuts){return [pscustomobject]@{InstallRoot=$root;PlaynitePath=$play;SettingsPath=(Join-Path $root 'data\settings.json');App=(Join-Path $root 'SofaRelay.exe')}}
+    [void](Set-CenterShortcuts $root $play)
+    return [pscustomobject]@{InstallRoot=$root;PlaynitePath=$play;SettingsPath=(Join-Path $root 'data\settings.json');App=(Join-Path $root 'SofaRelay.exe')}
 }
 function Install-StoreClients {
     $winget=Get-Command winget.exe -ErrorAction SilentlyContinue
@@ -227,10 +227,10 @@ function Apply-Protected {
     $values.dd_manual_resolution=[string]$Settings.Width+'x'+$Settings.Height;$values.dd_manual_refresh_rate=[string]$Settings.RefreshRate
     $old=if(Test-Path $config){[IO.File]::ReadAllText($config)}else{''};if($old -notmatch '(?m)^\s*gamepad_driver\s*='){$values.gamepad_driver='vigembus'};$new=Set-ConfValues $old $values
     $apps=Read-Json $appsFile;if(!$apps){$apps=[pscustomobject]@{env=[pscustomobject]@{};apps=@()}}
-    $managed=@('Oyun Kütüphanesi - Playnite','Oyun Merkezi','Masaüstü - Desktop','Desktop','Game Library - Playnite','Bibliothèque - Playnite','Bureau','Biblioteca - Playnite','Escritorio')
+    $managed=@('Oyun Kütüphanesi - Playnite','Oyun Merkezi','Game Center','SofaRelay','Masaüstü - Desktop','Desktop','Game Library - Playnite','Bibliothèque - Playnite','Bureau','Biblioteca - Playnite','Escritorio')
     $retained=@();if($Settings.PreserveExistingApps){$retained=@($apps.apps | Where-Object {$_.name -notin $managed})}
-    if($Settings.ShowDesktop){$retained+=@([pscustomobject]@{name=(L 'Masaüstü - Desktop');'image-path'=(Join-Path $root 'assets\desktop.png')})}
-    if($Settings.ShowLibrary){$retained+=@([pscustomobject]@{name=(L 'Oyun Kütüphanesi - Playnite');cmd=('"'+(Join-Path $Settings.PlaynitePath 'Playnite.FullscreenApp.exe')+'" --startfullscreen --hidesplashscreen');'working-dir'=$Settings.PlaynitePath;'auto-detach'=$true;'wait-all'=$true;'image-path'=(Join-Path $root 'assets\library.png')})}
+    if($Settings.ShowDesktop){$retained+=@([pscustomobject]@{name='Desktop';'image-path'=(Join-Path $root 'assets\desktop.png')})}
+    if($Settings.ShowLibrary){$retained+=@([pscustomobject]@{name='Game Library - Playnite';cmd=('"'+(Join-Path $Settings.PlaynitePath 'Playnite.FullscreenApp.exe')+'" --startfullscreen --hidesplashscreen');'working-dir'=$Settings.PlaynitePath;'auto-detach'=$true;'wait-all'=$true;'image-path'=(Join-Path $root 'assets\library.png')})}
     $apps.apps=$retained
     [IO.File]::WriteAllText($config,$new,[Text.UTF8Encoding]::new($false));Write-Json $appsFile $apps
     Mark-Applied $config $DataRoot;Mark-Applied $appsFile $DataRoot
@@ -319,7 +319,7 @@ try {
         Recover {Recover-Display}
         Diagnostics {
             $diag=Get-Diagnosis $Settings;$path=Join-Path $DataRoot ('diagnostic-'+(Get-Date -Format yyyyMMdd-HHmmss)+'.json')
-            Write-Json $path @{Version='2.1.0';OS=$diag.OS;Is64Bit=$diag.Is64Bit;GPU=$diag.GPU;SunshineInstalled=$diag.SunshineInstalled;VirtualDisplayInstalled=$diag.VirtualDisplayInstalled;GamepadDriverInstalled=$diag.GamepadDriverInstalled;FrameworkRelease=$diag.FrameworkRelease;PlaytimeSync=$Settings.SyncPlaytime;MouseKeyboard=$Settings.MouseKeyboard;Client=$Settings.ClientKind;RequestedMode=(@{Width=$Settings.Width;Height=$Settings.Height;Hz=$Settings.RefreshRate});Note=(L 'Hesaplar, IP, bilgisayar adı, ROM yolları ve kimlik bilgileri bu rapora alınmaz.')}
+            Write-Json $path @{Version='2.2.0';OS=$diag.OS;Is64Bit=$diag.Is64Bit;GPU=$diag.GPU;SunshineInstalled=$diag.SunshineInstalled;VirtualDisplayInstalled=$diag.VirtualDisplayInstalled;GamepadDriverInstalled=$diag.GamepadDriverInstalled;FrameworkRelease=$diag.FrameworkRelease;PlaytimeSync=$Settings.SyncPlaytime;MouseKeyboard=$Settings.MouseKeyboard;Client=$Settings.ClientKind;RequestedMode=(@{Width=$Settings.Width;Height=$Settings.Height;Hz=$Settings.RefreshRate});Note=(L 'Hesaplar, IP, bilgisayar adı, ROM yolları ve kimlik bilgileri bu rapora alınmaz.')}
             @{File=$path}
         }
         AccountGuide {Start-Process (Join-Path $Settings.PlaynitePath 'Playnite.DesktopApp.exe') -ArgumentList '--startdesktop','--hidesplashscreen';@{ManualLoginRequired=$true}}

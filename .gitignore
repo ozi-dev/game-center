@@ -28,6 +28,7 @@
 !/locales/**
 assets/plugin/*.dll
 assets/plugin/*.exe
+assets/compat/*.exe
 src/*.dll
 src/*.exe
 tests/*.dll

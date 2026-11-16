@@ -11,7 +11,7 @@
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1 -PlayniteSdkPath "D:\Playnite\Playnite.SDK.dll"
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\BackendTests.ps1
-.\build\OyunMerkezi.exe --selftest
+.\build\SofaRelay.exe --selftest
 ```
 
 Use separate processes: loading a .NET assembly locks it for that PowerShell process. The build uses the C# compiler included with .NET Framework; no Visual Studio installation or NuGet restore is needed.
@@ -48,7 +48,7 @@ Current user-facing documentation is in `README.md`, `docs/readme/{tr,fr,es}.md`
 
 ## Safe screenshots
 
-Use `OyunMerkezi.exe --preview <folder> --config <example-settings.json>` with example paths and no accounts. This renders the seven real wizard pages without running diagnosis, installing components or opening games. Never publish desktop notifications, account identifiers or pairing codes.
+Use `SofaRelay.exe --preview <folder> --config <example-settings.json>` with example paths and no accounts. This renders the seven real wizard pages without running diagnosis, installing components or opening games. Never publish desktop notifications, account identifiers or pairing codes.
 
 Real library screenshots require the library owner’s permission. Our public Playnite captures use the maintainer’s connected libraries; capture only the application, keep credentials and account screens private, and never launch games while recording documentation. The animated GIFs contain captured views rather than generated mockups.
 

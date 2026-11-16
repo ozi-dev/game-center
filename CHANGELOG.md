@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## 2.2.0 — 2026-11-16
+
+- Rename the project to SofaRelay; use Installer.exe, SofaRelay.exe and START-HERE.txt.
+- Standardize Start menu entries as SofaRelay, SofaRelay Settings and Restore Display in every UI language; new installs default to English.
+- Preserve existing installation directories, extension IDs, playtime state and emulator profiles; support old settings locations, command placeholders and launcher shortcuts.
+- Refresh all four language catalogs, documentation, screenshots, posters, release packaging and repository links.
+- Add upgrade and shortcut regression checks; fix Playnite version detection for native 1.0 bootstrapper executables.
+
 
 - Redesign the GitHub presentation with localized banners, download buttons, prominent real-library GIFs, an illustrated setup flow and expandable technical details.
 - Consolidate translated READMEs under `docs/readme` and move the extended offline manual into `docs/guides`; update build, packaging, funding and link checks for the layout.

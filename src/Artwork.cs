@@ -1,5 +1,5 @@
 using System;using System.IO;using System.Drawing;using System.Drawing.Imaging;using Playnite.SDK;using Playnite.SDK.Models;
-namespace OyunMerkezi { public static class Artwork {
+namespace SofaRelay { public static class Artwork {
 public static void Fill(IPlayniteAPI api,Game game,string output){
  if(game.Roms==null||game.Roms.Count==0||!string.IsNullOrEmpty(game.CoverImage))return;
  string rom=game.Roms[0].Path;byte[] icon=null;

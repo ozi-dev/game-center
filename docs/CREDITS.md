@@ -1,6 +1,6 @@
 # Built on the work of others
 
-Game Center is a setup and integration companion. It does not implement the underlying game-library interface, video encoder, streaming protocol or emulator. Those projects and their communities made this possible.
+SofaRelay is a setup and integration companion. It does not implement the underlying game-library interface, video encoder, streaming protocol or emulator. Those projects and their communities made this possible.
 
 | Project / people | Contribution to this setup | License / source |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Game Center is a setup and integration companion. It does not implement the unde
 | **hoverbike1 and TOTK mod contributors** | Upstream reference for optional already-installed local FPS profiles | [Upstream mod collection](https://github.com/hoverbike1/TOTK-Mods-collection); no game patch is redistributed |
 | **Fritchii/Lichii and other emulator contributors** | Emulation itself and compatible local history records | Supply your own verified emulator; no emulator fork, games, keys or firmware are bundled |
 
-Please visit, star, contribute to and support the upstream projects as well as this integration. Game Center does not replace their support channels for problems inside their own software.
+Please visit, star, contribute to and support the upstream projects as well as this integration. SofaRelay does not replace their support channels for problems inside their own software.
 
 The stores and NVIDIA Shield are trademarks of their respective owners. Their names describe compatibility, not endorsement. Wizard screenshots show this project’s actual localized setup UI with example paths. Fullscreen library screenshots and GIFs show Playnite, including its community translations, using the maintainer’s connected libraries with permission. Game titles, cover art and store logos visible within those screenshots belong to their respective rights holders; they are shown to document the integration. The artwork in the hero diagram is original.
 

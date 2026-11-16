@@ -1,4 +1,4 @@
-<p align="center"><img src="../../docs/media/hero-fr.svg" alt="Game Center — Votre bibliothèque mérite un plus grand écran." width="100%"></p>
+<p align="center"><img src="../../docs/media/hero-fr.svg" alt="SofaRelay — Votre bibliothèque mérite un plus grand écran." width="100%"></p>
 
 <p align="center"><a href="../../README.md">English</a> &nbsp; · &nbsp; <a href="../../docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="../../docs/readme/fr.md"><b>Français</b></a> &nbsp; · &nbsp; <a href="../../docs/readme/es.md">Español</a></p>
 
@@ -6,14 +6,14 @@
 <p align="center">Réunissez vos boutiques et vos émulateurs. Prenez une manette. Retrouvez vos jeux sur le téléviseur.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="../../docs/media/ui/download-fr.svg" alt="Télécharger pour Windows" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="../../docs/media/ui/download-fr.svg" alt="Télécharger pour Windows" width="290" height="54"></a>
   &nbsp;
   <a href="../../docs/guides/fr.md"><img src="../../docs/media/ui/guide-fr.svg" alt="Guide d’installation" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/game-center?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
-  <a href="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="../../LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
@@ -75,7 +75,7 @@ La bibliothèque et les réglages restent à portée de main.
 
 ## Du téléchargement au canapé.
 
-1. **TÉLÉCHARGEZ ET EXTRAYEZ** — Extrayez tout le ZIP Windows x64, puis ouvrez <code>Kurulum.exe</code>.
+1. **TÉLÉCHARGEZ ET EXTRAYEZ** — Extrayez tout le ZIP Windows x64, puis ouvrez <code>Installer.exe</code>.
 2. **CONNECTEZ ET CONFIGUREZ** — Suivez les sept pages pour choisir boutiques, émulateurs et écran. Connectez vos comptes, puis associez Moonlight à Sunshine.
 3. **CHOISISSEZ VOTRE ÉCRAN** — Ouvrez la bibliothèque ou le bureau dans Moonlight. Retrouvez vos préférences dans l’application de réglages.
 
@@ -114,13 +114,13 @@ Windows 10/11 x64, .NET Framework 4.8, PowerShell 5.1, pilotes GPU récents et e
 <details>
 <summary><b>Un périmètre de test transparent.</b></summary>
 
-15 vérifications du cœur, 45 du backend et 1 941 de localisation, contrôles de l’assistant et tests Playnite réels. Le Shield physique et toutes les configurations matérielles n’ont pas été testés. [Lire le périmètre de validation](../../docs/TESTING.md).
+20 vérifications du cœur, 55 du backend et 1 950 de localisation, contrôles de l’assistant et tests Playnite réels. Le Shield physique et toutes les configurations matérielles n’ont pas été testés. [Lire le périmètre de validation](../../docs/TESTING.md).
 
 </details>
 
 ## De beaux projets. Un travail partagé.
 
-Playnite fournit la bibliothèque. Sunshine et Moonlight assurent le streaming. Game Center ajoute l’installation guidée, les réglages communs, l’historique et la récupération.
+Playnite fournit la bibliothèque. Sunshine et Moonlight assurent le streaming. SofaRelay ajoute l’installation guidée, les réglages communs, l’historique et la récupération.
 
 <p align="center">
   <a href="https://github.com/JosefNemec/Playnite"><b>Playnite</b></a> &nbsp; + &nbsp;
@@ -136,7 +136,7 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 Ajoutez une étoile, signalez un bogue reproductible, améliorez une traduction ou proposez un correctif. Soutenez aussi les projets en amont.
 <!-- SUPPORT-LINK:END -->
 
-[Contribuer](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Compiler les sources](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Signaler un problème](https://github.com/ozi-dev/game-center/issues/new/choose) &nbsp; · &nbsp; [Soutenir](../../docs/SUPPORT.md)
+[Contribuer](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Compiler les sources](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Signaler un problème](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Soutenir](../../docs/SUPPORT.md)
 
 ---
 

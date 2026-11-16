@@ -5,15 +5,15 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace OyunMerkezi {
+namespace SofaRelay {
  public static class I18n {
-  public const string Version="2.1.0";
+  public const string Version="2.2.0";
   public static readonly string[] Languages={"en","tr","fr","es"};
   static Dictionary<string,string> translations=new Dictionary<string,string>(StringComparer.Ordinal);
   static Dictionary<string,string> reverse=new Dictionary<string,string>(StringComparer.Ordinal);
   public static string Language="tr";
   public static string Resolve(string language) {
-   string value=string.IsNullOrWhiteSpace(language)?CultureInfo.InstalledUICulture.TwoLetterISOLanguageName:language.Split('-','_')[0].ToLowerInvariant();
+   string value=string.IsNullOrWhiteSpace(language)?"en":language.Split('-','_')[0].ToLowerInvariant();
    return Languages.Contains(value)?value:"en";
   }
   public static void Initialize(string root,string language) {

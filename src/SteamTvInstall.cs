@@ -59,19 +59,19 @@ public static class SteamTvInstall {
   if(args.Length!=3 && args.Length!=4)return 2;
   var root=Path.GetDirectoryName(Path.GetDirectoryName(typeof(SteamTvInstall).Assembly.Location));
   var logDirectory=Path.Combine(root,"raporlar");
-  try{Directory.CreateDirectory(logDirectory);}catch{logDirectory=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"OyunMerkezi","logs");Directory.CreateDirectory(logDirectory);}
+  try{Directory.CreateDirectory(logDirectory);}catch{logDirectory=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"SofaRelay","logs");Directory.CreateDirectory(logDirectory);}
   var title=Encoding.UTF8.GetString(Convert.FromBase64String(args[2]));
   bool dryRun=args.Length==4 && args[3]=="--probe";
   var deadline=DateTime.UtcNow.AddSeconds(dryRun?3:120);
   do {
    if(TryConfirm(title,dryRun)) {
-    File.AppendAllText(Path.Combine(logDirectory,"steam-tv-kurulum.log"),DateTime.Now.ToString("s")+" | "+args[0]+" | "+(dryRun?"MATCHED (no download)":"INSTALL CONFIRMED")+Environment.NewLine);
+    File.AppendAllText(Path.Combine(logDirectory,"steam-install.log"),DateTime.Now.ToString("s")+" | "+args[0]+" | "+(dryRun?"MATCHED (no download)":"INSTALL CONFIRMED")+Environment.NewLine);
     if(!dryRun)foreach(var p in Process.GetProcessesByName("Playnite.FullscreenApp"))if(p.MainWindowHandle!=IntPtr.Zero)SetForegroundWindow(p.MainWindowHandle);
     return 0;
    }
    Thread.Sleep(500);
   }while(DateTime.UtcNow<deadline);
-  File.AppendAllText(Path.Combine(logDirectory,"steam-tv-kurulum.log"),DateTime.Now.ToString("s")+" | "+args[0]+" | No matching install dialog; no input sent"+Environment.NewLine);
+  File.AppendAllText(Path.Combine(logDirectory,"steam-install.log"),DateTime.Now.ToString("s")+" | "+args[0]+" | No matching install dialog; no input sent"+Environment.NewLine);
   return 1;
  }
 }

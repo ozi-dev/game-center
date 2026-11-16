@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using OyunMerkezi;
+using SofaRelay;
 class LocalizationTests {
  static int checks;
  static void Assert(bool value,string message){checks++;if(!value)throw new Exception(message);}
@@ -21,6 +21,7 @@ class LocalizationTests {
    if(language!="tr")Assert(I18n.L("Ayarları kaydet")!="Ayarları kaydet","Translated save button");
   }
   Assert(I18n.Resolve("fr-FR")=="fr"&&I18n.Resolve("es_ES")=="es"&&I18n.Resolve("xx")=="en","Language normalization");
+  Assert(I18n.Resolve(null)=="en","Fresh installations default to English");
   string file=Path.Combine(Path.GetTempPath(),"gamecenter-locale-"+Guid.NewGuid()+".json");try{var settings=new CenterSettings {UILanguage="es",InstallRoot=@"D:\Example",MouseKeyboard=false};Data.Write(file,settings);var loaded=Data.Read<CenterSettings>(file);Assert(loaded.UILanguage=="es"&&loaded.InstallRoot==settings.InstallRoot&&!loaded.MouseKeyboard,"Language persistence preserves preferences");}finally{File.Delete(file);}
   Console.WriteLine("PASS "+checks+" localization assertions");return 0;
  }

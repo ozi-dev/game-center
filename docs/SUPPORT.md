@@ -1,6 +1,6 @@
 # Support the project
 
-Game Center is free and open source. Stars, reproducible bug reports, translations, documentation improvements and code contributions are useful forms of support. Please also support the [upstream projects](CREDITS.md) that provide the library, streaming and emulation foundations.
+SofaRelay is free and open source. Stars, reproducible bug reports, translations, documentation improvements and code contributions are useful forms of support. Please also support the [upstream projects](CREDITS.md) that provide the library, streaming and emulation foundations.
 
 <!-- SUPPORT-LINK:START -->
 The maintainer's financial-support page is not active yet. No payment link is published until its ownership and payout setup are confirmed. You never need to donate to use the software.
@@ -20,13 +20,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\maintainer\Set-Fun
 
 ## Ready-to-use profile copy
 
-**Display name:** Ozi · Game Center
+**Display name:** Ozi · SofaRelay
 
 **Headline:** Making PC gaming more comfortable, one open-source tool at a time.
 
 **About:**
 
-> Hi, I'm Ozi. I build practical tools that make everyday tech easier to use. Game Center brings store libraries, emulators and couch streaming into one guided setup built around Playnite, Sunshine and Moonlight. If it saves you some setup time, you can buy me a coffee. The project stays free and open source, and contributions of every kind are welcome. Please support the upstream developers too — their work makes this possible.
+> Hi, I'm Ozi. I build practical tools that make everyday tech easier to use. SofaRelay brings store libraries, emulators and couch streaming into one guided setup built around Playnite, Sunshine and Moonlight. If it saves you some setup time, you can buy me a coffee. The project stays free and open source, and contributions of every kind are welcome. Please support the upstream developers too — their work makes this possible.
 
 **Short thank-you:** Thanks for supporting the project! Your coffee helps me spend more time on fixes, documentation and compatibility. Enjoy your games, and thank the upstream maintainers too.
 

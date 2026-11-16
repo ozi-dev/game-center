@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version 2
 $ErrorActionPreference='Stop'
-function L([string]$Text,[object[]]$Values=@()) { if('OyunMerkezi.I18n' -as [type]){return [OyunMerkezi.I18n]::F($Text,$Values)};if($Values.Count){return ($Text -f $Values)};return $Text }
+function L([string]$Text,[object[]]$Values=@()) { if('SofaRelay.I18n' -as [type]){return [SofaRelay.I18n]::F($Text,$Values)};if($Values.Count){return ($Text -f $Values)};return $Text }
 function Read-Json([string]$Path) { if(Test-Path -LiteralPath $Path){Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json}else{$null} }
 function Write-Json([string]$Path,$Object) {
     $parent=Split-Path -Parent $Path;New-Item -ItemType Directory -Force -Path $parent | Out-Null
@@ -120,9 +120,32 @@ function Get-StreamState {
 function Assert-StreamIdle { $state=Get-StreamState;if($state -eq 'SUNSHINE_SERVER_BUSY'){throw (L 'Aktif Moonlight yayını var. Yayından çıkıp tekrar uygulayın; mevcut oturum kesilmedi.')};if($state -notin @('SUNSHINE_SERVER_FREE','NOT_RUNNING')){throw (L 'Sunshine yayın durumu okunamadı; açık oturum kesilmemesi için ayarlar değiştirilmedi. Sunshine panelini kontrol edip tekrar deneyin.')} }
 function Is-Admin { $p=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent());return $p.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) }
 function Find-Playnite {
-    $roots=@((Join-Path $env:LOCALAPPDATA 'Playnite'),(Join-Path $env:LOCALAPPDATA 'OyunMerkezi\Playnite'),(Join-Path $env:ProgramFiles 'Playnite'))
+    $roots=@((Join-Path $env:LOCALAPPDATA 'Playnite'),(Join-Path $env:LOCALAPPDATA 'SofaRelay\Playnite'),(Join-Path $env:LOCALAPPDATA 'OyunMerkezi\Playnite'),(Join-Path $env:ProgramFiles 'Playnite'))
+    $shell=New-Object -ComObject WScript.Shell
+    foreach($name in @('SofaRelay','Oyun Merkezi')){$folder=Join-Path ([Environment]::GetFolderPath('Programs')) $name;if(Test-Path -LiteralPath $folder){foreach($file in Get-ChildItem -LiteralPath $folder -Filter '*.lnk' -File){$link=$shell.CreateShortcut($file.FullName);if([IO.Path]::GetFileName($link.TargetPath) -eq 'Playnite.FullscreenApp.exe'){$roots+=@(Split-Path $link.TargetPath -Parent)}}}}
     foreach($root in $roots){if(Test-Path (Join-Path $root 'Playnite.DesktopApp.exe')){return $root}}
     return ''
+}
+function Set-CenterShortcuts([string]$Root,[string]$Playnite,[string]$MenuRoot=([Environment]::GetFolderPath('Programs'))) {
+    $menu=Join-Path $MenuRoot 'SofaRelay';New-Item -ItemType Directory -Force -Path $menu | Out-Null
+    $shell=New-Object -ComObject WScript.Shell
+    foreach($item in @(@{Name='SofaRelay';Target=(Join-Path $Playnite 'Playnite.FullscreenApp.exe');Args='--startfullscreen --hidesplashscreen'},@{Name='SofaRelay Settings';Target=(Join-Path $Root 'SofaRelay.exe');Args='--settings'},@{Name='Restore Display';Target=(Join-Path $Root 'SofaRelay.exe');Args='--recover'})){
+        $link=$shell.CreateShortcut((Join-Path $menu ($item.Name+'.lnk')));$link.TargetPath=$item.Target;$link.Arguments=$item.Args;$link.WorkingDirectory=$Root;if($item.Args -eq '--recover'){$link.Hotkey='CTRL+ALT+F11'};$link.Save()
+    }
+    $oldMenu=Join-Path $MenuRoot 'Oyun Merkezi'
+    if(Test-Path -LiteralPath $oldMenu){foreach($file in Get-ChildItem -LiteralPath $oldMenu -Filter '*.lnk' -File){
+        $link=$shell.CreateShortcut($file.FullName)
+        if($link.TargetPath -in @((Join-Path $Root 'OyunMerkezi.exe'),(Join-Path $Root 'SofaRelay.exe'),(Join-Path $Playnite 'Playnite.FullscreenApp.exe'))){
+            $backup=Join-Path $Root ('data\shortcut-backups\'+$file.Name);New-Item -ItemType Directory -Force -Path (Split-Path $backup -Parent) | Out-Null;Copy-Item -LiteralPath $file.FullName -Destination $backup -Force;Remove-Item -LiteralPath $file.FullName
+        }
+    }}
+    return $menu
+}
+function Get-PlayniteVersion([string]$InstallDirectory) {
+    $core=Join-Path $InstallDirectory 'Playnite.dll'
+    if(Test-Path -LiteralPath $core){return [Reflection.AssemblyName]::GetAssemblyName($core).Version}
+    $info=[Diagnostics.FileVersionInfo]::GetVersionInfo((Join-Path $InstallDirectory 'Playnite.DesktopApp.exe'))
+    return [version]::new($info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart)
 }
 function Get-PlayniteDataDirectory([string]$InstallDirectory) {
     if(Test-Path (Join-Path $InstallDirectory 'unins000.exe')){return (Join-Path $env:APPDATA 'Playnite')}

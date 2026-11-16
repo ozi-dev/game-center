@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using OyunMerkezi;
+using SofaRelay;
 class CoreTests {
  static int count;
  static void Eq(ulong a,ulong b,string name){count++;if(a!=b)throw new Exception(name+": "+a+" != "+b);}
@@ -21,6 +21,17 @@ class CoreTests {
   string logs=Path.Combine(Path.GetTempPath(),"gamecenter-runtime-"+Guid.NewGuid());Directory.CreateDirectory(Path.Combine(logs,"core"));
   try{File.WriteAllText(Path.Combine(logs,"core","test.lrtl"),"{\"runtime\":\"0:02:00\"}");File.WriteAllText(Path.Combine(logs,"test.lrtl"),"{\"runtime\":\"0:01:00\"}");Eq(Playtime.RetroArch(logs,"test.n64"),120,"new aggregate preserves old core time");File.WriteAllText(Path.Combine(logs,"test.lrtl"),"{\"runtime\":\"0:03:00\"}");Eq(Playtime.RetroArch(logs,"test.n64"),180,"aggregate and cores never double counted");}finally{Directory.Delete(logs,true);}
   var settings=new CenterSettings();settings.RefreshRate=120;True(Validation.Settings(settings).Count>0,"Shield cannot 4K120");settings.Width=1920;settings.Height=1080;True(Validation.Settings(settings).Count==0,"Shield lower resolution high refresh");
+  string fixture=Path.Combine(Path.GetTempPath(),"sofarelay-upgrade-"+Guid.NewGuid().ToString("N"));
+  try{
+   string app=Path.Combine(fixture,"package"),local=Path.Combine(fixture,"local");
+   string own=Path.Combine(app,"data","settings.json"),old=Path.Combine(local,"OyunMerkezi","data","settings.json"),current=Path.Combine(local,"SofaRelay","data","settings.json");
+   True(Branding.SettingsPath(app,local)==own,"new installation uses its own settings path");
+   Data.Write(old,new CenterSettings {InstallRoot=@"D:\Existing installation",UILanguage="tr"});
+   True(Branding.SettingsPath(app,local)==old,"old app-data settings are discovered");
+   True(Data.Read<CenterSettings>(old).InstallRoot==@"D:\Existing installation","upgrade preserves installation directory");
+   Data.Write(current,new CenterSettings());True(Branding.SettingsPath(app,local)==current,"current installation takes precedence");
+   Data.Write(own,new CenterSettings());True(Branding.SettingsPath(app,local)==own,"explicit portable settings take precedence");
+  }finally{if(Path.GetFullPath(fixture).StartsWith(Path.GetFullPath(Path.GetTempPath())+"sofarelay-upgrade-",StringComparison.OrdinalIgnoreCase)&&Directory.Exists(fixture))Directory.Delete(fixture,true);}
   Console.WriteLine("PASS "+count+" core assertions");return 0;
  }
 }

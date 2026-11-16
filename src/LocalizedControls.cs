@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace OyunMerkezi {
+namespace SofaRelay {
  public class LocalizedControls {
   readonly Dictionary<Control,string> originals=new Dictionary<Control,string>();
   readonly Dictionary<DataGridViewColumn,string> columns=new Dictionary<DataGridViewColumn,string>();
@@ -21,8 +21,8 @@ namespace OyunMerkezi {
   }
  }
  public static class LocalizedMessage {
-  public static DialogResult Show(string text,string caption="Game Center",MessageBoxButtons buttons=MessageBoxButtons.OK,MessageBoxIcon icon=MessageBoxIcon.None){return Show(null,text,caption,buttons,icon);}
-  public static DialogResult Show(IWin32Window owner,string text,string caption="Game Center",MessageBoxButtons buttons=MessageBoxButtons.OK,MessageBoxIcon icon=MessageBoxIcon.None){
+  public static DialogResult Show(string text,string caption="SofaRelay",MessageBoxButtons buttons=MessageBoxButtons.OK,MessageBoxIcon icon=MessageBoxIcon.None){return Show(null,text,caption,buttons,icon);}
+  public static DialogResult Show(IWin32Window owner,string text,string caption="SofaRelay",MessageBoxButtons buttons=MessageBoxButtons.OK,MessageBoxIcon icon=MessageBoxIcon.None){
    using(var form=new Form {Text=caption,Font=new Font("Segoe UI",10),StartPosition=owner==null?FormStartPosition.CenterScreen:FormStartPosition.CenterParent,FormBorderStyle=FormBorderStyle.FixedDialog,MinimizeBox=false,MaximizeBox=false,ShowInTaskbar=false,BackColor=Color.FromArgb(24,34,49),ForeColor=Color.White,Width=720}){
     var label=new Label {Text=text,AutoSize=true,MaximumSize=new Size(650,0),Location=new Point(24,20)};form.Controls.Add(label);int contentHeight=Math.Min(550,label.GetPreferredSize(new Size(650,0)).Height);label.AutoSize=false;label.Size=new Size(650,contentHeight);form.ClientSize=new Size(700,contentHeight+100);
     var flow=new FlowLayoutPanel {Dock=DockStyle.Bottom,Height=62,FlowDirection=FlowDirection.RightToLeft,Padding=new Padding(12)};form.Controls.Add(flow);

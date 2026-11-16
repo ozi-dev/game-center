@@ -39,7 +39,7 @@ Assert ((Get-PlayniteDataDirectory $play) -eq $play) 'Portable Playnite data nex
 Assert ((Get-PlayniteDataDirectory $play) -eq (Join-Path $env:APPDATA 'Playnite')) 'Installed Playnite data in roaming profile'
 # Run the real protected configuration functions with all system/driver/service
 # boundaries mocked; writes are confined to this disposable project fixture.
-Add-Type -Path (Join-Path $root ($OutputDirectory+'\GamingCenter.Core.dll'))
+Add-Type -Path (Join-Path $root ($OutputDirectory+'\SofaRelay.Core.dll'))
 $workerAst=[Management.Automation.Language.Parser]::ParseFile((Join-Path $root 'scripts\Worker.ps1'),[ref]$null,[ref]$null)
 foreach($name in @('Assert-Settings','Apply-Protected','Restore-Protected')){$definition=$workerAst.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name},$true);. ([scriptblock]::Create($definition.Extent.Text))}
 function Is-Admin{return $true}
@@ -52,9 +52,9 @@ function Get-PnpDevice{param($Class,[switch]$PresentOnly) @([pscustomobject]@{Fr
 function Get-SunshineDirectory{return (Join-Path $fixture 'Sunshine')}
 function Get-SunshineDisplays{param($Directory) @([pscustomobject]@{device_id='{11111111-1111-1111-1111-111111111111}';friendly_name='VDD by MTT'})}
 $PackageRoot=Join-Path $root $OutputDirectory;$DataRoot=Join-Path $fixture 'protected-data';$SettingsPath=Join-Path $fixture 'protected-settings.json'
-$typed=[OyunMerkezi.CenterSettings]::new();$typed.InstallRoot=Join-Path $fixture 'runtime';$typed.PlaynitePath=$play;$typed.VddDirectory=Join-Path $fixture 'vdd'
+$typed=[SofaRelay.CenterSettings]::new();$typed.InstallRoot=Join-Path $fixture 'runtime';$typed.PlaynitePath=$play;$typed.VddDirectory=Join-Path $fixture 'vdd'
 $typed.Width=1920;$typed.Height=1080;$typed.RefreshRate=120
-[OyunMerkezi.Data]::Write($SettingsPath,$typed);$Settings=Read-Json $SettingsPath
+[SofaRelay.Data]::Write($SettingsPath,$typed);$Settings=Read-Json $SettingsPath
 New-Item -ItemType Directory -Force -Path (Join-Path $typed.InstallRoot 'data'),$typed.VddDirectory,(Join-Path $fixture 'Sunshine\config') | Out-Null
 $sunConfig=Join-Path $fixture 'Sunshine\config\sunshine.conf';$apps=Join-Path $fixture 'Sunshine\config\apps.json';$vdd=Join-Path $typed.VddDirectory 'vdd_settings.xml'
 [IO.File]::WriteAllText($sunConfig,"encoder = nvenc`r`nkeyboard = disabled`r`n")
@@ -81,5 +81,29 @@ $tokens=$null;$parseErrors=$null
 foreach($script in @(Get-ChildItem (Join-Path $root 'scripts') -File | Where-Object Extension -in '.ps1','.psm1')){[void][Management.Automation.Language.Parser]::ParseFile($script.FullName,[ref]$tokens,[ref]$parseErrors);Assert (!$parseErrors.Count) ('PowerShell parse: '+$script.Name)}
 $manifest=Read-Json (Join-Path $root 'manifests\packages.json')
 foreach($id in @('playnite','steam','epic','igdb','ea','ubisoft','xbox','legendary-plugin','legendary-cli','udm','sunshine','vigem','vdd','adb','moonlight')){Assert (@($manifest.Packages | Where-Object Id -eq $id).Count -eq 1) ('Pinned package: '+$id)}
+$menuRoot=Join-Path $fixture 'start-menu';$oldMenu=Join-Path $menuRoot 'Oyun Merkezi';New-Item -ItemType Directory -Force -Path $oldMenu | Out-Null
+$shell=New-Object -ComObject WScript.Shell;$legacyLink=Join-Path $oldMenu 'Old settings.lnk';$link=$shell.CreateShortcut($legacyLink);$link.TargetPath=Join-Path $typed.InstallRoot 'OyunMerkezi.exe';$link.Save()
+$otherLink=Join-Path $oldMenu 'Unrelated.lnk';$link=$shell.CreateShortcut($otherLink);$link.TargetPath=Join-Path $env:WINDIR 'notepad.exe';$link.Save()
+$menu=Set-CenterShortcuts $typed.InstallRoot $play $menuRoot
+Assert ((Split-Path $menu -Leaf) -eq 'SofaRelay' -and @(Get-ChildItem -LiteralPath $menu -Filter '*.lnk').Count -eq 3) 'English product folder and three shortcuts'
+$link=$shell.CreateShortcut((Join-Path $menu 'SofaRelay Settings.lnk'));Assert ($link.TargetPath -eq (Join-Path $typed.InstallRoot 'SofaRelay.exe') -and $link.Arguments -eq '--settings') 'Settings shortcut targets renamed app'
+$link=$shell.CreateShortcut((Join-Path $menu 'Restore Display.lnk'));Assert ($link.Arguments -eq '--recover' -and $link.Hotkey -match 'F11') 'Recovery shortcut and hotkey preserved'
+Assert (!(Test-Path -LiteralPath $legacyLink) -and (Test-Path (Join-Path $typed.InstallRoot 'data\shortcut-backups\Old settings.lnk'))) 'Owned legacy shortcut backed up and retired'
+Assert (Test-Path -LiteralPath $otherLink) 'Unrelated legacy-folder shortcuts preserved'
+[void](Set-CenterShortcuts $typed.InstallRoot $play $menuRoot);Assert (@(Get-ChildItem -LiteralPath $menu -Filter '*.lnk').Count -eq 3) 'Shortcut migration is idempotent'
+Import-Module (Join-Path $root 'scripts\NativeSetup.psm1') -Force -DisableNameChecking
+$definition=[pscustomobject]@{Arguments='--appendconfig "{GameCenterDir}\assets\retroarch-tv.cfg" -L "{CorePath}" "{ImagePath}"';CorePath='test-core.dll'}
+$resolved=Resolve-CenterArguments $definition $typed
+Assert ($resolved.Contains($typed.InstallRoot) -and !$resolved.Contains('{GameCenterDir}') -and $resolved.Contains('{ImagePath}')) 'Legacy emulator placeholder resolves without altering game path token'
+$definition.Arguments=$definition.Arguments.Replace('{GameCenterDir}','{SofaRelayDir}');Assert ((Resolve-CenterArguments $definition $typed) -eq $resolved) 'New and legacy emulator placeholders resolve identically'
+$versionFolder=Join-Path $fixture 'native-bootstrapper';New-Item -ItemType Directory -Force -Path $versionFolder | Out-Null
+$versionSource=Join-Path $versionFolder 'Version.cs';$compiler=Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
+foreach($number in @('10.64.0.0','10.63.0.0')){
+    [IO.File]::WriteAllText($versionSource,('[assembly:System.Reflection.AssemblyVersion("'+$number+'")] public class VersionFixture {}'))
+    & $compiler /nologo /target:library ('/out:'+(Join-Path $versionFolder 'Playnite.dll')) $versionSource
+    if($LASTEXITCODE){throw 'Version regression fixture compilation failed'}
+    $detected=Get-PlayniteVersion $versionFolder
+    Assert ($detected -eq [version]$number -and (($detected -ge [version]'10.64') -eq ($number -eq '10.64.0.0'))) ('Read actual Playnite assembly version: '+$number)
+}
 Write-Json (Join-Path $root 'reports\backend-tests.json') @{Success=$true;Assertions=$script:count;Date=(Get-Date).ToString('o');Fixture=$fixture}
 Write-Host "PASS $script:count backend assertions"

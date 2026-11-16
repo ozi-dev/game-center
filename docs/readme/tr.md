@@ -1,4 +1,4 @@
-<p align="center"><img src="../../docs/media/hero-tr.svg" alt="Game Center — Oyun kütüphanen büyük ekranı hak ediyor." width="100%"></p>
+<p align="center"><img src="../../docs/media/hero-tr.svg" alt="SofaRelay — Oyun kütüphanen büyük ekranı hak ediyor." width="100%"></p>
 
 <p align="center"><a href="../../README.md">English</a> &nbsp; · &nbsp; <a href="../../docs/readme/tr.md"><b>Türkçe</b></a> &nbsp; · &nbsp; <a href="../../docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="../../docs/readme/es.md">Español</a></p>
 
@@ -6,14 +6,14 @@
 <p align="center">Mağazalarını ve emülatörlerini bir araya getir. Kumandayı eline al. Oyun keyfini TV’ye taşı.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="../../docs/media/ui/download-tr.svg" alt="Windows için indir" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="../../docs/media/ui/download-tr.svg" alt="Windows için indir" width="290" height="54"></a>
   &nbsp;
   <a href="../../docs/guides/tr.md"><img src="../../docs/media/ui/guide-tr.svg" alt="Kurulum rehberi" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/game-center?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
-  <a href="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="../../LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
@@ -75,7 +75,7 @@ Kütüphane menüleri ve ayarlar elinin altında.
 
 ## İndirmeden koltuğa.
 
-1. **İNDİR VE ÇIKAR** — Windows x64 ZIP dosyasının tamamını çıkar. <code>Kurulum.exe</code> dosyasını aç.
+1. **İNDİR VE ÇIKAR** — Windows x64 ZIP dosyasının tamamını çıkar. <code>Installer.exe</code> dosyasını aç.
 2. **BAĞLA VE AYARLA** — Yedi rehberli sayfada mağazalarını, emülatörlerini ve ekran tercihlerini seç. Kendi hesaplarına giriş yap; Moonlight ile Sunshine’ı eşleştir.
 3. **EKRANINI SEÇ** — Moonlight’ta kütüphaneyi veya masaüstünü aç. Tercihlerini değiştirmek için ayarlar uygulamasına geri dön.
 
@@ -114,13 +114,13 @@ Windows 10/11 x64, .NET Framework 4.8, PowerShell 5.1, güncel GPU sürücüsü 
 <details>
 <summary><b>Test kapsamı açık.</b></summary>
 
-15 çekirdek + 45 arka uç + 1.941 yerelleştirme kontrolü, kurucu denetimleri ve gerçek Playnite denemeleri. Fiziksel Shield ve her donanım kombinasyonu test edilmiş değil. [Doğrulama kapsamını oku](../../docs/TESTING.md).
+20 çekirdek + 53 arka uç + 1.950 yerelleştirme kontrolü, kurucu denetimleri ve gerçek Playnite denemeleri. Fiziksel Shield ve her donanım kombinasyonu test edilmiş değil. [Doğrulama kapsamını oku](../../docs/TESTING.md).
 
 </details>
 
 ## Güzel projeler. Ortak emek.
 
-Kütüphaneyi Playnite sunuyor. Yayını Sunshine ve Moonlight taşıyor. Game Center bunların etrafına rehberli kurulum, ortak ayarlar, süre aktarımı ve kurtarma araçları ekliyor.
+Kütüphaneyi Playnite sunuyor. Yayını Sunshine ve Moonlight taşıyor. SofaRelay bunların etrafına rehberli kurulum, ortak ayarlar, süre aktarımı ve kurtarma araçları ekliyor.
 
 <p align="center">
   <a href="https://github.com/JosefNemec/Playnite"><b>Playnite</b></a> &nbsp; + &nbsp;
@@ -136,7 +136,7 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 Yıldız ver, tekrarlanabilir bir hata bildir, çeviriyi iyileştir veya kod katkısı yap. Temel projelerin geliştiricilerini de destekle.
 <!-- SUPPORT-LINK:END -->
 
-[Katkıda bulun](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Kaynaktan derle](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Hata bildir](https://github.com/ozi-dev/game-center/issues/new/choose) &nbsp; · &nbsp; [Destek](../../docs/SUPPORT.md)
+[Katkıda bulun](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Kaynaktan derle](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Hata bildir](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Destek](../../docs/SUPPORT.md)
 
 ---
 

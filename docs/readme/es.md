@@ -1,4 +1,4 @@
-<p align="center"><img src="../../docs/media/hero-es.svg" alt="Game Center — Tu biblioteca merece una pantalla más grande." width="100%"></p>
+<p align="center"><img src="../../docs/media/hero-es.svg" alt="SofaRelay — Tu biblioteca merece una pantalla más grande." width="100%"></p>
 
 <p align="center"><a href="../../README.md">English</a> &nbsp; · &nbsp; <a href="../../docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="../../docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="../../docs/readme/es.md"><b>Español</b></a></p>
 
@@ -6,14 +6,14 @@
 <p align="center">Reúne tus tiendas y emuladores. Toma el mando. Lleva tus juegos al televisor.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="../../docs/media/ui/download-es.svg" alt="Descargar para Windows" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="../../docs/media/ui/download-es.svg" alt="Descargar para Windows" width="290" height="54"></a>
   &nbsp;
   <a href="../../docs/guides/es.md"><img src="../../docs/media/ui/guide-es.svg" alt="Guía de instalación" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/game-center?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
-  <a href="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="../../LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
@@ -75,7 +75,7 @@ La biblioteca y los ajustes quedan al alcance de la mano.
 
 ## De la descarga al sofá.
 
-1. **DESCARGA Y EXTRAE** — Extrae todo el ZIP de Windows x64 y abre <code>Kurulum.exe</code>.
+1. **DESCARGA Y EXTRAE** — Extrae todo el ZIP de Windows x64 y abre <code>Installer.exe</code>.
 2. **CONECTA Y CONFIGURA** — Sigue las siete páginas para elegir tiendas, emuladores y pantalla. Inicia sesión en tus cuentas y empareja Moonlight con Sunshine.
 3. **ELIGE TU PANTALLA** — Abre la biblioteca o el escritorio en Moonlight. Vuelve a los ajustes cuando quieras cambiar tus preferencias.
 
@@ -114,13 +114,13 @@ Windows 10/11 x64, .NET Framework 4.8, PowerShell 5.1, controladores GPU actuale
 <details>
 <summary><b>Pruebas con un alcance claro.</b></summary>
 
-15 comprobaciones del núcleo, 45 del backend y 1941 de localización, controles del asistente y pruebas reales de Playnite. No se ha probado un Shield físico ni todas las combinaciones de hardware. [Consultar la validación](../../docs/TESTING.md).
+20 comprobaciones del núcleo, 55 del backend y 1950 de localización, controles del asistente y pruebas reales de Playnite. No se ha probado un Shield físico ni todas las combinaciones de hardware. [Consultar la validación](../../docs/TESTING.md).
 
 </details>
 
 ## Grandes proyectos. Mérito compartido.
 
-Playnite ofrece la biblioteca. Sunshine y Moonlight transmiten los juegos. Game Center añade instalación guiada, ajustes compartidos, historial y recuperación.
+Playnite ofrece la biblioteca. Sunshine y Moonlight transmiten los juegos. SofaRelay añade instalación guiada, ajustes compartidos, historial y recuperación.
 
 <p align="center">
   <a href="https://github.com/JosefNemec/Playnite"><b>Playnite</b></a> &nbsp; + &nbsp;
@@ -136,7 +136,7 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 Deja una estrella, informa de un error reproducible, mejora una traducción o aporta una corrección. Apoya también a los proyectos originales.
 <!-- SUPPORT-LINK:END -->
 
-[Contribuir](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Compilar](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Informar de un error](https://github.com/ozi-dev/game-center/issues/new/choose) &nbsp; · &nbsp; [Apoyar](../../docs/SUPPORT.md)
+[Contribuir](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Compilar](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Informar de un error](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Apoyar](../../docs/SUPPORT.md)
 
 ---
 

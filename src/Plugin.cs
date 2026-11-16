@@ -13,7 +13,7 @@ using Playnite.SDK.Models;
 using Playnite.SDK.Plugins;
 using Playnite.SDK.Events;
 
-namespace OyunMerkezi {
+namespace SofaRelay {
  [LoadPlugin]
  public class CenterPlugin : GenericPlugin {
   public override Guid Id { get { return new Guid("15378b45-7634-47ed-8570-69ad2d7a9067"); } }
@@ -46,12 +46,13 @@ namespace OyunMerkezi {
    if(!launchedHelpers.Add(game.Id))return;
    try {
     if(Process.GetProcessesByName("steam").Length==0){var exe=Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Valve\Steam","SteamExe",null) as string;if(File.Exists(exe))Process.Start(new ProcessStartInfo(exe,"-silent -cef-force-accessibility"){UseShellExecute=false,CreateNoWindow=true});}
-    string helper=Path.Combine(integration.RuntimeRoot,"araclar","SteamTvInstall.exe");
+    string helper=Path.Combine(integration.RuntimeRoot,"tools","SteamTvInstall.exe");
+    if(!File.Exists(helper))helper=Path.Combine(integration.RuntimeRoot,"araclar","SteamTvInstall.exe");
     if(!File.Exists(helper))helper=Path.Combine(pluginDirectory,"SteamTvInstall.exe");
     string title=Convert.ToBase64String(Encoding.UTF8.GetBytes(game.Name));
     var p=Process.Start(new ProcessStartInfo(helper,game.GameId+" "+game.Id+" "+title){UseShellExecute=false,CreateNoWindow=true});
     Task.Run(()=>{p.WaitForExit();Dispatch(()=>launchedHelpers.Remove(game.Id));});
-   }catch(Exception ex){launchedHelpers.Remove(game.Id);LogManager.GetLogger().Error(ex,"Oyun Merkezi Steam helper");}
+   }catch(Exception ex){launchedHelpers.Remove(game.Id);LogManager.GetLogger().Error(ex,"SofaRelay Steam helper");}
   }
   void Dispatch(Action action){var app=Application.Current;if(app!=null && !app.Dispatcher.HasShutdownStarted){if(app.Dispatcher.CheckAccess())action();else app.Dispatcher.BeginInvoke(action);}}
   public override void OnApplicationStarted(OnApplicationStartedEventArgs args) {
@@ -62,13 +63,13 @@ namespace OyunMerkezi {
   public override async void OnGameStopped(OnGameStoppedEventArgs args){await Task.Delay(1800);Dispatch(Sync);}
   public override void OnApplicationStopped(OnApplicationStoppedEventArgs args){if(timer!=null)timer.Stop();Sync();}
   public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args) {
-   yield return new MainMenuItem {MenuSection=I18n.L("Oyun Merkezi"),Description="Ayarlar ve kurulum",Action=a=>OpenSettings()};
-   yield return new MainMenuItem {MenuSection=I18n.L("Oyun Merkezi"),Description=I18n.L("Emülatör sürelerini eşitle"),Action=a=>Sync()};
+   yield return new MainMenuItem {MenuSection="SofaRelay",Description=I18n.L("Ayarlar ve kurulum"),Action=a=>OpenSettings()};
+   yield return new MainMenuItem {MenuSection=I18n.L("SofaRelay"),Description=I18n.L("Emülatör sürelerini eşitle"),Action=a=>Sync()};
   }
-  void OpenSettings(){try{if(File.Exists(integration.SettingsApp))Process.Start(new ProcessStartInfo(integration.SettingsApp,"--settings --config \""+integration.SettingsPath+"\""){UseShellExecute=true});else PlayniteApi.Dialogs.ShowMessage(I18n.L("Oyun Merkezi kurulum klasöründeki OyunMerkezi.exe dosyasını açın."));}catch(Exception ex){PlayniteApi.Dialogs.ShowErrorMessage(ex.Message,I18n.L("Oyun Merkezi"));}}
+  void OpenSettings(){try{if(File.Exists(integration.SettingsApp))Process.Start(new ProcessStartInfo(integration.SettingsApp,"--settings --config \""+integration.SettingsPath+"\""){UseShellExecute=true});else PlayniteApi.Dialogs.ShowMessage(I18n.L("SofaRelay kurulum klasöründeki SofaRelay.exe dosyasını açın."));}catch(Exception ex){PlayniteApi.Dialogs.ShowErrorMessage(ex.Message,I18n.L("SofaRelay"));}}
   public override UserControl GetSettingsView(bool firstRunSettings) {
    var panel=new StackPanel {Margin=new Thickness(20)};
-   panel.Children.Add(new TextBlock {Text=I18n.L("Oyun Merkezi ayarları"),FontSize=22,Margin=new Thickness(0,0,0,12)});
+   panel.Children.Add(new TextBlock {Text=I18n.L("SofaRelay ayarları"),FontSize=22,Margin=new Thickness(0,0,0,12)});
    var button=new Button {Content=I18n.L("Ayarları aç"),Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};button.Click+=(s,e)=>OpenSettings();panel.Children.Add(button);
    var sync=new Button {Content=I18n.L("Süreleri şimdi eşitle"),Margin=new Thickness(0,12,0,0),Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};sync.Click+=(s,e)=>Sync();panel.Children.Add(sync);
    return new UserControl {Content=panel};
@@ -114,11 +115,11 @@ namespace OyunMerkezi {
       if(after!=before){game.Playtime=after;PlayniteApi.Database.Games.Update(game);}
       states[key]=new MergeState {SourceSeconds=seconds,UnifiedSeconds=after};
       report.Add(new {Game=game.Name,Id=key,Source=source.Name,Before=before,SourceSeconds=seconds,TotalSeconds=after});
-     }catch(Exception ex){LogManager.GetLogger().Warn(ex,"Oyun Merkezi could not read emulated history for "+game.Id);}
+     }catch(Exception ex){LogManager.GetLogger().Warn(ex,"SofaRelay could not read emulated history for "+game.Id);}
     }
     Data.Write(stateFile,states);
     Data.Write(Path.Combine(GetPluginUserDataPath(),"last-sync.json"),new {Time=DateTime.UtcNow,Games=report});
-   }catch(Exception ex){LogManager.GetLogger().Error(ex,"Oyun Merkezi synchronization");}
+   }catch(Exception ex){LogManager.GetLogger().Error(ex,"SofaRelay synchronization");}
   }
  }
 }

@@ -1,12 +1,12 @@
-# Installer et utiliser Game Center
+# Installer et utiliser SofaRelay
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Projet](../readme/fr.md)
 
-L’installateur 2.1.0 est disponible en anglais, turc, français et espagnol. Choisissez **Français** dans la barre latérale ; le choix est enregistré et l’aide hors ligne suit cette langue. Appliquer les réglages sélectionne aussi le français dans Playnite. Utilisez Windows 10/11 Intel/AMD x64 avec .NET Framework 4.8, PowerShell 5.1, un pilote GPU récent et un encodeur compatible Sunshine. Internet sert à télécharger les composants ; PC et client doivent partager le même réseau.
+L’installateur 2.2.0 est disponible en anglais, turc, français et espagnol. Choisissez **Français** dans la barre latérale ; le choix est enregistré et l’aide hors ligne suit cette langue. Appliquer les réglages sélectionne aussi le français dans Playnite. Utilisez Windows 10/11 Intel/AMD x64 avec .NET Framework 4.8, PowerShell 5.1, un pilote GPU récent et un encodeur compatible Sunshine. Internet sert à télécharger les composants ; PC et client doivent partager le même réseau.
 
 ## Parcours de configuration
 
-Téléchargez le ZIP des [versions publiées](https://github.com/ozi-dev/game-center/releases/latest), extrayez-le entièrement et ouvrez `Kurulum.exe`.
+Téléchargez le ZIP des [versions publiées](https://github.com/ozi-dev/sofarelay/releases/latest), extrayez-le entièrement et ouvrez `Installer.exe`.
 
 | Page | Libellé | Action |
 | --- | --- | --- |
@@ -30,14 +30,14 @@ Commencez en 1080p60 / 20 Mbit/s, puis augmentez selon le réseau. Sur Shield, l
 
 ## Utilisation quotidienne
 
-- Réglages ultérieurs : Démarrer → Oyun Merkezi → **Réglages Game Center**.
+- Réglages ultérieurs : Démarrer → SofaRelay → **Réglages SofaRelay**.
 - Confirmation d’une boutique : maintenez Start sur la manette pour activer le mode souris ; stick pour déplacer, A clic gauche, B clic droit. Le bouton Steam peut nécessiter un redémarrage de Steam avec `-cef-force-accessibility`. EA/Ubisoft/Xbox et certains jeux demandent leur propre interface.
 - Historique : dossier utilisateur Fritchii/Lichii contenant un `play_time\playtime.bin` compatible, ou journaux `.lrtl` de RetroArch. Un journal absent ne permet pas de reconstruire les anciennes durées. Pour les fichiers hors NUP, un identifiant correct de 16 caractères hexadécimaux ou une correspondance explicite peut être nécessaire.
 - Jaquette locale : `Jeu.cover.jpg` ou `Jeu.cover.png` à côté de `Jeu.xci`. Les icônes NUP disponibles et les métadonnées Playnite complètent les autres cas.
 
 ## En cas de problème
 
-Écran noir ou moniteur physique désactivé : terminez le streaming puis utilisez **Ctrl+Alt+F11**, ou Démarrer → Oyun Merkezi → **Restaurer l’écran**. Win+P et les paramètres d’affichage Windows sont des solutions de secours.
+Écran noir ou moniteur physique désactivé : terminez le streaming puis utilisez **Ctrl+Alt+F11**, ou Démarrer → SofaRelay → **Restore Display**. Win+P et les paramètres d’affichage Windows sont des solutions de secours.
 
 Un mode Hz absent nécessite de vérifier la sortie du client, le câble, le décodage et les FPS Moonlight ; redémarrez après l’ajout d’un mode VDD si demandé. Si ADB indique unauthorized, validez la demande sur le téléviseur ; vous pouvez aussi utiliser uniquement la boutique d’applications.
 

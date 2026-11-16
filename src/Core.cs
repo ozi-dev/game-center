@@ -6,7 +6,15 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace OyunMerkezi {
+namespace SofaRelay {
+ public static class Branding {
+  public const string Name="SofaRelay",AppFile="SofaRelay.exe",InstallerFile="Installer.exe";
+  public static string SettingsPath(string applicationRoot,string localData) {
+   string own=Path.Combine(applicationRoot,"data","settings.json");if(File.Exists(own))return own;
+   foreach(string folder in new[]{"SofaRelay","OyunMerkezi"}){string candidate=Path.Combine(localData,folder,"data","settings.json");if(File.Exists(candidate))return candidate;}
+   return own;
+  }
+ }
  public class EmulatorConfig {
   public string Name="", Kind="Switch", Executable="", RomDirectory="", DataDirectory="", CorePath="", Platform="Nintendo Switch", Arguments="-f -g \"{ImagePath}\"", Extensions="nup,nsp,xci";
   public bool ImportHistory=true, ScanSubfolders=true;

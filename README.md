@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/media/hero-en.svg" alt="Game Center — Your PC library deserves a bigger screen." width="100%"></p>
+<p align="center"><img src="docs/media/hero-en.svg" alt="SofaRelay — Your PC library deserves a bigger screen." width="100%"></p>
 
 <p align="center"><a href="README.md"><b>English</b></a> &nbsp; · &nbsp; <a href="docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="docs/readme/es.md">Español</a></p>
 
@@ -6,14 +6,14 @@
 <p align="center">Bring your stores and emulators together. Pick up a controller. Make the TV your next place to play.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="docs/media/ui/download-en.svg" alt="Download for Windows" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="docs/media/ui/download-en.svg" alt="Download for Windows" width="290" height="54"></a>
   &nbsp;
   <a href="docs/guides/en.md"><img src="docs/media/ui/guide-en.svg" alt="Setup guide" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/game-center?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
-  <a href="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
@@ -75,7 +75,7 @@ Keep library navigation and settings within reach.
 
 ## From download to your sofa.
 
-1. **DOWNLOAD & EXTRACT** — Get the Windows x64 ZIP and extract the whole archive. Open <code>Kurulum.exe</code>.
+1. **DOWNLOAD & EXTRACT** — Get the Windows x64 ZIP and extract the whole archive. Open <code>Installer.exe</code>.
 2. **CONNECT & CONFIGURE** — Use the seven guided pages to select stores, emulators and display settings. Sign in to your own accounts; pair Moonlight with Sunshine.
 3. **PICK YOUR SCREEN** — Choose the library or desktop in Moonlight. Come back to the settings app whenever you want to change things.
 
@@ -114,13 +114,13 @@ Windows 10/11 x64, .NET Framework 4.8, PowerShell 5.1, current GPU drivers and a
 <details>
 <summary><b>Tested, with the scope visible</b></summary>
 
-15 core + 45 backend + 1,941 localization assertions, wizard checks and native Playnite smoke tests. Physical Shield and every hardware combination have not been tested. [Read the validation scope](docs/TESTING.md).
+20 core + 55 backend + 1,950 localization assertions, wizard checks and native Playnite smoke tests. Physical Shield and every hardware combination have not been tested. [Read the validation scope](docs/TESTING.md).
 
 </details>
 
 ## Great projects. Shared credit.
 
-Playnite provides the library. Sunshine and Moonlight deliver the stream. Game Center adds the guided installation, shared settings, history import and recovery around them.
+Playnite provides the library. Sunshine and Moonlight deliver the stream. SofaRelay adds the guided installation, shared settings, history import and recovery around them.
 
 <p align="center">
   <a href="https://github.com/JosefNemec/Playnite"><b>Playnite</b></a> &nbsp; + &nbsp;
@@ -136,7 +136,7 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 Star the project, share a reproducible issue, improve a translation or contribute a fix. Support the upstream developers too.
 <!-- SUPPORT-LINK:END -->
 
-[Contribute](CONTRIBUTING.md) &nbsp; · &nbsp; [Build from source](docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Report an issue](https://github.com/ozi-dev/game-center/issues/new/choose) &nbsp; · &nbsp; [Support](docs/SUPPORT.md)
+[Contribute](CONTRIBUTING.md) &nbsp; · &nbsp; [Build from source](docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Report an issue](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Support](docs/SUPPORT.md)
 
 ---
 

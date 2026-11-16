@@ -37,5 +37,5 @@ jobs:
       - name: Check wizard
         shell: powershell
         run: |
-          $process = Start-Process .\build\OyunMerkezi.exe -ArgumentList '--selftest' -Wait -PassThru
+          $process = Start-Process .\build\SofaRelay.exe -ArgumentList '--selftest' -Wait -PassThru
           if ($process.ExitCode) { throw 'Wizard self-test failed' }

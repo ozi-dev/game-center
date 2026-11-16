@@ -1,6 +1,6 @@
 ﻿Id: GamingCenter_15378b45-7634-47ed-8570-69ad2d7a9067
-Name: Oyun Merkezi Companion
-Author: Oyun Merkezi
-Version: 2.1.0
-Module: GamingCenter.Plugin.dll
+Name: SofaRelay Companion
+Author: SofaRelay
+Version: 2.2.0
+Module: SofaRelay.Plugin.dll
 Type: GenericPlugin

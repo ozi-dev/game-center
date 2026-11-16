@@ -3,8 +3,8 @@
     if(!$folder){$folder=Split-Path -Parent $MyInvocation.MyCommand.Module.Path}
     $control=Get-Content -LiteralPath (Join-Path $folder 'setup.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     $settings=Get-Content -LiteralPath $control.SettingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
-    if(!('OyunMerkezi.I18n' -as [type])){Add-Type -Path (Join-Path $settings.InstallRoot 'GamingCenter.Core.dll')}
-    [OyunMerkezi.I18n]::Initialize($settings.InstallRoot,$settings.UILanguage)
+    if(!('SofaRelay.I18n' -as [type])){Add-Type -Path (Join-Path $settings.InstallRoot 'SofaRelay.Core.dll')}
+    [SofaRelay.I18n]::Initialize($settings.InstallRoot,$settings.UILanguage)
     return @{Control=$control;Settings=$settings}
 }
 function Find-Named($collection,[string]$type,[string]$name) {
@@ -17,6 +17,9 @@ function Get-CenterSourceName($Definition) {
     if($emu){foreach($game in $PlayniteApi.Database.Games){if(!$game.Roms -or !$game.Source){continue};foreach($action in $game.GameActions){if($action.Type -eq [Playnite.SDK.Models.GameActionType]::Emulator -and $action.EmulatorId -eq $emu.Id){return $game.Source.Name}}}}
     return $Definition.Name
 }
+function Resolve-CenterArguments($Definition,$Settings) {
+    return $Definition.Arguments.Replace('{CorePath}',$Definition.CorePath).Replace('{SofaRelayDir}',$Settings.InstallRoot).Replace('{GameCenterDir}',$Settings.InstallRoot)
+}
 function Update-CenterLibrary($Settings) {
     $report=@()
     foreach($definition in $Settings.Emulators){
@@ -27,20 +30,20 @@ function Update-CenterLibrary($Settings) {
         $emu=Find-Named $PlayniteApi.Database.Emulators 'Playnite.SDK.Models.Emulator' $definition.Name
         $emu.InstallDir=Split-Path $exe -Parent
         if(!$emu.CustomProfiles){$emu.CustomProfiles=[Collections.ObjectModel.ObservableCollection[Playnite.SDK.Models.CustomEmulatorProfile]]::new()}
-        $profileName='Oyun Merkezi - '+$definition.Platform
+        $profileName='SofaRelay - '+$definition.Platform
         $profile=$emu.CustomProfiles | Where-Object Name -eq $profileName | Select-Object -First 1
         if(!$profile){$profile=$emu.CustomProfiles | Where-Object {$_.Platforms -contains $platform.Id -and $_.Executable.Replace('{EmulatorDir}',$emu.InstallDir) -in @($exe,[IO.Path]::GetFileName($exe))} | Select-Object -First 1}
         if(!$profile){$profile=[Playnite.SDK.Models.CustomEmulatorProfile]::new();$profile.Name=$profileName;$emu.CustomProfiles.Add($profile)}
-        $profile.Executable=$exe;$profile.WorkingDirectory='{EmulatorDir}';$profile.Arguments=$definition.Arguments.Replace('{CorePath}',$definition.CorePath).Replace('{GameCenterDir}',$Settings.InstallRoot)
+        $profile.Name=$profileName;$profile.Executable=$exe;$profile.WorkingDirectory='{EmulatorDir}';$profile.Arguments=Resolve-CenterArguments $definition $Settings
         $extensions=@($definition.Extensions -split '[,; ]+' | Where-Object {$_} | ForEach-Object {$_.TrimStart('.')})
         $profile.ImageExtensions=[Collections.Generic.List[string]]::new([string[]]$extensions)
         $profile.Platforms=[Collections.Generic.List[guid]]::new([guid[]]@($platform.Id));$profile.TrackingMode=[Playnite.SDK.Models.TrackingMode]::OriginalProcess
         $PlayniteApi.Database.Emulators.Update($emu)
-        $scannerName='Oyun Merkezi - '+$definition.Name+' - '+$definition.Platform
+        $scannerName='SofaRelay - '+$definition.Name+' - '+$definition.Platform
         $scanner=$PlayniteApi.Database.GameScanners | Where-Object Name -eq $scannerName | Select-Object -First 1
         if(!$scanner){$scanner=$PlayniteApi.Database.GameScanners | Where-Object {$_.Directory.TrimEnd('\') -eq $directory.TrimEnd('\') -and $_.EmulatorId -eq $emu.Id -and $_.EmulatorProfileId -eq $profile.Id} | Select-Object -First 1}
         $new=!$scanner;if(!$scanner){$scanner=[Playnite.SDK.Models.GameScannerConfig]::new();$scanner.Name=$scannerName}
-        $scanner.Directory=$directory;$scanner.EmulatorId=$emu.Id;$scanner.EmulatorProfileId=$profile.Id;$scanner.OverridePlatformId=$platform.Id;$scanner.InGlobalUpdate=$true;$scanner.ScanSubfolders=$definition.ScanSubfolders;$scanner.ScanInsideArchives=$false
+        $scanner.Name=$scannerName;$scanner.Directory=$directory;$scanner.EmulatorId=$emu.Id;$scanner.EmulatorProfileId=$profile.Id;$scanner.OverridePlatformId=$platform.Id;$scanner.InGlobalUpdate=$true;$scanner.ScanSubfolders=$definition.ScanSubfolders;$scanner.ScanInsideArchives=$false
         $scanner.CrcExcludeFileTypes=[Collections.Generic.List[string]]::new([string[]]$extensions)
         if($new){$PlayniteApi.Database.GameScanners.Add($scanner)}else{$PlayniteApi.Database.GameScanners.Update($scanner)}
         $source=Find-Named $PlayniteApi.Database.Sources 'Playnite.SDK.Models.GameSource' (Get-CenterSourceName $definition)
@@ -62,7 +65,7 @@ function Update-CenterFilters($Settings) {
     foreach($definition in $definitions){
         $preset=if($definition.Id){$PlayniteApi.Database.FilterPresets.Get([guid]$definition.Id)}else{$PlayniteApi.Database.FilterPresets | Where-Object Name -eq $definition.Name | Select-Object -First 1}
         $new=!$preset;if(!$preset){$preset=[Playnite.SDK.Models.FilterPreset]::new();$preset.Name=$definition.Name;if($definition.Id){$preset.Id=[guid]$definition.Id}}
-        $preset.Name=[OyunMerkezi.I18n]::L($definition.Name);$preset.ShowInFullscreeQuickSelection=$true;$preset.Settings=[Playnite.SDK.Models.FilterPresetSettings]::new();$preset.Settings.IsInstalled=[bool]$definition.Installed
+        $preset.Name=[SofaRelay.I18n]::L($definition.Name);$preset.ShowInFullscreeQuickSelection=$true;$preset.Settings=[Playnite.SDK.Models.FilterPresetSettings]::new();$preset.Settings.IsInstalled=[bool]$definition.Installed
         if($definition.Source){$source=Find-Named $PlayniteApi.Database.Sources 'Playnite.SDK.Models.GameSource' $definition.Source;$preset.Settings.Source=[Playnite.SDK.Models.IdItemFilterItemProperties]::new();$preset.Settings.Source.Ids=[Collections.Generic.List[guid]]::new([guid[]]@($source.Id))}
         if($new){$PlayniteApi.Database.FilterPresets.Add($preset)}else{$PlayniteApi.Database.FilterPresets.Update($preset)}
     }

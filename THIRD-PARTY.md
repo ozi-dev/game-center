@@ -1,6 +1,6 @@
 # Third-party software
 
-Oyun Merkezi is an independent integration tool. It is not affiliated with Valve, Epic, EA, Ubisoft, Microsoft, NVIDIA, Nintendo or the listed open-source projects.
+SofaRelay is an independent integration tool. It is not affiliated with Valve, Epic, EA, Ubisoft, Microsoft, NVIDIA, Nintendo or the listed open-source projects.
 
 The MIT license applies to the original application, integration code and documentation. External programs remain under their own licenses.
 
