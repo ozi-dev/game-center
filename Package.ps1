@@ -1,11 +1,11 @@
 ﻿param([string]$BuildDirectory='build')
 $ErrorActionPreference='Stop'
 $root=$PSScriptRoot;$build=Join-Path $root $BuildDirectory
-$release=Join-Path $root ('dist\Oyun-Merkezi-2.0.0-'+(Get-Date -Format yyyyMMdd-HHmmss))
+$release=Join-Path $root ('dist\Oyun-Merkezi-2.1.0-'+(Get-Date -Format yyyyMMdd-HHmmss))
 New-Item -ItemType Directory -Force -Path $release | Out-Null
-foreach($name in @('Kurulum.exe','OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
+foreach($name in @('Kurulum.exe','OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
 $source=Join-Path $release 'source';New-Item -ItemType Directory -Force -Path $source | Out-Null
-foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
+foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','locales','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
     $from=Join-Path $root $name
     if(!(Get-Item -LiteralPath $from -Force).PSIsContainer){Copy-Item -LiteralPath $from -Destination $source;continue}
     foreach($file in Get-ChildItem -LiteralPath $from -Recurse -File -Force){
@@ -16,13 +16,14 @@ foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.
     }
 }
 @'
-OYUN MERKEZI 2.0.0
+OYUN MERKEZI 2.1.0
 
 1. ZIP dosyasinin tamamini bir klasore cikarin.
 2. Kurulum.exe dosyasini acin ve yedi adimi izleyin.
 3. Guides: README.md (English), README.tr.md, README.fr.md, README.es.md.
-   Full Turkish manual: README.html.
-   Installer UI is currently Turkish; translated guides explain its labels.
+   Offline help: docs/guides/en.html, tr.html, fr.html, es.html.
+   Extended Turkish manual: README.html.
+   Installer languages: English, Turkce, Francais, Espanol.
 
 Girisler ve ilk Moonlight PIN eslestirmesi kendi hesap/cihazinizda yapilir.
 NVIDIA Shield desteklenir; 4K icin 60 Hz secin.
@@ -46,7 +47,7 @@ foreach($file in $files){
 $hashes=@($files | ForEach-Object {((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())+'  '+$_.FullName.Substring($release.Length+1)})
 [IO.File]::WriteAllLines((Join-Path $release 'SHA256SUMS.txt'),$hashes,[Text.UTF8Encoding]::new($false))
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$zip=Join-Path $root 'dist\Oyun-Merkezi-2.0.0-Windows-x64.zip'
+$zip=Join-Path $root 'dist\Oyun-Merkezi-2.1.0-Windows-x64.zip'
 if(Test-Path -LiteralPath $zip){throw 'Release ZIP already exists; review or rename it before packaging.'}
 [IO.Compression.ZipFile]::CreateFromDirectory($release,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
 $digest=(Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()

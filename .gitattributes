@@ -7,5 +7,6 @@
 *.yml text eol=lf
 *.svg text eol=lf
 *.png binary
+*.gif binary
 *.exe binary
 *.7z binary

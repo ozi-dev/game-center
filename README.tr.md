@@ -33,19 +33,35 @@
 
 Sonraki değişiklikler: **Başlat → Oyun Merkezi → Oyun Merkezi Ayarları**. [Türkçe rehber](docs/guides/tr.md) ve paketteki ayrıntılı `README.html` bağımsız kurulumu anlatıyor.
 
-**Dil seçenekleri:** belgeler İngilizce, Türkçe, Fransızca ve İspanyolca. 2.0.0 kurucusu ve işlem mesajları Türkçe; diğer dillerdeki rehberler düğmeleri ve numaralı adımları açıklıyor. Kurucunun tam çevirisi henüz sunulmuyor.
+**Dil seçenekleri:** 2.1.0 kurucusu, ayarlar ve işlem mesajları **İngilizce, Türkçe, Fransızca ve İspanyolca** çalışır. Sol menüden dili değiştirebilirsin; yollar ve tercihler korunur. Çevrimdışı yardım seçtiğin dilde açılır. Ayarları uygulamak Playnite dilini de buna göre seçer.
 
 ## Ekran görüntüleri
 
-Gerçek kurulum uygulamasından, kişisel bilgi içermeyen örnek yollarla alındı. Oyun kütüphanesi arayüzü Playnite'ın tam ekran modudur; aşağıdaki görüntüler bizim kurulum uygulamamızı gösterir.
+Playnite tam ekran görüntüleri, geliştiricinin bağlı mağaza hesaplarından ve gerçek emülatör kütüphanesinden, izniyle alındı. TV’ye aktarılan arayüz budur; demo katalog kullanılmadı ve oyun başlatılmadı. Oyun adları ve kapaklar ilgili hak sahiplerine aittir.
+
+| Epic kütüphanesi | Fritchii emülatör oyunları |
+| --- | --- |
+| ![Epic kütüphanesi](docs/screenshots/tr/catalog.png) | ![Fritchii emülatör oyunları](docs/screenshots/tr/emulators.png) |
+
+| Oyun ayrıntıları ve aktarılan süre | Playnite ana menüsü |
+| --- | --- |
+| ![Oyun ayrıntıları ve aktarılan süre](docs/screenshots/tr/game-details.png) | ![Playnite ana menüsü](docs/screenshots/tr/library-menu.png) |
+
+**Menüler arası geçiş**
+
+![Menüler arası geçiş](docs/screenshots/tr/navigation.gif)
+
+Gerçek Steam, Epic, emülatör, oyun ayrıntıları ve menü görünümlerinden kısa bir geçiş dizisi.
+
+Kurulum görüntüleri örnek yollarla, Türkçe arayüzden alındı.
 
 | Kütüphaneler | Yayın ve ekran |
 | --- | --- |
-| ![Mağaza ve indirme tercihleri](docs/screenshots/page-2.png) | ![Giriş aygıtı ve sanal ekran ayarları](docs/screenshots/page-4.png) |
+| ![Kütüphaneler](docs/screenshots/tr/page-2.png) | ![Yayın ve ekran](docs/screenshots/tr/page-4.png) |
 
 | Shield / TV | Kurulum ve bakım |
 | --- | --- |
-| ![Shield bağlantı adımları](docs/screenshots/page-5.png) | ![Kurulum ve bakım ekranı](docs/screenshots/page-6.png) |
+| ![Shield / TV](docs/screenshots/tr/page-5.png) | ![Kurulum ve bakım](docs/screenshots/tr/page-6.png) |
 
 ## Uyumluluk
 
@@ -56,7 +72,7 @@ Gerçek kurulum uygulamasından, kişisel bilgi içermeyen örnek yollarla alın
 - Eski sürelerin aktarılması için desteklenen kayıt ve doğru oyun kimliği gerekir; hiç kaydedilmemiş süre hesaplanamaz.
 - Oyun, ROM, BIOS, firmware, anahtar, kayıt ve oyun modu dağıtılmaz. TOTK düğmeleri zaten kurulmuş uyumlu yerel profili düzenler; sabit FPS sözü vermez.
 
-15 çekirdek + 45 arka uç kontrolü, arayüz denetimleri ve temiz Playnite/tarama/süre aktarımı denemesi geçti. Shield'ın fiziksel testi ve her donanım kombinasyonu doğrulanmış değil. [Test kapsamı](docs/TESTING.md).
+15 çekirdek + 45 arka uç + 1.941 yerelleştirme kontrolü, arayüz denetimleri ve temiz Playnite/tarama/süre aktarımı denemesi geçti. Shield'ın fiziksel testi ve her donanım kombinasyonu doğrulanmış değil. [Test kapsamı](docs/TESTING.md).
 
 ## Emeği geçenler ve destek
 

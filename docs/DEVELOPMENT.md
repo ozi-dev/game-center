@@ -23,7 +23,8 @@ Use separate processes: loading a .NET assembly locks it for that PowerShell pro
 | Path | Purpose |
 | --- | --- |
 | `src/Core.cs` | Settings schema, emulator time parsing, merge rules and validation |
-| `src/App.cs` | Setup and maintenance GUI |
+| `src/App.cs`, `src/LocalizedControls.cs` | Setup and maintenance GUI, live language switching |
+| `src/Localization.cs`, `locales` | Four-language UI and worker catalogs |
 | `src/Plugin.cs`, `src/Artwork.cs` | Playnite events, history sync, covers and settings access |
 | `src/SteamTvInstall.cs` | Selected-game Steam dialog confirmation |
 | `scripts/Worker.ps1`, `Common.psm1` | Setup actions, downloads, backups and diagnostics |
@@ -43,8 +44,10 @@ For a release: build, run tests, package, check every ZIP file against `SHA256SU
 
 ## Localization
 
-Current user-facing documentation is in `README*.md` and `docs/guides/{en,tr,fr,es}.md`. Keep technical limitations consistent across translations. The setup UI and backend messages remain Turkish in 2.0.0. Contributions toward an actual resource-based installer translation are welcome; do not present translated documentation as a translated executable.
+Current user-facing documentation is in `README*.md` and `docs/guides/{en,tr,fr,es}.md`. Keep technical limitations consistent across translations. The wizard and worker use `locales/{en,tr,fr,es}.json`, initialized by `src/Localization.cs`. Keep keys and format placeholders aligned with the Turkish source catalog. `Build.ps1` runs the localization assertions automatically. The visible selector saves `UILanguage`; language changes preserve user paths and toggles. Apply also selects the matching native Playnite language. Regenerate offline guides after editing Markdown: install the optional maintainer dependency with `python -m pip install Markdown`, then run `python scripts/maintainer/RenderGuides.py`. Python and Markdown are not runtime requirements.
 
 ## Safe screenshots
 
 Use `OyunMerkezi.exe --preview <folder> --config <example-settings.json>` with example paths and no accounts. This renders the seven real wizard pages without running diagnosis, installing components or opening games. Never publish desktop notifications, account identifiers or pairing codes.
+
+Real library screenshots require the library owner’s permission. Our public Playnite captures use the maintainer’s connected libraries; capture only the application, keep credentials and account screens private, and never launch games while recording documentation. The animated GIFs contain captured views rather than generated mockups.

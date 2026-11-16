@@ -1,5 +1,6 @@
 ﻿Set-StrictMode -Version 2
 $ErrorActionPreference='Stop'
+function L([string]$Text,[object[]]$Values=@()) { if('OyunMerkezi.I18n' -as [type]){return [OyunMerkezi.I18n]::F($Text,$Values)};if($Values.Count){return ($Text -f $Values)};return $Text }
 function Read-Json([string]$Path) { if(Test-Path -LiteralPath $Path){Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json}else{$null} }
 function Write-Json([string]$Path,$Object) {
     $parent=Split-Path -Parent $Path;New-Item -ItemType Directory -Force -Path $parent | Out-Null
@@ -14,7 +15,7 @@ function Write-Json([string]$Path,$Object) {
 function Resolve-Full([string]$Path) { [IO.Path]::GetFullPath([Environment]::ExpandEnvironmentVariables($Path)) }
 function Assert-InRoot([string]$Path,[string]$Root) {
     $full=Resolve-Full $Path;$boundary=(Resolve-Full $Root).TrimEnd('\')+'\'
-    if(!$full.StartsWith($boundary,[StringComparison]::OrdinalIgnoreCase)){throw "Beklenmeyen hedef: $full"}
+    if(!$full.StartsWith($boundary,[StringComparison]::OrdinalIgnoreCase)){throw (L 'Beklenmeyen hedef: {0}' @($full))}
     $full
 }
 function Quote-WindowsArgument([string]$Value) {
@@ -27,23 +28,23 @@ function Start-CheckedProcess([string]$File,[string[]]$Arguments,[int[]]$Success
     $p=[Diagnostics.Process]::new();$p.StartInfo=$psi;[void]$p.Start()
     $out=$p.StandardOutput.ReadToEndAsync();$err=$p.StandardError.ReadToEndAsync();$p.WaitForExit()
     $stdout=$out.Result;$stderr=$err.Result
-    if($SuccessCodes -notcontains $p.ExitCode){throw "$([IO.Path]::GetFileName($File)) tamamlanamadı (kod $($p.ExitCode)). $($stderr.Substring(0,[Math]::Min(700,$stderr.Length)))"}
+    if($SuccessCodes -notcontains $p.ExitCode){throw (L '{0} tamamlanamadı (kod {1}). {2}' @(([IO.Path]::GetFileName($File)),($p.ExitCode),($stderr.Substring(0,[Math]::Min(700,$stderr.Length)))))}
     if($Capture){return $stdout};return $p.ExitCode
 }
 function Get-Component([string]$Id,[string]$PackageRoot,[string]$DataRoot) {
     $manifest=Read-Json (Join-Path $PackageRoot 'manifests\packages.json')
     $item=$manifest.Packages | Where-Object Id -eq $Id | Select-Object -First 1
-    if(!$item){throw "Bileşen listede yok: $Id"}
-    if($item.Url -notmatch '^https://(github\.com|playnite\.link|dl\.google\.com|buildbot\.libretro\.com)/' -or $item.Sha256 -notmatch '^[0-9a-fA-F]{64}$'){throw 'Geçersiz paket kaynağı veya özeti.'}
+    if(!$item){throw (L 'Bileşen listede yok: {0}' @(($Id)))}
+    if($item.Url -notmatch '^https://(github\.com|playnite\.link|dl\.google\.com|buildbot\.libretro\.com)/' -or $item.Sha256 -notmatch '^[0-9a-fA-F]{64}$'){throw (L 'Geçersiz paket kaynağı veya özeti.')}
     $cache=Join-Path $DataRoot 'downloads';New-Item -ItemType Directory -Force -Path $cache | Out-Null
     $path=Assert-InRoot (Join-Path $cache $item.FileName) $cache
     $valid=(Test-Path -LiteralPath $path) -and ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -eq $item.Sha256)
     if(!$valid){
-        Write-Output "İndiriliyor: $($item.Name) $($item.Version)" | Out-Host
+        Write-Output (L 'İndiriliyor: {0} {1}' @(($item.Name),($item.Version))) | Out-Host
         $part=$path+'.part'
         [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
         Invoke-WebRequest -Uri $item.Url -OutFile $part -UseBasicParsing -TimeoutSec 300
-        if((Get-FileHash -LiteralPath $part -Algorithm SHA256).Hash -ne $item.Sha256){throw "$($item.Name) dosya doğrulaması başarısız; çalıştırılmadı."}
+        if((Get-FileHash -LiteralPath $part -Algorithm SHA256).Hash -ne $item.Sha256){throw (L '{0} dosya doğrulaması başarısız; çalıştırılmadı.' @(($item.Name)))}
         Move-Item -LiteralPath $part -Destination $path -Force
     }
     return $path
@@ -116,7 +117,7 @@ function Get-SunshineDisplays([string]$Directory) {
 function Get-StreamState {
     try{$request=[Net.HttpWebRequest]::Create('http://127.0.0.1:47989/serverinfo');$request.Timeout=3000;$response=$request.GetResponse();try{$reader=[IO.StreamReader]::new($response.GetResponseStream());try{$xml=[xml]$reader.ReadToEnd();if($xml.root.state){return [string]$xml.root.state};return 'UNKNOWN'}finally{$reader.Dispose()}}finally{$response.Dispose()}}catch{if(Get-Process sunshine -ErrorAction SilentlyContinue){return 'UNKNOWN'};return 'NOT_RUNNING'}
 }
-function Assert-StreamIdle { $state=Get-StreamState;if($state -eq 'SUNSHINE_SERVER_BUSY'){throw 'Aktif Moonlight yayını var. Yayından çıkıp tekrar uygulayın; mevcut oturum kesilmedi.'};if($state -notin @('SUNSHINE_SERVER_FREE','NOT_RUNNING')){throw 'Sunshine yayın durumu okunamadı; açık oturum kesilmemesi için ayarlar değiştirilmedi. Sunshine panelini kontrol edip tekrar deneyin.'} }
+function Assert-StreamIdle { $state=Get-StreamState;if($state -eq 'SUNSHINE_SERVER_BUSY'){throw (L 'Aktif Moonlight yayını var. Yayından çıkıp tekrar uygulayın; mevcut oturum kesilmedi.')};if($state -notin @('SUNSHINE_SERVER_FREE','NOT_RUNNING')){throw (L 'Sunshine yayın durumu okunamadı; açık oturum kesilmemesi için ayarlar değiştirilmedi. Sunshine panelini kontrol edip tekrar deneyin.')} }
 function Is-Admin { $p=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent());return $p.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) }
 function Find-Playnite {
     $roots=@((Join-Path $env:LOCALAPPDATA 'Playnite'),(Join-Path $env:LOCALAPPDATA 'OyunMerkezi\Playnite'),(Join-Path $env:ProgramFiles 'Playnite'))

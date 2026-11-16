@@ -29,26 +29,39 @@ The project configures existing open-source tools and adds installation guidance
 3. Follow the seven numbered pages. Choose libraries, add emulator paths, and select your streaming/display preferences.
 4. Close Playnite and any active stream before applying. Approve Windows elevation when required; reboot if requested.
 5. Sign in to your own store accounts inside Playnite. Pair Moonlight with Sunshine using the displayed PIN.
-6. In Moonlight choose **Oyun Kütüphanesi - Playnite** for the library or **Masaüstü - Desktop** for the desktop.
+6. In Moonlight choose **Game Library - Playnite** for the library or **Desktop** for the desktop.
 
-Later, use **Start → Oyun Merkezi → Oyun Merkezi Ayarları** to change settings. [Read the English guide](docs/guides/en.md) for translated button names and troubleshooting.
+Later, use **Start → Oyun Merkezi → Game Center Settings** to change settings. [Read the English guide](docs/guides/en.md) for account setup and troubleshooting.
 
-> **Languages:** documentation is available in English, Turkish, French and Spanish. The current installer UI and worker messages are in Turkish; the guides map its numbered pages and labels. Full installer localization is a future contribution, not a feature of 2.0.0.
+**Languages:** the installer, settings and worker messages support **English, Turkish, French and Spanish** in 2.1.0. Choose your language in the sidebar; paths and preferences stay intact. Offline help opens in the selected language. Applying settings also selects that language in Playnite.
 
 ## Screenshots
 
-Real captures of the setup application, generated with example paths. No accounts or personal libraries are shown. The screenshots show the Turkish installer UI.
+Actual fullscreen Playnite captures from the maintainer’s connected store and emulator libraries, published with permission. These are the same views streamed to the TV; no demo catalog or game was launched. Game names and artwork belong to their respective owners.
 
-| Library connections | Streaming and display |
+| Epic library | Fritchii emulator games |
 | --- | --- |
-| ![Store selection and download options](docs/screenshots/page-2.png) | ![Input, virtual display and streaming preferences](docs/screenshots/page-4.png) |
-| **Pick your stores.** Choose direct Epic installation and Steam's install-confirmation helper. | **Set up your screen.** Toggle controls, launch tiles, virtual display and monitor restoration. |
+| ![Epic library](docs/screenshots/en/catalog.png) | ![Fritchii emulator games](docs/screenshots/en/emulators.png) |
 
-| Shield / Android TV | Installation and maintenance |
+| Game details and imported playtime | Playnite main menu |
 | --- | --- |
-| ![Shield and TV connection instructions](docs/screenshots/page-5.png) | ![Setup and maintenance](docs/screenshots/page-6.png) |
+| ![Game details and imported playtime](docs/screenshots/en/game-details.png) | ![Playnite main menu](docs/screenshots/en/library-menu.png) |
 
-The streamed game-library interface is Playnite fullscreen mode. See [Playnite](https://playnite.link/) for its UI and themes; the screenshots above show this project's setup companion.
+**Menu navigation**
+
+![Menu navigation](docs/screenshots/en/navigation.gif)
+
+A short sequence of real Steam, Epic, emulator, game-details and menu views.
+
+The setup screenshots use example paths and show the English UI.
+
+| Libraries | Streaming and display |
+| --- | --- |
+| ![Libraries](docs/screenshots/en/page-2.png) | ![Streaming and display](docs/screenshots/en/page-4.png) |
+
+| Shield / TV | Installation and maintenance |
+| --- | --- |
+| ![Shield / TV](docs/screenshots/en/page-5.png) | ![Installation and maintenance](docs/screenshots/en/page-6.png) |
 
 ## Compatibility and practical limits
 
@@ -60,7 +73,7 @@ The streamed game-library interface is Playnite fullscreen mode. See [Playnite](
 - This is not a universal silent installer for every store or game. Changed client dialogs, first-run agreements and third-party launchers can require Moonlight's controller mouse mode.
 - No games, ROMs, BIOS, firmware, keys, saves or game patches are included. Optional TOTK profile buttons edit an already installed compatible local mod; no FPS level is guaranteed.
 
-The initial build passed **15 core + 45 backend assertions**, UI checks and a real fresh Playnite/scanner/playtime smoke test. Protected configuration tests mock driver/service boundaries. Physical Shield and every hardware combination have not been tested. [Validation details](docs/TESTING.md).
+The initial build passed **15 core + 45 backend + 1,941 localization assertions**, UI checks and a real fresh Playnite/scanner/playtime smoke test. Protected configuration tests mock driver/service boundaries. Physical Shield and every hardware combination have not been tested. [Validation details](docs/TESTING.md).
 
 ## Built with, and thanks to
 

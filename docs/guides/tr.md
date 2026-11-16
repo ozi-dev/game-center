@@ -2,6 +2,8 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proje](../../README.tr.md)
 
+2.1.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
+
 Tam Türkçe rehber paketteki **[README.html](../../README.html)** dosyasında bulunur ve çevrimdışı okunabilir.
 
 1. [Sürümler](https://github.com/ozi-dev/game-center/releases/latest) sayfasından Windows x64 ZIP'i indir; tamamını çıkar ve `Kurulum.exe` aç.

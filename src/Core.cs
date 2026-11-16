@@ -14,6 +14,7 @@ namespace OyunMerkezi {
  }
  public class CenterSettings {
   public int SchemaVersion=2;
+  public string UILanguage="";
   public string InstallRoot="", PlaynitePath="", SunshineDirectory="", ClientKind="Shield", DeviceAddress="", DisplayId="", VddDirectory=@"C:\VirtualDisplayDriver";
   public bool AutoInstallStoreClients=true, MouseKeyboard=true, SyncPlaytime=true, AutomaticCovers=true, SteamAutoInstall=true, EpicDirectInstall=true, ShowDesktop=true, ShowLibrary=true, PreserveExistingApps=true, VirtualDisplay=true, TurnOffPhysicalMonitor=true, RestoreDisplay=true, AutomaticDisplayMode=true, HDR=false, Gamepad=true;
   public int Width=3840, Height=2160, RefreshRate=60, BitrateMbps=60;
@@ -79,15 +80,15 @@ namespace OyunMerkezi {
  public static class Validation {
   public static List<string> Settings(CenterSettings settings) {
    var errors=new List<string>();
-   if(settings.Width<640 || settings.Width>7680 || settings.Height<360 || settings.Height>4320)errors.Add("Çözünürlük 640×360–7680×4320 aralığında olmalı.");
-   if(settings.RefreshRate<24 || settings.RefreshRate>240)errors.Add("Yenileme hızı 24–240 Hz aralığında olmalı.");
-   if(settings.BitrateMbps<5 || settings.BitrateMbps>300)errors.Add("Bit hızı 5–300 Mbps aralığında olmalı.");
-   if(settings.ClientKind=="Shield" && (settings.Width>2560 || settings.Height>1440) && settings.RefreshRate>60)errors.Add("Shield TV'nin HDMI 2.0b çıkışı 4K'da 60 Hz ile sınırlı. 4K60 seçin; daha yüksek Hz için desteklenen daha düşük çözünürlüğü kullanın.");
-   if(settings.TurnOffPhysicalMonitor && !settings.VirtualDisplay)errors.Add("Fiziksel monitörü kapatmak için sanal ekran açık olmalı.");
-   if(!settings.ShowDesktop && !settings.ShowLibrary)errors.Add("Moonlight için en az bir uygulama kutusu açık olmalı.");
+   if(settings.Width<640 || settings.Width>7680 || settings.Height<360 || settings.Height>4320)errors.Add(I18n.L("Çözünürlük 640×360–7680×4320 aralığında olmalı."));
+   if(settings.RefreshRate<24 || settings.RefreshRate>240)errors.Add(I18n.L("Yenileme hızı 24–240 Hz aralığında olmalı."));
+   if(settings.BitrateMbps<5 || settings.BitrateMbps>300)errors.Add(I18n.L("Bit hızı 5–300 Mbps aralığında olmalı."));
+   if(settings.ClientKind=="Shield" && (settings.Width>2560 || settings.Height>1440) && settings.RefreshRate>60)errors.Add(I18n.L("Shield TV'nin HDMI 2.0b çıkışı 4K'da 60 Hz ile sınırlı. 4K60 seçin; daha yüksek Hz için desteklenen daha düşük çözünürlüğü kullanın."));
+   if(settings.TurnOffPhysicalMonitor && !settings.VirtualDisplay)errors.Add(I18n.L("Fiziksel monitörü kapatmak için sanal ekran açık olmalı."));
+   if(!settings.ShowDesktop && !settings.ShowLibrary)errors.Add(I18n.L("Moonlight için en az bir uygulama kutusu açık olmalı."));
    foreach(var e in settings.Emulators) {
-    if(string.IsNullOrWhiteSpace(e.Name))errors.Add("Emülatör adı boş olamaz.");
-    if(!string.IsNullOrWhiteSpace(e.Arguments) && !e.Arguments.Contains("{ImagePath}"))errors.Add(e.Name+": oyun komutunda {ImagePath} bulunmalı.");
+    if(string.IsNullOrWhiteSpace(e.Name))errors.Add(I18n.L("Emülatör adı boş olamaz."));
+    if(!string.IsNullOrWhiteSpace(e.Arguments) && !e.Arguments.Contains("{ImagePath}"))errors.Add(e.Name+I18n.L(": oyun komutunda {ImagePath} bulunmalı."));
    }
    return errors;
   }

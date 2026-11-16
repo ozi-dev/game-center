@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 — 2026-11-16
+
+- Add English, Turkish, French and Spanish to the installer, settings dialogs, worker messages and companion menus, with a persistent language selector.
+- Preserve paths and preferences when changing language; apply the matching Playnite language without duplicating managed filter presets or Sunshine tiles.
+- Add offline guides, localized wizard screenshots, and real connected-library screenshots/navigation GIFs in all four languages.
+- Add 1,941 localization assertions to the standard build and exclude stale generated binaries from packaged source.
+
 ## 2.0.0 — first public release
 
 - Guided Playnite / Sunshine / Moonlight setup with optional signed virtual display and controller driver.

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Install and use Game Center</title><style>body{margin:0;background:#101827;color:#e7edf6;font:17px/1.65 system-ui,Segoe UI,sans-serif}main{max-width:1050px;margin:auto;padding:40px 24px 90px}a{color:#83d6ff}h1,h2{line-height:1.3;color:white}h2{margin-top:40px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #42506a;padding:10px;text-align:left;vertical-align:top}pre,code{background:#20304a;border-radius:4px;padding:3px 6px}pre{padding:15px;overflow:auto}img{max-width:100%}li{margin:8px 0}@media print{body{background:white;color:#111}h1,h2{color:#111}a{color:#167}}</style></head><body><main><span id="gereksinimler"></span><h1 id="install-and-use-game-center">Install and use Game Center</h1>
+<p><a href="en.html">English</a> · <a href="tr.html">Türkçe</a> · <a href="fr.html">Français</a> · <a href="es.html">Español</a> · <a href="../../README.html">Project</a></p>
+<p>The 2.1.0 installer supports English, Turkish, French and Spanish. Choose <strong>English</strong> in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.</p>
+<h2 id="before-you-begin">Before you begin</h2>
+<p>Use Intel/AMD x64 Windows 10/11 with .NET Framework 4.8, PowerShell 5.1 and a current GPU driver. The host needs a Sunshine-compatible encoder. Keep PC and client on the same network; Ethernet is preferable. Internet is required to download components.</p>
+<p>Download the ZIP from <a href="https://github.com/ozi-dev/game-center/releases/latest">Releases</a>, extract everything, and open <code>Kurulum.exe</code>. Do not run it inside the ZIP or copy only the EXE. Existing Playnite installations and games can be reused. Nothing here supplies games, firmware, keys or store accounts.</p>
+<h2 id="the-seven-pages">The seven pages</h2>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Label</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Welcome and checks</td>
+<td>Wait for detection. Pick an installation folder. Leave Playnite blank to install it, or select its existing executable's folder.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Libraries and accounts</td>
+<td>Select stores. Epic direct installation uses Legendary; native store clients can be installed as needed.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Emulators</td>
+<td>Use <code>Add emulator</code>. Select EXE, ROM folder, platform/extensions and data directory. RetroArch needs a core DLL, one entry per system/core.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Streaming and display</td>
+<td>Configure controls, desktop/library tiles, optional virtual display, physical-monitor signal off, restoration, resolution/Hz and client type.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Shield / TV connection</td>
+<td>Follow Moonlight/Sunshine pairing. ADB is optional.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Setup and maintenance</td>
+<td>Close Playnite and streams. <code>Install / complete setup</code> installs; <code>Apply settings / repair</code> applies/repairs. Approve elevation, then reboot if requested.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Help and recovery</td>
+<td>Help, logs, display recovery and backup restoration.</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>Save settings</code> to persist your preferences. Host changes need Apply afterward. Bitrate and HDR preferences must also be selected in Moonlight; the setup tool cannot silently rewrite private client settings.</p>
+<h2 id="connect-accounts">Connect accounts</h2>
+<p>Open Playnite desktop from page 2. Main menu → Add-ons (F9) → Extension settings → Libraries → your provider → Authenticate. For direct Epic downloads choose <strong>Legendary (Epic Games)</strong>. Sign in in the provider's own UI; never send your password or two-factor code to the maintainer. Update all libraries with F5.</p>
+<p>Steam's selected-game install helper may need Steam restarted with <code>-cef-force-accessibility</code>. Configure a default download library in Steam. EA/Ubisoft/Xbox, linked third-party games and first-run agreements can require a client confirmation. In Moonlight, hold the controller's Start button to toggle mouse mode; use the stick to move, A to left-click and B to right-click.</p>
+<h2 id="pair-the-tv-shield">Pair the TV / Shield</h2>
+<p>Install <strong>Moonlight Game Streaming</strong> from the client's app store. On the PC, open <a href="https://localhost:47990">Sunshine</a>, create a local administrator login on first use, and enter the PIN shown by Moonlight. If discovery fails, add the PC's IPv4 address manually in Moonlight.</p>
+<p>Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shield's 4K output is limited to 60 Hz; a high-refresh TV panel does not change that. Choose higher refresh rates only when the actual client supports the requested mode. Enable Moonlight's <strong>Optimize game settings</strong> for automatic display switching. Open <strong>Game Library - Playnite</strong> or <strong>Desktop</strong>.</p>
+<span id="emulatorler"></span><h2 id="emulator-history-and-artwork">Emulator history and artwork</h2>
+<ul>
+<li>Fritchii/Lichii-compatible data comes from <code>play_time\playtime.bin</code> in the emulator's user/data folder. NUP title IDs are read from the file; other supported files need a correct 16-digit ID in the filename or an explicit <code>TitleMappings</code> entry.</li>
+<li>RetroArch uses <code>.lrtl</code> runtime logs. Select the directory containing <code>retroarch.cfg</code>; old time cannot be imported if runtime logging was disabled. Choose the matching core and ROM extensions for each system.</li>
+<li>Other emulators can still have new Playnite-launched sessions tracked. Old-history import is limited to supported formats.</li>
+<li>Use <code>Game.cover.jpg</code> or <code>Game.cover.png</code> beside <code>Game.xci</code> for a sidecar cover. NUP extraction and Playnite metadata handle other supported artwork.</li>
+</ul>
+<h2 id="recovery-and-common-issues">Recovery and common issues</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Next step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Black screen / physical monitor stays off</td>
+<td>End the stream; press <strong>Ctrl+Alt+F11</strong>, or Start → Oyun Merkezi → <strong>Restore Display</strong>. Win+P and Windows Display Settings are alternatives.</td>
+</tr>
+<tr>
+<td>PC not found</td>
+<td>Check Sunshine's service, the same LAN, private network/firewall permissions, and manual IPv4 entry. Local streaming needs no router port forwarding.</td>
+</tr>
+<tr>
+<td>Requested refresh rate absent</td>
+<td>Check the client output, decoder, cable and Moonlight FPS. Reboot after adding VDD modes if requested; refresh detection and reapply.</td>
+</tr>
+<tr>
+<td>ADB unauthorized</td>
+<td>Approve the RSA prompt on the TV. ADB is not needed for normal streaming. The optional tool targets IPv4:5555; devices using pairing-code ports need manual ADB pairing or the app-store route.</td>
+</tr>
+<tr>
+<td>Playnite open / stream active</td>
+<td>Close normally before Apply. The installer does not force-close games or interrupt a stream.</td>
+</tr>
+<tr>
+<td>Restore refuses a changed file</td>
+<td>Inspect <code>data/backups</code> and merge manually. Restoration deliberately preserves post-install edits.</td>
+</tr>
+<tr>
+<td>Download hash fails / Windows warns about the EXE</td>
+<td>Use the official release/checksums or compile from source. The custom app is unsigned. Do not disable security checks; third-party package hashes are enforced.</td>
+</tr>
+</tbody>
+</table>
+<p>Backups and settings are under the installed folder's <code>data</code> directory. Use Start → Oyun Merkezi → <strong>Game Center Settings</strong> afterward. The optional TOTK buttons only edit an already installed compatible local Dynamic FPS profile; use the emulator/mod's own documentation for compatibility.</p>
+<p><a href="../../README.html">Full original Turkish manual</a> · <a href="../TESTING.md">Testing limits</a> · <a href="../CREDITS.md">Credits</a></p></main></body></html>

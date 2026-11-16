@@ -25,6 +25,8 @@
 !/docs/**
 !/assets/
 !/assets/**
+!/locales/
+!/locales/**
 assets/plugin/*.dll
 assets/plugin/*.exe
 src/*.dll

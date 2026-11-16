@@ -2,7 +2,10 @@
     $folder=$CurrentExtensionInstallPath
     if(!$folder){$folder=Split-Path -Parent $MyInvocation.MyCommand.Module.Path}
     $control=Get-Content -LiteralPath (Join-Path $folder 'setup.json') -Raw -Encoding UTF8 | ConvertFrom-Json
-    return @{Control=$control;Settings=(Get-Content -LiteralPath $control.SettingsPath -Raw -Encoding UTF8 | ConvertFrom-Json)}
+    $settings=Get-Content -LiteralPath $control.SettingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if(!('OyunMerkezi.I18n' -as [type])){Add-Type -Path (Join-Path $settings.InstallRoot 'GamingCenter.Core.dll')}
+    [OyunMerkezi.I18n]::Initialize($settings.InstallRoot,$settings.UILanguage)
+    return @{Control=$control;Settings=$settings}
 }
 function Find-Named($collection,[string]$type,[string]$name) {
     $item=$collection | Where-Object Name -eq $name | Select-Object -First 1
@@ -57,9 +60,9 @@ function Update-CenterFilters($Settings) {
     foreach($library in $Settings.Libraries){$definitions+=@(@{Name=$library;Source=$sourceNames[$library]})}
     foreach($emu in $Settings.Emulators){$sourceName=Get-CenterSourceName $emu;$definitions+=@(@{Name=$sourceName;Source=$sourceName})}
     foreach($definition in $definitions){
-        $preset=$PlayniteApi.Database.FilterPresets | Where-Object Name -eq $definition.Name | Select-Object -First 1
+        $preset=if($definition.Id){$PlayniteApi.Database.FilterPresets.Get([guid]$definition.Id)}else{$PlayniteApi.Database.FilterPresets | Where-Object Name -eq $definition.Name | Select-Object -First 1}
         $new=!$preset;if(!$preset){$preset=[Playnite.SDK.Models.FilterPreset]::new();$preset.Name=$definition.Name;if($definition.Id){$preset.Id=[guid]$definition.Id}}
-        $preset.ShowInFullscreeQuickSelection=$true;$preset.Settings=[Playnite.SDK.Models.FilterPresetSettings]::new();$preset.Settings.IsInstalled=[bool]$definition.Installed
+        $preset.Name=[OyunMerkezi.I18n]::L($definition.Name);$preset.ShowInFullscreeQuickSelection=$true;$preset.Settings=[Playnite.SDK.Models.FilterPresetSettings]::new();$preset.Settings.IsInstalled=[bool]$definition.Installed
         if($definition.Source){$source=Find-Named $PlayniteApi.Database.Sources 'Playnite.SDK.Models.GameSource' $definition.Source;$preset.Settings.Source=[Playnite.SDK.Models.IdItemFilterItemProperties]::new();$preset.Settings.Source.Ids=[Collections.Generic.List[guid]]::new([guid[]]@($source.Id))}
         if($new){$PlayniteApi.Database.FilterPresets.Add($preset)}else{$PlayniteApi.Database.FilterPresets.Update($preset)}
     }

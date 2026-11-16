@@ -21,6 +21,6 @@ Game Center is a setup and integration companion. It does not implement the unde
 
 Please visit, star, contribute to and support the upstream projects as well as this integration. Game Center does not replace their support channels for problems inside their own software.
 
-The stores and NVIDIA Shield are trademarks of their respective owners. Their names describe compatibility, not endorsement. The screenshots show this project's actual setup UI with example data; the artwork in the hero diagram is original.
+The stores and NVIDIA Shield are trademarks of their respective owners. Their names describe compatibility, not endorsement. Wizard screenshots show this project’s actual localized setup UI with example paths. Fullscreen library screenshots and GIFs show Playnite, including its community translations, using the maintainer’s connected libraries with permission. Game titles, cover art and store logos visible within those screenshots belong to their respective rights holders; they are shown to document the integration. The artwork in the hero diagram is original.
 
 The original integration code and documentation are MIT licensed. Dependencies remain under their own licenses and are downloaded from pinned upstream URLs. [Full distribution notices](../THIRD-PARTY.md).

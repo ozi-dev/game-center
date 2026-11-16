@@ -2,7 +2,7 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Project](../../README.md)
 
-The 2.0.0 setup UI is in Turkish. Use the page numbers and the labels below. Documentation translations do not change the application's language.
+The 2.1.0 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
 
 ## Before you begin
 
@@ -12,17 +12,17 @@ Download the ZIP from [Releases](https://github.com/ozi-dev/game-center/releases
 
 ## The seven pages
 
-| Page | Turkish label | What to do |
+| Page | Label | What to do |
 | --- | --- | --- |
-| 1 | Başlangıç ve tanı | Wait for detection. Pick an installation folder. Leave Playnite blank to install it, or select its existing executable's folder. |
-| 2 | Kitaplıklar ve giriş | Select stores. Epic direct installation uses Legendary; native store clients can be installed as needed. |
-| 3 | Emülatörler | `Emülatör ekle` means Add emulator. Select EXE, ROM folder, platform/extensions and data directory. RetroArch needs a core DLL, one entry per system/core. |
-| 4 | Yayın ve ekran | Configure controls, desktop/library tiles, optional virtual display, physical-monitor signal off, restoration, resolution/Hz and client type. |
-| 5 | Shield / TV bağlantısı | Follow Moonlight/Sunshine pairing. ADB is optional. |
-| 6 | Kurulum ve bakım | Close Playnite and streams. `Kur / eksikleri tamamla` installs; `Ayarları uygula / onar` applies/repairs. Approve elevation, then reboot if requested. |
-| 7 | Yardım ve geri alma | Help, logs, display recovery and backup restoration. |
+| 1 | Welcome and checks | Wait for detection. Pick an installation folder. Leave Playnite blank to install it, or select its existing executable's folder. |
+| 2 | Libraries and accounts | Select stores. Epic direct installation uses Legendary; native store clients can be installed as needed. |
+| 3 | Emulators | Use `Add emulator`. Select EXE, ROM folder, platform/extensions and data directory. RetroArch needs a core DLL, one entry per system/core. |
+| 4 | Streaming and display | Configure controls, desktop/library tiles, optional virtual display, physical-monitor signal off, restoration, resolution/Hz and client type. |
+| 5 | Shield / TV connection | Follow Moonlight/Sunshine pairing. ADB is optional. |
+| 6 | Setup and maintenance | Close Playnite and streams. `Install / complete setup` installs; `Apply settings / repair` applies/repairs. Approve elevation, then reboot if requested. |
+| 7 | Help and recovery | Help, logs, display recovery and backup restoration. |
 
-`Ayarları kaydet` means Save settings. Host changes need Apply afterward. Bitrate and HDR preferences must also be selected in Moonlight; the setup tool cannot silently rewrite private client settings.
+Use `Save settings` to persist your preferences. Host changes need Apply afterward. Bitrate and HDR preferences must also be selected in Moonlight; the setup tool cannot silently rewrite private client settings.
 
 ## Connect accounts
 
@@ -34,7 +34,7 @@ Steam's selected-game install helper may need Steam restarted with `-cef-force-a
 
 Install **Moonlight Game Streaming** from the client's app store. On the PC, open [Sunshine](https://localhost:47990), create a local administrator login on first use, and enter the PIN shown by Moonlight. If discovery fails, add the PC's IPv4 address manually in Moonlight.
 
-Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shield's 4K output is limited to 60 Hz; a high-refresh TV panel does not change that. Choose higher refresh rates only when the actual client supports the requested mode. Enable Moonlight's **Optimize game settings** for automatic display switching. Open **Oyun Kütüphanesi - Playnite** or **Masaüstü - Desktop**.
+Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shield's 4K output is limited to 60 Hz; a high-refresh TV panel does not change that. Choose higher refresh rates only when the actual client supports the requested mode. Enable Moonlight's **Optimize game settings** for automatic display switching. Open **Game Library - Playnite** or **Desktop**.
 
 ## Emulator history and artwork
 
@@ -47,7 +47,7 @@ Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shiel
 
 | Issue | Next step |
 | --- | --- |
-| Black screen / physical monitor stays off | End the stream; press **Ctrl+Alt+F11**, or Start → Oyun Merkezi → **Ekranı Geri Getir**. Win+P and Windows Display Settings are alternatives. |
+| Black screen / physical monitor stays off | End the stream; press **Ctrl+Alt+F11**, or Start → Oyun Merkezi → **Restore Display**. Win+P and Windows Display Settings are alternatives. |
 | PC not found | Check Sunshine's service, the same LAN, private network/firewall permissions, and manual IPv4 entry. Local streaming needs no router port forwarding. |
 | Requested refresh rate absent | Check the client output, decoder, cable and Moonlight FPS. Reboot after adding VDD modes if requested; refresh detection and reapply. |
 | ADB unauthorized | Approve the RSA prompt on the TV. ADB is not needed for normal streaming. The optional tool targets IPv4:5555; devices using pairing-code ports need manual ADB pairing or the app-store route. |
@@ -55,6 +55,6 @@ Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shiel
 | Restore refuses a changed file | Inspect `data/backups` and merge manually. Restoration deliberately preserves post-install edits. |
 | Download hash fails / Windows warns about the EXE | Use the official release/checksums or compile from source. The custom app is unsigned. Do not disable security checks; third-party package hashes are enforced. |
 
-Backups and settings are under the installed folder's `data` directory. Use Start → Oyun Merkezi → **Oyun Merkezi Ayarları** afterward. The optional TOTK buttons only edit an already installed compatible local Dynamic FPS profile; use the emulator/mod's own documentation for compatibility.
+Backups and settings are under the installed folder's `data` directory. Use Start → Oyun Merkezi → **Game Center Settings** afterward. The optional TOTK buttons only edit an already installed compatible local Dynamic FPS profile; use the emulator/mod's own documentation for compatibility.
 
 [Full original Turkish manual](../../README.html) · [Testing limits](../TESTING.md) · [Credits](../CREDITS.md)

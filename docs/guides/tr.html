@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Oyun Merkezi kurulum rehberi</title><style>body{margin:0;background:#101827;color:#e7edf6;font:17px/1.65 system-ui,Segoe UI,sans-serif}main{max-width:1050px;margin:auto;padding:40px 24px 90px}a{color:#83d6ff}h1,h2{line-height:1.3;color:white}h2{margin-top:40px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #42506a;padding:10px;text-align:left;vertical-align:top}pre,code{background:#20304a;border-radius:4px;padding:3px 6px}pre{padding:15px;overflow:auto}img{max-width:100%}li{margin:8px 0}@media print{body{background:white;color:#111}h1,h2{color:#111}a{color:#167}}</style></head><body><main><span id="gereksinimler"></span><h1 id="oyun-merkezi-kurulum-rehberi">Oyun Merkezi kurulum rehberi</h1>
+<p><a href="en.html">English</a> · <a href="tr.html">Türkçe</a> · <a href="fr.html">Français</a> · <a href="es.html">Español</a> · <a href="../../README.html">Proje</a></p>
+<p>2.1.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden <strong>Türkçe</strong> seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.</p>
+<p>Tam Türkçe rehber paketteki <strong><a href="../../README.html">README.html</a></strong> dosyasında bulunur ve çevrimdışı okunabilir.</p>
+<ol>
+<li><a href="https://github.com/ozi-dev/game-center/releases/latest">Sürümler</a> sayfasından Windows x64 ZIP'i indir; tamamını çıkar ve <code>Kurulum.exe</code> aç.</li>
+<li><strong>Başlangıç ve tanı:</strong> var olan Playnite/Sunshine bulunur. Playnite yoksa alanı boş bırak; kurucu indirir.</li>
+<li><strong>Kitaplıklar ve giriş:</strong> mağazaları seç. Epic doğrudan indirmede Legendary kullanılır. Hesaplarını kendi giriş pencerelerinde bağlayacaksın.</li>
+<li><strong>Emülatörler:</strong> uygulama EXE'sini, ROM klasörünü, platform/uzantıları ve veri klasörünü seç. RetroArch'ta her sistem için uygun çekirdek DLL'sini göster. Veri klasörü kayıtların taşınacağı yer değildir; mevcut ayar/geçmiş klasörüdür.</li>
+<li><strong>Yayın ve ekran:</strong> giriş aygıtları, Moonlight kutuları, sanal ekran, fiziksel monitör sinyali ve geri dönüş davranışını seç. Shield için 4K60 ile başla. Bit hızı ve HDR'yi Moonlight'ta da ayarla.</li>
+<li><strong>Kurulum ve bakım:</strong> Playnite ve yayını kapat. <strong>Kur / eksikleri tamamla</strong> düğmesine bas; gerekirse yönetici onayı ve yeniden başlatmayı tamamla.</li>
+<li>Playnite masaüstünde <strong>Eklentiler (F9) → Uzantı Ayarları → Kütüphaneler</strong> üzerinden hesaplarını bağla. Epic için <strong>Legendary (Epic Games)</strong> seç. F5 ile tümünü güncelle.</li>
+<li>PC'de <a href="https://localhost:47990">Sunshine</a> panelini aç. Shield/TV'deki Moonlight'ın PIN'ini buraya gir. Aynı ağda değilsen veya PC görünmüyorsa ağ/IPv4 adresini kontrol et.</li>
+<li>Moonlight'ta <strong>Oyun Kütüphanesi - Playnite</strong> veya <strong>Masaüstü - Desktop</strong> kutusunu aç.</li>
+</ol>
+<p>Sonraki ayarlar <strong>Başlat → Oyun Merkezi → Oyun Merkezi Ayarları</strong> içindedir. <strong>Ayarları kaydet</strong> sonrasında sistem değişiklikleri için <strong>Ayarları uygula / onar</strong> kullanılır.</p>
+<span id="emulatorler"></span><h2 id="bilmekte-fayda-var">Bilmekte fayda var</h2>
+<ul>
+<li><strong>ADB isteğe bağlıdır.</strong> Normal yayın Play Store'dan kurulu Moonlight ile çalışır; cihaz tanısı veya APK kurulumu için açılırsa TV'deki izni onaylaman gerekir.</li>
+<li><strong>Shield 4K60:</strong> TV panelinin yüksek Hz değeri Shield'ın 4K çıkış sınırını aşmaz. Yeni VDD modunda yeniden başlatma gerekebilir.</li>
+<li><strong>TV'den onay:</strong> kumandada Start'a uzun basınca fare modu açılır; analog imleci, A sol ve B sağ tıklamayı kontrol eder. Steam yardımcısı için gerekirse Steam'i <code>-cef-force-accessibility</code> ile yeniden aç.</li>
+<li><strong>Süreler:</strong> Fritchii/Lichii veri klasöründeki uyumlu <code>play_time\playtime.bin</code> ve RetroArch <code>.lrtl</code> günlükleri okunur. Kaydedilmemiş eski süreler sonradan çıkarılamaz. NUP dışındaki oyunlarda doğru 16 haneli başlık kimliği/eşleme gerekebilir.</li>
+<li><strong>Kapaklar:</strong> NUP ikonu, ROM'un yanındaki <code>Oyun.cover.jpg</code> / <code>.png</code> veya Playnite metadata sağlayıcısı kullanılır.</li>
+<li><strong>Ekran dönmezse:</strong> yayını bitir, <strong>Ctrl+Alt+F11</strong> veya Başlat menüsündeki <strong>Ekranı Geri Getir</strong> kullan. Gerekirse Win+P ve Windows Ekran Ayarları'ndan fiziksel ekranı aç.</li>
+<li><strong>Yedekler:</strong> kurulu klasörde <code>data/backups</code> içinde. Geri alma, sonradan değiştirilmiş dosyaların üzerine otomatik yazmaz.</li>
+<li><strong>Hesaplar ve dosyalar:</strong> hesap girişi/PIN kullanıcıya aittir. Paket oyun, firmware, BIOS, anahtar ve kişisel kayıt içermez. EA/Ubisoft/Xbox ve bazı üçüncü taraf oyunların kurulum akışı ek onay isteyebilir.</li>
+</ul>
+<p><a href="../../README.html">Gereksinimler ve ayrıntılı sorun çözme</a> · <a href="../TESTING.md">Test kapsamı</a> · <a href="../CREDITS.md">Emeği geçenler</a></p></main></body></html>

@@ -28,23 +28,39 @@
 3. Suivez les sept pages : boutiques, émulateurs, streaming et écran.
 4. Fermez Playnite et la session de streaming avant d’appliquer. Acceptez l’élévation Windows nécessaire ; redémarrez si demandé.
 5. Connectez vos comptes dans Playnite, puis validez le PIN Moonlight dans Sunshine.
-6. Dans Moonlight, choisissez **Oyun Kütüphanesi - Playnite** pour les jeux ou **Masaüstü - Desktop** pour le bureau.
+6. Dans Moonlight, choisissez **Bibliothèque - Playnite** pour les jeux ou **Bureau** pour le bureau.
 
-Les réglages restent accessibles depuis **Démarrer → Oyun Merkezi → Oyun Merkezi Ayarları**. Le [guide français](docs/guides/fr.md) traduit les libellés importants.
+Les réglages restent accessibles depuis **Démarrer → Oyun Merkezi → Réglages Game Center**. Le [guide français](docs/guides/fr.md) explique la configuration et le dépannage.
 
-**Langues :** les documents sont disponibles en anglais, turc, français et espagnol. L’interface de l’installateur et ses messages sont actuellement en turc ; les guides expliquent ses pages numérotées. L’interface multilingue complète n’est pas incluse dans la version 2.0.0.
+**Langues :** l’installateur, les réglages et les messages prennent en charge **l’anglais, le turc, le français et l’espagnol** en 2.1.0. Le sélecteur latéral change la langue sans modifier vos chemins ni vos préférences. L’aide hors ligne suit ce choix ; appliquer les réglages sélectionne aussi cette langue dans Playnite.
 
 ## Captures d’écran
 
-Captures réelles de l’assistant, avec des chemins d’exemple et sans comptes personnels. L’interface de la bibliothèque diffusée est le mode plein écran de Playnite.
+Captures réelles de Playnite en plein écran, provenant des comptes et émulateurs du mainteneur, avec son autorisation. Ce sont les vues diffusées sur le téléviseur ; aucun catalogue de démonstration ni lancement de jeu. Les titres et jaquettes appartiennent à leurs ayants droit.
 
-| Boutiques | Streaming et écran |
+| Bibliothèque Epic | Jeux de l’émulateur Fritchii |
 | --- | --- |
-| ![Choix des bibliothèques](docs/screenshots/page-2.png) | ![Commandes et écran virtuel](docs/screenshots/page-4.png) |
+| ![Bibliothèque Epic](docs/screenshots/fr/catalog.png) | ![Jeux de l’émulateur Fritchii](docs/screenshots/fr/emulators.png) |
+
+| Détails et durée de jeu importée | Menu principal Playnite |
+| --- | --- |
+| ![Détails et durée de jeu importée](docs/screenshots/fr/game-details.png) | ![Menu principal Playnite](docs/screenshots/fr/library-menu.png) |
+
+**Navigation entre les menus**
+
+![Navigation entre les menus](docs/screenshots/fr/navigation.gif)
+
+Une courte séquence des vues réelles Steam, Epic, émulateur, détails et menu.
+
+Les captures de l’assistant utilisent des chemins d’exemple et son interface française.
+
+| Bibliothèques | Streaming et écran |
+| --- | --- |
+| ![Bibliothèques](docs/screenshots/fr/page-2.png) | ![Streaming et écran](docs/screenshots/fr/page-4.png) |
 
 | Shield / TV | Installation et maintenance |
 | --- | --- |
-| ![Connexion du Shield](docs/screenshots/page-5.png) | ![Outils de maintenance](docs/screenshots/page-6.png) |
+| ![Shield / TV](docs/screenshots/fr/page-5.png) | ![Installation et maintenance](docs/screenshots/fr/page-6.png) |
 
 ## Compatibilité et limites
 
@@ -55,7 +71,7 @@ Captures réelles de l’assistant, avec des chemins d’exemple et sans comptes
 - L’historique nécessite un journal compatible et un identifiant de jeu correct. Les durées jamais enregistrées ne peuvent pas être reconstituées.
 - Aucun jeu, ROM, BIOS, firmware, clé, sauvegarde ou correctif de jeu n’est fourni. Les profils TOTK facultatifs modifient seulement un mod local compatible déjà installé ; aucun niveau de FPS n’est garanti.
 
-15 vérifications du cœur et 45 du backend, des contrôles d’interface et un véritable test Playnite vierge/importation ont réussi. Le test physique sur Shield et toutes les combinaisons matérielles restent à effectuer. [Périmètre des tests](docs/TESTING.md).
+15 vérifications du cœur, 45 du backend et 1 941 de localisation, des contrôles d’interface et un véritable test Playnite vierge/importation ont réussi. Le test physique sur Shield et toutes les combinaisons matérielles restent à effectuer. [Périmètre des tests](docs/TESTING.md).
 
 ## Remerciements et soutien
 

@@ -40,6 +40,7 @@ namespace OyunMerkezi {
   void Reload() {
    integration=Data.Read<IntegrationConfig>(Path.Combine(pluginDirectory,"center-integration.json"));
    settings=Data.Read<CenterSettings>(Data.Expand(integration.SettingsPath));
+   I18n.Initialize(integration.RuntimeRoot,settings.UILanguage);
   }
   void StartSteamHelper(Game game) {
    if(!launchedHelpers.Add(game.Id))return;
@@ -61,15 +62,15 @@ namespace OyunMerkezi {
   public override async void OnGameStopped(OnGameStoppedEventArgs args){await Task.Delay(1800);Dispatch(Sync);}
   public override void OnApplicationStopped(OnApplicationStoppedEventArgs args){if(timer!=null)timer.Stop();Sync();}
   public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args) {
-   yield return new MainMenuItem {MenuSection="Oyun Merkezi",Description="Ayarlar ve kurulum",Action=a=>OpenSettings()};
-   yield return new MainMenuItem {MenuSection="Oyun Merkezi",Description="Emülatör sürelerini eşitle",Action=a=>Sync()};
+   yield return new MainMenuItem {MenuSection=I18n.L("Oyun Merkezi"),Description="Ayarlar ve kurulum",Action=a=>OpenSettings()};
+   yield return new MainMenuItem {MenuSection=I18n.L("Oyun Merkezi"),Description=I18n.L("Emülatör sürelerini eşitle"),Action=a=>Sync()};
   }
-  void OpenSettings(){try{if(File.Exists(integration.SettingsApp))Process.Start(new ProcessStartInfo(integration.SettingsApp,"--settings --config \""+integration.SettingsPath+"\""){UseShellExecute=true});else PlayniteApi.Dialogs.ShowMessage("Oyun Merkezi kurulum klasöründeki OyunMerkezi.exe dosyasını açın.");}catch(Exception ex){PlayniteApi.Dialogs.ShowErrorMessage(ex.Message,"Oyun Merkezi");}}
+  void OpenSettings(){try{if(File.Exists(integration.SettingsApp))Process.Start(new ProcessStartInfo(integration.SettingsApp,"--settings --config \""+integration.SettingsPath+"\""){UseShellExecute=true});else PlayniteApi.Dialogs.ShowMessage(I18n.L("Oyun Merkezi kurulum klasöründeki OyunMerkezi.exe dosyasını açın."));}catch(Exception ex){PlayniteApi.Dialogs.ShowErrorMessage(ex.Message,I18n.L("Oyun Merkezi"));}}
   public override UserControl GetSettingsView(bool firstRunSettings) {
    var panel=new StackPanel {Margin=new Thickness(20)};
-   panel.Children.Add(new TextBlock {Text="Oyun Merkezi ayarları",FontSize=22,Margin=new Thickness(0,0,0,12)});
-   var button=new Button {Content="Ayarları aç",Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};button.Click+=(s,e)=>OpenSettings();panel.Children.Add(button);
-   var sync=new Button {Content="Süreleri şimdi eşitle",Margin=new Thickness(0,12,0,0),Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};sync.Click+=(s,e)=>Sync();panel.Children.Add(sync);
+   panel.Children.Add(new TextBlock {Text=I18n.L("Oyun Merkezi ayarları"),FontSize=22,Margin=new Thickness(0,0,0,12)});
+   var button=new Button {Content=I18n.L("Ayarları aç"),Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};button.Click+=(s,e)=>OpenSettings();panel.Children.Add(button);
+   var sync=new Button {Content=I18n.L("Süreleri şimdi eşitle"),Margin=new Thickness(0,12,0,0),Padding=new Thickness(15,8,15,8),HorizontalAlignment=HorizontalAlignment.Left};sync.Click+=(s,e)=>Sync();panel.Children.Add(sync);
    return new UserControl {Content=panel};
   }
   public override ISettings GetSettings(bool firstRunSettings){return new PluginSettings();}

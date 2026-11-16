@@ -75,7 +75,7 @@
     },
     {
       "Id": "udm",
-      "Name": "İndirme yöneticisi",
+      "Name": "Unified Download Manager",
       "Url": "https://github.com/hawkeye116477/playnite-unifiedDownloadManager-plugin/releases/download/1.1.1/UnifiedDownloadManager_1_1_1.pext",
       "FileName": "UnifiedDownloadManager_1_1_1.pext",
       "Sha256": "3c92dad0f1c3019c911aaca52bc44ba6fa47a6e325b9290910e98412aaf8f25e",
