@@ -246,7 +246,7 @@ namespace SofaRelay {
    // Render the actual selected caption for those native controls.
    using(var graphics=Graphics.FromImage(bitmap))foreach(var combo in PreviewCombos(pages[i]).Concat(new[]{languagePicker})){
     string caption=combo.GetItemText(combo.SelectedItem);if(string.IsNullOrEmpty(caption))continue;Point point=PointToClient(combo.PointToScreen(new Point(4,0)));int border=(Width-ClientSize.Width)/2;point.Offset(border,Height-ClientSize.Height-border);
-    TextRenderer.DrawText(graphics,caption,combo.Font,new Rectangle(point,new Size(Math.Max(1,combo.Width-26),combo.Height)),SystemColors.WindowText,TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
+    var captionArea=new Rectangle(point,new Size(Math.Max(1,combo.Width-26),combo.Height));graphics.FillRectangle(SystemBrushes.Window,captionArea);TextRenderer.DrawText(graphics,caption,combo.Font,captionArea,SystemColors.WindowText,TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
    }
    bitmap.Save(Path.Combine(folder,"page-"+(i+1)+".png"));}}}
   class DisplayChoice {public string Id,Name;public override string ToString(){return Name;}}
