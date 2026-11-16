@@ -15,7 +15,7 @@ for language in ("en", "tr", "fr", "es"):
     body = marker.sub(r'<span id="emulatorler"></span>\1', body)
     for code in ("en", "tr", "fr", "es"):
         body = body.replace('href="' + code + '.md"', 'href="' + code + '.html"')
-    body = re.sub(r'href="\.\./\.\./README(?:\.(?:tr|fr|es))?\.md"', 'href="../../README.html"', body)
+    body = re.sub(r'href="(?:\.\./\.\./README|\.\./readme/(?:tr|fr|es))\.md"', 'href="'+language+'.html"', body)
     title = re.search(r"<h1[^>]*>(.*?)</h1>", body).group(1)
     page = '<!doctype html>\n<html lang="'+language+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+STYLE+'</style></head><body><main>'+body+'</main></body></html>\n'
     source.with_suffix(".html").write_text(page, encoding="utf-8")

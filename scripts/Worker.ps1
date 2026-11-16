@@ -36,7 +36,7 @@ function Initialize-Runtime {
     if($target -eq [IO.Path]::GetPathRoot($target)){throw (L 'Sürücü kökü kurulum klasörü olarak kullanılamaz.')}
     New-Item -ItemType Directory -Force -Path $target | Out-Null
     if($target.TrimEnd('\') -ne $PackageRoot.TrimEnd('\')){
-        foreach($name in @('OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.html','LICENSE.txt','THIRD-PARTY.md')){
+        foreach($name in @('OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md')){
             $source=Join-Path $PackageRoot $name;if(Test-Path -LiteralPath $source){$destination=Join-Path $target $name;if((Get-Item $source).PSIsContainer){New-Item -ItemType Directory -Force -Path $destination | Out-Null;Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force}else{Copy-Item -LiteralPath $source -Destination $destination -Force}}
         }
     }

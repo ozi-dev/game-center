@@ -1,10 +1,10 @@
 # Oyun Merkezi kurulum rehberi
 
-[English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proje](../../README.tr.md)
+[English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proje](../readme/tr.md)
 
 2.1.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
 
-Tam Türkçe rehber paketteki **[README.html](../../README.html)** dosyasında bulunur ve çevrimdışı okunabilir.
+Tam Türkçe rehber paketteki **[Ayrıntılı Türkçe rehber](manual.tr.html)** dosyasında bulunur ve çevrimdışı okunabilir.
 
 1. [Sürümler](https://github.com/ozi-dev/game-center/releases/latest) sayfasından Windows x64 ZIP'i indir; tamamını çıkar ve `Kurulum.exe` aç.
 2. **Başlangıç ve tanı:** var olan Playnite/Sunshine bulunur. Playnite yoksa alanı boş bırak; kurucu indirir.
@@ -29,4 +29,4 @@ Sonraki ayarlar **Başlat → Oyun Merkezi → Oyun Merkezi Ayarları** içinded
 - **Yedekler:** kurulu klasörde `data/backups` içinde. Geri alma, sonradan değiştirilmiş dosyaların üzerine otomatik yazmaz.
 - **Hesaplar ve dosyalar:** hesap girişi/PIN kullanıcıya aittir. Paket oyun, firmware, BIOS, anahtar ve kişisel kayıt içermez. EA/Ubisoft/Xbox ve bazı üçüncü taraf oyunların kurulum akışı ek onay isteyebilir.
 
-[Gereksinimler ve ayrıntılı sorun çözme](../../README.html) · [Test kapsamı](../TESTING.md) · [Emeği geçenler](../CREDITS.md)
+[Gereksinimler ve ayrıntılı sorun çözme](manual.tr.html) · [Test kapsamı](../TESTING.md) · [Emeği geçenler](../CREDITS.md)

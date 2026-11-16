@@ -44,10 +44,12 @@ For a release: build, run tests, package, check every ZIP file against `SHA256SU
 
 ## Localization
 
-Current user-facing documentation is in `README*.md` and `docs/guides/{en,tr,fr,es}.md`. Keep technical limitations consistent across translations. The wizard and worker use `locales/{en,tr,fr,es}.json`, initialized by `src/Localization.cs`. Keep keys and format placeholders aligned with the Turkish source catalog. `Build.ps1` runs the localization assertions automatically. The visible selector saves `UILanguage`; language changes preserve user paths and toggles. Apply also selects the matching native Playnite language. Regenerate offline guides after editing Markdown: install the optional maintainer dependency with `python -m pip install Markdown`, then run `python scripts/maintainer/RenderGuides.py`. Python and Markdown are not runtime requirements.
+Current user-facing documentation is in `README.md`, `docs/readme/{tr,fr,es}.md` and `docs/guides/{en,tr,fr,es}.md`. Keep technical limitations consistent across translations. The wizard and worker use `locales/{en,tr,fr,es}.json`, initialized by `src/Localization.cs`. Keep keys and format placeholders aligned with the Turkish source catalog. `Build.ps1` runs the localization assertions automatically. The visible selector saves `UILanguage`; language changes preserve user paths and toggles. Apply also selects the matching native Playnite language. Regenerate offline guides after editing Markdown: install the optional maintainer dependency with `python -m pip install Markdown`, then run `python scripts/maintainer/RenderGuides.py`. Python and Markdown are not runtime requirements.
 
 ## Safe screenshots
 
 Use `OyunMerkezi.exe --preview <folder> --config <example-settings.json>` with example paths and no accounts. This renders the seven real wizard pages without running diagnosis, installing components or opening games. Never publish desktop notifications, account identifiers or pairing codes.
 
 Real library screenshots require the library owner’s permission. Our public Playnite captures use the maintainer’s connected libraries; capture only the application, keep credentials and account screens private, and never launch games while recording documentation. The animated GIFs contain captured views rather than generated mockups.
+
+The repository root keeps a single English README. Translated showcase pages live in `docs/readme`, guides and the extended Turkish manual in `docs/guides`. Presentation artwork in `docs/media` is editable SVG; screenshots remain real, unmodified Playnite captures. Keep local asset paths relative to each README’s directory.

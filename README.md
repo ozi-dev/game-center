@@ -1,92 +1,145 @@
-<p align="center"><img src="docs/media/hero.svg" alt="Game Center · Oyun Merkezi" width="100%"></p>
-<p align="center"><a href="README.md"><b>English</b></a> · <a href="README.tr.md">Türkçe</a> · <a href="README.fr.md">Français</a> · <a href="README.es.md">Español</a></p>
-<p align="center"><a href="https://github.com/ozi-dev/game-center/releases/latest"><b>Download for Windows</b></a> · <a href="docs/guides/en.md">Installation guide</a> · <a href="#screenshots">Screenshots</a> · <a href="docs/CREDITS.md">Credits</a></p>
+<p align="center"><img src="docs/media/hero-en.svg" alt="Game Center — Your PC library deserves a bigger screen." width="100%"></p>
 
-# All your PC games, ready for the couch
+<p align="center"><a href="README.md"><b>English</b></a> &nbsp; · &nbsp; <a href="docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="docs/readme/es.md">Español</a></p>
 
-**Game Center / Oyun Merkezi** is a Windows setup and settings companion that brings Playnite, Sunshine and Moonlight together. Browse store libraries and local emulators in a controller-friendly library, then play on a TV, NVIDIA Shield or another Moonlight client.
+<h3 align="center">Your PC library deserves a bigger screen.</h3>
+<p align="center">Bring your stores and emulators together. Pick up a controller. Make the TV your next place to play.</p>
 
-The project configures existing open-source tools and adds installation guidance, emulator history import, missing-cover handling and settings recovery. **Playnite provides the library UI; Sunshine and Moonlight provide streaming.** They deserve the credit for those foundations.
+<p align="center">
+  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="docs/media/ui/download-en.svg" alt="Download for Windows" width="290" height="54"></a>
+  &nbsp;
+  <a href="docs/guides/en.md"><img src="docs/media/ui/guide-en.svg" alt="Setup guide" width="235" height="54"></a>
+</p>
 
-## What you get
+<p align="center">
+  <a href="https://github.com/ozi-dev/game-center/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/game-center?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/game-center/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
+</p>
 
-| Feature | How it helps |
-| --- | --- |
-| One library | Steam, Epic, EA, Ubisoft, optional Xbox and local/emulated games through Playnite integrations. |
-| Install from the couch | Legendary handles supported Epic downloads; a helper confirms the selected Steam game's install dialog. EA/Ubisoft/Xbox may require their client UI. |
-| Emulator history | Import existing Fritchii/Lichii-compatible playtime and RetroArch runtime logs; avoid counting overlapping sessions twice. |
-| Cover handling | Extract an available NUP icon or use a `.cover.png` / `.cover.jpg` sidecar. Playnite metadata fills other artwork. |
-| Your controls | Controller navigation, keyboard/mouse input, and a visible Playnite cursor. In-game bindings remain in the emulator. |
-| Your display | Optional signed virtual display, configurable resolution/refresh rate, physical-monitor signal off during streaming and restoration afterward. |
-| Two useful launch tiles | Enable the game library, the desktop, or both. Keep existing Sunshine applications if desired. |
-| Guided setup | Detect existing components, download pinned packages, explain account/PIN steps, and optionally inspect a Shield/Android TV using ADB. |
-| Recovery | Configuration backups, display recovery shortcut, conflict-aware settings restoration and a redacted diagnostic export. |
+<p align="center"><b>Steam &nbsp; / &nbsp; Epic &nbsp; / &nbsp; EA &nbsp; / &nbsp; Ubisoft &nbsp; / &nbsp; Xbox &nbsp; / &nbsp; Retro</b></p>
 
-## Start playing
+---
 
-1. Download the **Windows x64 ZIP** from [Releases](https://github.com/ozi-dev/game-center/releases/latest).
-2. Extract **the entire archive** to a writable folder and run **`Kurulum.exe`**.
-3. Follow the seven numbered pages. Choose libraries, add emulator paths, and select your streaming/display preferences.
-4. Close Playnite and any active stream before applying. Approve Windows elevation when required; reboot if requested.
-5. Sign in to your own store accounts inside Playnite. Pair Moonlight with Sunshine using the displayed PIN.
-6. In Moonlight choose **Game Library - Playnite** for the library or **Desktop** for the desktop.
+## See it in action
 
-Later, use **Start → Oyun Merkezi → Game Center Settings** to change settings. [Read the English guide](docs/guides/en.md) for account setup and troubleshooting.
+<a href="docs/screenshots/en/navigation.gif"><img src="docs/screenshots/en/navigation.gif" alt="See it in action — Steam, Epic, Fritchii, Playnite" width="100%"></a>
 
-**Languages:** the installer, settings and worker messages support **English, Turkish, French and Spanish** in 2.1.0. Choose your language in the sidebar; paths and preferences stay intact. Offline help opens in the selected language. Applying settings also selects that language in Playnite.
+<p align="center"><sub>Playnite fullscreen · Steam / Epic / Fritchii · Sunshine + Moonlight</sub></p>
 
-## Screenshots
+<p align="center">
+  <img src="docs/media/flow-en-1.svg" alt="BRING YOUR GAMES — Stores + local emulators" width="260">
+  <img src="docs/media/flow-en-2.svg" alt="MAKE IT YOURS — A guided setup. Your settings." width="260">
+  <img src="docs/media/flow-en-3.svg" alt="TAKE THE COUCH — TV / Shield / Moonlight" width="260">
+</p>
 
-Actual fullscreen Playnite captures from the maintainer’s connected store and emulator libraries, published with permission. These are the same views streamed to the TV; no demo catalog or game was launched. Game names and artwork belong to their respective owners.
+## Make yourself comfortable.
 
-| Epic library | Fritchii emulator games |
-| --- | --- |
-| ![Epic library](docs/screenshots/en/catalog.png) | ![Fritchii emulator games](docs/screenshots/en/emulators.png) |
+| Feature | What you get |
+| :--- | :--- |
+| **One place for your games** | Steam, Epic, EA, Ubisoft, optional Xbox and local/emulated games through Playnite integrations. |
+| **Install from the couch** | Legendary handles supported Epic downloads. A helper confirms the selected Steam install. Other stores may need their client. |
+| **Keep your history** | Import compatible Fritchii/Lichii playtime and RetroArch logs, with overlap handling. |
+| **Pick your controls** | Controller, keyboard or mouse. A visible cursor in the library; game bindings stay in the emulator. |
+| **Make the screen yours** | Library and desktop tiles, optional virtual display, resolution/Hz and physical-monitor restoration. |
+| **Get back safely** | Backups, conflict-aware restore, display recovery shortcut and a redacted diagnostic export. |
 
-| Game details and imported playtime | Playnite main menu |
-| --- | --- |
-| ![Game details and imported playtime](docs/screenshots/en/game-details.png) | ![Playnite main menu](docs/screenshots/en/library-menu.png) |
+## Your games. Front and center.
 
-**Menu navigation**
+Real views from the maintainer’s connected libraries. Playnite is the fullscreen interface you stream to your TV.
 
-![Menu navigation](docs/screenshots/en/navigation.gif)
+### Across your stores
 
-A short sequence of real Steam, Epic, emulator, game-details and menu views.
+Browse an entire connected library, including games ready to install.
 
-The setup screenshots use example paths and show the English UI.
+<a href="docs/screenshots/en/catalog.png"><img src="docs/screenshots/en/catalog.png" alt="Across your stores" width="100%"></a>
 
-| Libraries | Streaming and display |
-| --- | --- |
-| ![Libraries](docs/screenshots/en/page-2.png) | ![Streaming and display](docs/screenshots/en/page-4.png) |
+### Your progress comes with you
 
-| Shield / TV | Installation and maintenance |
-| --- | --- |
-| ![Shield / TV](docs/screenshots/en/page-5.png) | ![Installation and maintenance](docs/screenshots/en/page-6.png) |
+Compatible emulator history appears directly in the game details.
 
-## Compatibility and practical limits
+<a href="docs/screenshots/en/game-details.png"><img src="docs/screenshots/en/game-details.png" alt="Your progress comes with you" width="100%"></a>
 
-- **Host:** Intel/AMD x64 Windows 10/11, .NET Framework 4.8, PowerShell 5.1, current GPU drivers and a Sunshine-supported hardware encoder. WinGet helps install store clients and missing Microsoft runtimes.
-- **Client:** NVIDIA Shield, Android TV/Google TV, or another Moonlight-supported device. ADB is optional; normal streaming does not require it.
-- **Shield:** start at 4K60. A 120/144 Hz TV panel does not make Shield output 4K120. Higher refresh rates depend on the client's actual output/decoder modes, cable, host and network. [NVIDIA specifications](https://www.nvidia.com/en-us/shield/shield-tv/).
-- Account login, two-factor authentication, pairing and device authorization require the owner. No passwords or pairing keys are distributed.
-- Historical emulator time needs a supported log and a matching game ID. Missing history cannot be reconstructed. Playnite tracks new sessions for other configured emulators.
-- This is not a universal silent installer for every store or game. Changed client dialogs, first-run agreements and third-party launchers can require Moonlight's controller mouse mode.
-- No games, ROMs, BIOS, firmware, keys, saves or game patches are included. Optional TOTK profile buttons edit an already installed compatible local mod; no FPS level is guaranteed.
+<details>
+<summary><b>Retro meets the rest · A menu made for the couch</b></summary>
 
-The initial build passed **15 core + 45 backend + 1,941 localization assertions**, UI checks and a real fresh Playnite/scanner/playtime smoke test. Protected configuration tests mock driver/service boundaries. Physical Shield and every hardware combination have not been tested. [Validation details](docs/TESTING.md).
+Local emulator games sit alongside your store libraries.
 
-## Built with, and thanks to
+![Retro meets the rest](docs/screenshots/en/emulators.png)
 
-**Josef Nemec and Playnite contributors**, **Sunshine maintainers**, **Moonlight contributors**, **VirtualDrivers**, **Legendary**, **hawkeye116477**, **Libretro**, **Nefarius**, **Igor Pavlov** and the integration maintainers made this workflow possible. Please visit, star and support their projects too.
+Keep library navigation and settings within reach.
 
-[Playnite](https://github.com/JosefNemec/Playnite) · [Sunshine](https://github.com/SunshineStream/Sunshine) · [Moonlight](https://github.com/moonlight-stream/moonlight-android) · [Virtual Display Driver](https://github.com/VirtualDrivers/Virtual-Display-Driver) · [Legendary](https://github.com/legendary-gl/legendary) · [Full credits and licenses](docs/CREDITS.md)
+![A menu made for the couch](docs/screenshots/en/library-menu.png)
 
-## Support and contribute
+</details>
+
+## From download to your sofa.
+
+1. **DOWNLOAD & EXTRACT** — Get the Windows x64 ZIP and extract the whole archive. Open <code>Kurulum.exe</code>.
+2. **CONNECT & CONFIGURE** — Use the seven guided pages to select stores, emulators and display settings. Sign in to your own accounts; pair Moonlight with Sunshine.
+3. **PICK YOUR SCREEN** — Choose the library or desktop in Moonlight. Come back to the settings app whenever you want to change things.
+
+[Setup guide](docs/guides/en.md) &nbsp; · &nbsp; Windows 10/11 x64 &nbsp; · &nbsp; TV / NVIDIA Shield / Moonlight
+
+### A setup that speaks your language.
+
+English · Türkçe · Français · Español — the installer, worker messages and offline help follow your selection.
+
+<a href="docs/screenshots/en/page-4.png"><img src="docs/screenshots/en/page-4.png" alt="Choose your display" width="100%"></a>
+
+<details>
+<summary><b>Explore the setup screens</b></summary>
+
+| Connect your libraries | Pair your TV / Shield |
+| :---: | :---: |
+| ![Connect your libraries](docs/screenshots/en/page-2.png) | ![Pair your TV / Shield](docs/screenshots/en/page-5.png) |
+
+![Install and maintain](docs/screenshots/en/page-6.png)
+
+</details>
+
+<details>
+<summary><b>Before you press play</b></summary>
+
+Windows 10/11 x64, .NET Framework 4.8, PowerShell 5.1, current GPU drivers and a Sunshine-compatible encoder. Internet downloads the selected components.
+
+- Shield, Android TV/Google TV and other Moonlight clients are supported. ADB is optional.
+- On Shield, start at 4K60. Higher refresh rates depend on the client’s actual output, decoder, cable, host and network.
+- Account login, two-factor authentication and the first PIN pairing are completed on your own devices.
+- Some store dialogs and first-run agreements need controller mouse mode or the provider’s UI.
+- Historical time needs a supported log and matching game ID. Games, ROMs, BIOS, firmware, keys, saves and patches are not included.
+
+</details>
+
+<details>
+<summary><b>Tested, with the scope visible</b></summary>
+
+15 core + 45 backend + 1,941 localization assertions, wizard checks and native Playnite smoke tests. Physical Shield and every hardware combination have not been tested. [Read the validation scope](docs/TESTING.md).
+
+</details>
+
+## Great projects. Shared credit.
+
+Playnite provides the library. Sunshine and Moonlight deliver the stream. Game Center adds the guided installation, shared settings, history import and recovery around them.
+
+<p align="center">
+  <a href="https://github.com/JosefNemec/Playnite"><b>Playnite</b></a> &nbsp; + &nbsp;
+  <a href="https://github.com/SunshineStream/Sunshine"><b>Sunshine</b></a> &nbsp; + &nbsp;
+  <a href="https://github.com/moonlight-stream/moonlight-android"><b>Moonlight</b></a>
+</p>
+
+VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pavlov · [Meet the projects behind it](docs/CREDITS.md)
+
+## Make the next setup easier.
 
 <!-- SUPPORT-LINK:START -->
-You can support the project by starring it, reporting reproducible issues, helping with translations and contributing fixes. A financial-support link will be added after the maintainer's account is active. [Support information](docs/SUPPORT.md).
+Star the project, share a reproducible issue, improve a translation or contribute a fix. Support the upstream developers too.
 <!-- SUPPORT-LINK:END -->
 
-[Contributing](CONTRIBUTING.md) · [Build from source](docs/DEVELOPMENT.md) · [Report a bug](https://github.com/ozi-dev/game-center/issues/new/choose)
+[Contribute](CONTRIBUTING.md) &nbsp; · &nbsp; [Build from source](docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Report an issue](https://github.com/ozi-dev/game-center/issues/new/choose) &nbsp; · &nbsp; [Support](docs/SUPPORT.md)
 
-Original integration code is **MIT licensed**. Downloaded programs and the bundled 7-Zip extractor retain their own licenses; 7-Zip source is included. [Third-party notices](THIRD-PARTY.md). An independent community project by [ozi-dev](https://github.com/ozi-dev); no affiliation with the stores or upstream projects is implied.
+---
+
+<sub>Original integration code: MIT. Third-party software retains its own licenses. Game names and covers shown in documentation belong to their respective owners. <a href="THIRD-PARTY.md">Licenses &amp; notices</a>.</sub>
+
+<p align="center"><sub>An independent community project by <a href="https://github.com/ozi-dev"><b>ozi-dev</b></a>.</sub></p>

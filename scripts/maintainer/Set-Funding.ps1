@@ -7,9 +7,9 @@ if($handle -notmatch '^[A-Za-z0-9_-]+$' -or $handle -in @('signup','login','dash
 $url='https://www.buymeacoffee.com/'+$handle
 $sections=@{
     'README.md'="If this project saves you setup time, you can [buy me a coffee]($url). Contributions, translations and support for the upstream projects are welcome too. Donations are optional; the software remains free and open source."
-    'README.tr.md'="Bu proje kurulumda zaman kazandırdıysa [bir kahve ısmarlayabilirsin]($url). Koda, çevirilere ve temel projelere katkıların da değerli. Destek isteğe bağlıdır; yazılım ücretsiz ve açık kaynak kalır."
-    'README.fr.md'="Si ce projet vous fait gagner du temps, vous pouvez [m’offrir un café]($url). Les contributions, traductions et le soutien aux projets en amont sont aussi les bienvenus. Le don est facultatif ; le logiciel reste libre et gratuit."
-    'README.es.md'="Si este proyecto te ahorra tiempo, puedes [invitarme a un café]($url). También agradecemos las contribuciones, traducciones y el apoyo a los proyectos originales. Donar es opcional; el programa sigue siendo gratuito y de código abierto."
+    'docs\readme\tr.md'="Bu proje kurulumda zaman kazandırdıysa [bir kahve ısmarlayabilirsin]($url). Koda, çevirilere ve temel projelere katkıların da değerli. Destek isteğe bağlıdır; yazılım ücretsiz ve açık kaynak kalır."
+    'docs\readme\fr.md'="Si ce projet vous fait gagner du temps, vous pouvez [m’offrir un café]($url). Les contributions, traductions et le soutien aux projets en amont sont aussi les bienvenus. Le don est facultatif ; le logiciel reste libre et gratuit."
+    'docs\readme\es.md'="Si este proyecto te ahorra tiempo, puedes [invitarme a un café]($url). También agradecemos las contribuciones, traducciones y el apoyo a los proyectos originales. Donar es opcional; el programa sigue siendo gratuito y de código abierto."
     'docs\SUPPORT.md'="You can [buy the maintainer a coffee]($url). Donations are optional, provide no special entitlement and do not change the project's free/open-source status. Please support the upstream maintainers too."
 }
 $pattern='(?s)<!-- SUPPORT-LINK:START -->.*?<!-- SUPPORT-LINK:END -->'

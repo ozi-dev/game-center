@@ -57,4 +57,4 @@ Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shiel
 
 Backups and settings are under the installed folder's `data` directory. Use Start → Oyun Merkezi → **Game Center Settings** afterward. The optional TOTK buttons only edit an already installed compatible local Dynamic FPS profile; use the emulator/mod's own documentation for compatibility.
 
-[Full original Turkish manual](../../README.html) · [Testing limits](../TESTING.md) · [Credits](../CREDITS.md)
+[Full original Turkish manual](manual.tr.html) · [Testing limits](../TESTING.md) · [Credits](../CREDITS.md)

@@ -1,6 +1,6 @@
 # Installer et utiliser Game Center
 
-[English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Projet](../../README.fr.md)
+[English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Projet](../readme/fr.md)
 
 L’installateur 2.1.0 est disponible en anglais, turc, français et espagnol. Choisissez **Français** dans la barre latérale ; le choix est enregistré et l’aide hors ligne suit cette langue. Appliquer les réglages sélectionne aussi le français dans Playnite. Utilisez Windows 10/11 Intel/AMD x64 avec .NET Framework 4.8, PowerShell 5.1, un pilote GPU récent et un encodeur compatible Sunshine. Internet sert à télécharger les composants ; PC et client doivent partager le même réseau.
 
@@ -45,4 +45,4 @@ Les sauvegardes se trouvent dans `data/backups`. La restauration refuse d’écr
 
 Les jeux, ROM, BIOS, firmware, clés et sauvegardes ne sont pas fournis. Les profils FPS facultatifs exigent déjà un mod local compatible et ne garantissent pas de performances.
 
-[Tests](../TESTING.md) · [Crédits](../CREDITS.md) · [Manuel turc complet](../../README.html)
+[Tests](../TESTING.md) · [Crédits](../CREDITS.md) · [Manuel turc complet](manual.tr.html)

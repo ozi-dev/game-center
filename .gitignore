@@ -4,8 +4,7 @@
 !/.gitattributes
 !/.github/
 !/.github/**
-!/README*.md
-!/README.html
+!/README.md
 !/LICENSE.txt
 !/THIRD-PARTY.md
 !/CHANGELOG.md

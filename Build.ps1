@@ -28,5 +28,5 @@ Type: GenericPlugin
 '@ | Set-Content -LiteralPath (Join-Path $plugin 'extension.yaml') -Encoding UTF8
 Copy-Item (Join-Path $out 'OyunMerkezi.exe') (Join-Path $out 'Kurulum.exe') -Force
 foreach($name in @('scripts','assets','locales','manifests','docs')){$dest=Join-Path $out $name;New-Item -ItemType Directory -Force -Path $dest | Out-Null;Copy-Item -Path (Join-Path $root ($name+'\*')) -Destination $dest -Recurse -Force}
-foreach($name in @('README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){if(Test-Path (Join-Path $root $name)){Copy-Item (Join-Path $root $name) $out -Force}}
+foreach($name in @('README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){if(Test-Path (Join-Path $root $name)){Copy-Item (Join-Path $root $name) $out -Force}}
 Write-Output "Derleme hazır: $out"

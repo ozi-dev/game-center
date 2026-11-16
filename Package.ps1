@@ -3,9 +3,9 @@ $ErrorActionPreference='Stop'
 $root=$PSScriptRoot;$build=Join-Path $root $BuildDirectory
 $release=Join-Path $root ('dist\Oyun-Merkezi-2.1.0-'+(Get-Date -Format yyyyMMdd-HHmmss))
 New-Item -ItemType Directory -Force -Path $release | Out-Null
-foreach($name in @('Kurulum.exe','OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
+foreach($name in @('Kurulum.exe','OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
 $source=Join-Path $release 'source';New-Item -ItemType Directory -Force -Path $source | Out-Null
-foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','locales','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
+foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
     $from=Join-Path $root $name
     if(!(Get-Item -LiteralPath $from -Force).PSIsContainer){Copy-Item -LiteralPath $from -Destination $source;continue}
     foreach($file in Get-ChildItem -LiteralPath $from -Recurse -File -Force){
@@ -20,9 +20,9 @@ OYUN MERKEZI 2.1.0
 
 1. ZIP dosyasinin tamamini bir klasore cikarin.
 2. Kurulum.exe dosyasini acin ve yedi adimi izleyin.
-3. Guides: README.md (English), README.tr.md, README.fr.md, README.es.md.
+3. Project: README.md (English), docs/readme/tr.md, fr.md, es.md.
    Offline help: docs/guides/en.html, tr.html, fr.html, es.html.
-   Extended Turkish manual: README.html.
+   Extended Turkish manual: docs/guides/manual.tr.html.
    Installer languages: English, Turkce, Francais, Espanol.
 
 Girisler ve ilk Moonlight PIN eslestirmesi kendi hesap/cihazinizda yapilir.

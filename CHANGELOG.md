@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Redesign the GitHub presentation with localized banners, download buttons, prominent real-library GIFs, an illustrated setup flow and expandable technical details.
+- Consolidate translated READMEs under `docs/readme` and move the extended offline manual into `docs/guides`; update build, packaging, funding and link checks for the layout.
+
+
 ## 2.1.0 — 2026-11-16
 
 - Add English, Turkish, French and Spanish to the installer, settings dialogs, worker messages and companion menus, with a persistent language selector.

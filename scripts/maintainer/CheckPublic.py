@@ -31,7 +31,7 @@ for name in names:
         failures.append(f'Personal absolute user path: {name}')
     if re.search(r'\b(?:ghp_|gho_|github_pat_)[A-Za-z0-9_]{20,}', text):
         failures.append(f'Possible GitHub credential: {name}')
-    if path.suffix.lower() == '.md':
+    if path.suffix.lower() in {'.md', '.html'}:
         targets = re.findall(r'!?\[[^\]]*\]\(([^)]+)\)', text)
         targets += re.findall(r'(?:src|href)="([^"]+)"', text)
         for target in targets:
@@ -51,7 +51,7 @@ for name in names:
                 failures.append(f'Missing local target: {name}: {target}')
             elif resolved.is_file() and relative not in tracked:
                 failures.append(f'Target not published: {name}: {target}')
-for name in ['README.md', 'README.tr.md', 'README.fr.md', 'README.es.md']:
+for name in ['README.md', 'docs/readme/tr.md', 'docs/readme/fr.md', 'docs/readme/es.md']:
     text = (root / name).read_text('utf8')
     if not all(language in text for language in ['English', 'Türkçe', 'Français', 'Español']):
         failures.append(f'Missing language navigation: {name}')
