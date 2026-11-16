@@ -16,11 +16,20 @@ namespace SofaRelay {
    if(args.Contains("--preview"))SetThreadDpiAwarenessContext(new IntPtr(-1));
    Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
    string root=AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
+   try{using(RuntimeIntegrity.LockVerified(root)){} }catch(Exception ex){if(args.Contains("--verify-runtime")||args.Contains("--selftest"))Console.Error.WriteLine(ex.Message);else LocalizedMessage.Show(ex.Message,"SofaRelay");return 1;}
+   if(args.Contains("--verify-runtime"))return 0;
+   if(args.Contains("--broker-action")){
+    try{string action=args[Array.IndexOf(args,"--broker-action")+1],request=args[Array.IndexOf(args,"--config")+1],result=args[Array.IndexOf(args,"--broker-result")+1];return BrokerLauncher.Run(root,action,request,result);}catch(Exception ex){Console.Error.WriteLine(ex.Message);return 1;}
+   }
    string settingsPath=Branding.SettingsPath(root,Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
    for(int i=0;i<args.Length-1;i++)if(args[i]=="--config")settingsPath=Path.GetFullPath(args[i+1]);
    string uiLanguage=Data.Read<CenterSettings>(settingsPath).UILanguage;
    for(int i=0;i<args.Length-1;i++)if(args[i]=="--language")uiLanguage=args[i+1];
    I18n.Initialize(root,uiLanguage);
+   if(!args.Contains("--selftest")&&!args.Contains("--preview")&&new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator)){
+    LocalizedMessage.Show(I18n.L("SofaRelay'i normal Windows hesabınızla açın. Yalnız sistem yardımcısı yönetici onayı istemelidir."),"SofaRelay");return 1;
+   }
+
    if(args.Contains("--recover")) {
     try{var s=Data.Read<CenterSettings>(settingsPath);string data=Path.Combine(string.IsNullOrEmpty(s.InstallRoot)?root:s.InstallRoot,"data");var result=WorkerRunner.Run(root,settingsPath,data,"Recover",null);if(!result.Success)LocalizedMessage.Show(result.Message,I18n.L("Ekranı geri getir"),MessageBoxButtons.OK,MessageBoxIcon.Warning);return result.Success?0:1;}catch(Exception ex){LocalizedMessage.Show(ex.Message,I18n.L("Ekranı geri getir"));return 1;}
    }
@@ -35,6 +44,7 @@ namespace SofaRelay {
  public static class WorkerRunner {
   public static string Quote(string text){return "\""+System.Text.RegularExpressions.Regex.Replace(System.Text.RegularExpressions.Regex.Replace(text,@"(\\*)""","$1$1\\\""),@"(\\+)$","$1$1")+"\"";}
   public static WorkerResult Run(string root,string settingsPath,string dataRoot,string action,Action<string> log,int fps=60) {
+   using(RuntimeIntegrity.LockVerified(root)){
    Directory.CreateDirectory(dataRoot);
    string resultFile=Path.Combine(dataRoot,"operation-"+Guid.NewGuid().ToString("N")+".json");
    string script=Path.Combine(root,"scripts","Worker.ps1");
@@ -46,6 +56,7 @@ namespace SofaRelay {
     process.Start();process.BeginOutputReadLine();process.BeginErrorReadLine();process.WaitForExit();
     if(!File.Exists(resultFile))return new WorkerResult {Success=false,Message=I18n.L("İşçi işlem sonuç üretemedi. Günlükteki hata ve paket dosyalarını kontrol edin.")};
     return Data.Read<WorkerResult>(resultFile);
+   }
    }
   }
  }
@@ -67,6 +78,7 @@ namespace SofaRelay {
   Dictionary<string,object> deviceData;
   bool previewMode;
   NumericUpDown width,height,hz,bitrate;
+  CheckBox watchdog,lanOnly,removeOwned;
   CheckBox autoClients,mouse,history,covers,steam,epic,gamepad,desktopTile,libraryTile,preserve,virtualDisplay,monitorOff,restore,automatic,hdr;
   readonly CheckedListBox libraries=new CheckedListBox();
   readonly DataGridView emulators=new DataGridView();
@@ -143,6 +155,7 @@ namespace SofaRelay {
    p=Page();mouse=Check(I18n.L("Klavye ve fareyle menü/yayın kontrolü açık"));gamepad=Check(I18n.L("Kumanda desteği açık"));desktopTile=Check(I18n.L("Moonlight'ta Masaüstü kutusunu göster"));libraryTile=Check(I18n.L("Moonlight'ta Oyun Kütüphanesi kutusunu göster"));preserve=Check(I18n.L("Diğer Sunshine uygulama kutularını koru"));p.Controls.Add(mouse);p.Controls.Add(gamepad);p.Controls.Add(desktopTile);p.Controls.Add(libraryTile);p.Controls.Add(preserve);
    p.Controls.Add(Paragraph(I18n.L("Klavye/fare seçeneği menü imlecini ve Sunshine girişini açar. Emülatör içindeki oyun tuşları kendi emülatör ayarlarından eşlenir.")));
    virtualDisplay=Check(I18n.L("Yayın için sanal ekran kullan"));monitorOff=Check(I18n.L("Yayın sırasında fiziksel monitörlerin sinyalini kapat"));restore=Check(I18n.L("Yayın bittiğinde önceki ekran düzenini geri getir"));automatic=Check(I18n.L("Çözünürlük ve Hz değerini Moonlight isteğine göre otomatik seç"));p.Controls.Add(virtualDisplay);p.Controls.Add(monitorOff);p.Controls.Add(restore);p.Controls.Add(automatic);
+   watchdog=Check(I18n.L("Çökme veya oturum açma sonrası ekranı otomatik kurtar"));lanOnly=Check(I18n.L("Sunshine erişimini özel yerel ağla sınırla"));p.Controls.Add(watchdog);p.Controls.Add(lanOnly);
    virtualDisplay.CheckedChanged+=(s,e)=>{monitorOff.Enabled=virtualDisplay.Checked;if(!virtualDisplay.Checked)monitorOff.Checked=false;};
    p.Controls.Add(Paragraph(I18n.L("İstemci türü")));client=new ComboBox {DropDownStyle=ComboBoxStyle.DropDownList,Width=650,BackColor=panelColor,ForeColor=Color.White};client.Items.AddRange(new object[]{"NVIDIA Shield","Android TV / Google TV",I18n.L("Windows / diğer")});p.Controls.Add(client);
    var modes=new FlowLayoutPanel {AutoSize=true};width=Number(640,7680,3840);height=Number(360,4320,2160);hz=Number(24,240,60);bitrate=Number(5,300,60);modes.Controls.Add(Paragraph(I18n.L("Genişlik")));modes.Controls.Add(width);modes.Controls.Add(Paragraph(I18n.L("Yükseklik")));modes.Controls.Add(height);modes.Controls.Add(Paragraph("Hz"));modes.Controls.Add(hz);modes.Controls.Add(Paragraph("Mbps"));modes.Controls.Add(bitrate);p.Controls.Add(modes);
@@ -161,12 +174,15 @@ namespace SofaRelay {
    p.Controls.Add(Button(I18n.L("Ayarları uygula / onar"),async()=>await Run("Apply",true)));p.Controls.Add(Button(I18n.L("Oyun kütüphanesini aç"),()=>OpenPlaynite(true)));p.Controls.Add(Button(I18n.L("Kimlik bilgisi içermeyen tanı raporu"),async()=>await Run("Diagnostics",false)));
    log.Multiline=true;log.ScrollBars=ScrollBars.Vertical;log.ReadOnly=true;log.BackColor=Color.FromArgb(9,16,26);log.ForeColor=Color.LightSteelBlue;log.Width=740;log.Height=220;log.Font=new Font("Consolas",9);p.Controls.Add(log);pages.Add(p);
    p=Page();p.Controls.Add(Paragraph(I18n.L("Bu araç kendi kurulumunuzun dosyalarını yedekler. İlk kullanıcıya ait ayarlar, hesaplar, ROM'lar, kayıtlar, PIN eşleşmeleri veya ekran kimlikleri dağıtımda bulunmaz. Eksik cihaz yetkisi ya da hesap girişi otomatik atlanmaz; gerekli adım uygulama içinde açıklanır.")));
+   removeOwned=Check(I18n.L("Kaldırırken yalnız SofaRelay'in kurduğu paylaşılan bileşenleri de kaldır"));p.Controls.Add(removeOwned);
+   p.Controls.Add(Button(I18n.L("SofaRelay entegrasyonunu kaldır"),async()=>{if(LocalizedMessage.Show(this,I18n.L("SofaRelay görevleri, ağ kuralları ve kısayolları kaldırılacak; güvenilir yedekler geri yüklenecek. Seçiliyse yalnız SofaRelay'in kurduğu Sunshine ve sürücüler kaldırılır. Oyunlar ve kayıtlar silinmez. Devam edilsin mi?"),"SofaRelay",MessageBoxButtons.YesNo)==DialogResult.Yes)await Run("Uninstall",true);}));
    p.Controls.Add(Button(I18n.L("Ayrıntılı rehberi aç"),()=>Open(GuidePath())));p.Controls.Add(Button(I18n.L("Fiziksel ekranı şimdi geri getir"),async()=>await Run("Recover",false)));p.Controls.Add(Button(I18n.L("Yedeklenen ayarları geri al"),async()=>{if(LocalizedMessage.Show(this,I18n.L("Kurulumun yedeklediği ayarlar geri alınacak. Playnite'ı ve yayını kapatın. Sonradan değişen dosyaların üzerine yazılmaz; oyun ve sürücüler silinmez. Devam edilsin mi?"),I18n.L("Ayarları geri al"),MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)await Run("Restore",false);}));p.Controls.Add(Button(I18n.L("Yerel yedek ve günlük klasörünü aç"),()=>Open(DataRoot())));
    p.Controls.Add(Section(I18n.L("Yaygın sorunlar")));p.Controls.Add(Paragraph(I18n.L("PC görünmüyor: aynı ağda olun; Windows ağı Özel olsun ve Sunshine güvenlik duvarı iznini kontrol edin. Modemin portlarını internete açmanız gerekmez.\nSiyah ekran / monitör dönmüyor: Ctrl+Alt+F11 veya Ekranı geri getir. Yayını kapatıp Tanı'yı yenileyin.\nYüksek Hz yok: Shield çıkış modu, HDMI kablo/port ve Moonlight FPS ayarı birlikte desteklemeli.\nOyun listesi boş: ilgili hesabı Playnite F9'dan bağlayıp F5'e basın.\nEski emülatör süresi boş: doğru veri klasörü ve başlık kimliğini seçin; sıfır geçmiş için süre uydurulmaz.\nWindows imzalı uygulama değil uyarısı: bu proje özel kod imzalama sertifikasına sahip değil. Paketi güvendiğiniz kaynaktan alın; SHA-256 dosyasını kontrol edin veya kaynaklardan derleyin. Windows korumalarını kapatmanız gerekmez.")));
    var links=new FlowLayoutPanel {AutoSize=true};links.Controls.Add(Button("App Installer / WinGet",()=>Open("https://apps.microsoft.com/detail/9nblggh4nns1")));links.Controls.Add(Button(I18n.L("GPU sürücüleri / gereksinimler"),()=>Open(GuidePath()+"#gereksinimler")));p.Controls.Add(links);
-   p.Controls.Add(Paragraph(I18n.L("SofaRelay 2.2.0 · Windows 10/11 x64 · .NET Framework 4.8\nOyun kurulumları Steam/Epic'te otomatik; EA/Ubisoft istemci akışı kullanılır. Emülatörler ve oyun dosyaları otomatik olarak internetten aranmaz.")));pages.Add(p);
+   p.Controls.Add(Paragraph(I18n.F("SofaRelay {0} · Windows 10/11 x64 · .NET Framework 4.8\nOyun kurulumları Steam/Epic'te otomatik; EA/Ubisoft istemci akışı kullanılır. Emülatörler ve oyun dosyaları otomatik olarak internetten aranmaz.",I18n.Version)));pages.Add(p);
   }
   void LoadFields() {
+   watchdog.Checked=settings.RecoveryWatchdog;lanOnly.Checked=settings.LANOnly;removeOwned.Checked=settings.RemoveOwnedComponents;
    install.Text=settings.InstallRoot;playnite.Text=settings.PlaynitePath;sunshine.Text=settings.SunshineDirectory;ip.Text=settings.DeviceAddress;vdd.Text=settings.VddDirectory;
    autoClients.Checked=settings.AutoInstallStoreClients;mouse.Checked=settings.MouseKeyboard;history.Checked=settings.SyncPlaytime;covers.Checked=settings.AutomaticCovers;steam.Checked=settings.SteamAutoInstall;epic.Checked=settings.EpicDirectInstall;gamepad.Checked=settings.Gamepad;
    desktopTile.Checked=settings.ShowDesktop;libraryTile.Checked=settings.ShowLibrary;preserve.Checked=settings.PreserveExistingApps;virtualDisplay.Checked=settings.VirtualDisplay;monitorOff.Checked=settings.TurnOffPhysicalMonitor;restore.Checked=settings.RestoreDisplay;automatic.Checked=settings.AutomaticDisplayMode;hdr.Checked=settings.HDR;
@@ -174,6 +190,7 @@ namespace SofaRelay {
    for(int i=0;i<libraries.Items.Count;i++)libraries.SetItemChecked(i,settings.Libraries.Contains(libraries.Items[i].ToString()));RefreshEmulators();
   }
   void ReadFields() {
+   settings.RecoveryWatchdog=watchdog.Checked;settings.LANOnly=lanOnly.Checked;settings.RemoveOwnedComponents=removeOwned.Checked;
    settings.InstallRoot=install.Text.Trim();settings.PlaynitePath=playnite.Text.Trim();settings.SunshineDirectory=sunshine.Text.Trim();settings.DeviceAddress=ip.Text.Trim();settings.VddDirectory=vdd.Text.Trim();
    settings.AutoInstallStoreClients=autoClients.Checked;settings.MouseKeyboard=mouse.Checked;settings.SyncPlaytime=history.Checked;settings.AutomaticCovers=covers.Checked;settings.SteamAutoInstall=steam.Checked;settings.EpicDirectInstall=epic.Checked;settings.Gamepad=gamepad.Checked;
    settings.ShowDesktop=desktopTile.Checked;settings.ShowLibrary=libraryTile.Checked;settings.PreserveExistingApps=preserve.Checked;settings.VirtualDisplay=virtualDisplay.Checked;settings.TurnOffPhysicalMonitor=monitorOff.Checked;settings.RestoreDisplay=restore.Checked;settings.AutomaticDisplayMode=automatic.Checked;settings.HDR=hdr.Checked;
@@ -213,6 +230,11 @@ namespace SofaRelay {
      var streaming=result.Data!=null && result.Data.ContainsKey("Streaming")?result.Data["Streaming"] as Dictionary<string,object>:null;bool reboot=streaming!=null && streaming.ContainsKey("RebootRequired") && Convert.ToBoolean(streaming["RebootRequired"]);
      LocalizedMessage.Show(this,I18n.L("Kurulum tamamlandı.")+(reboot?I18n.L("\nSürücü kurulumu Windows'u yeniden başlatmanızı istiyor. Yayını denemeden önce PC'yi yeniden başlatın."):"")+I18n.L("\n\n1. Kitaplıklar sayfasından Playnite'ı açıp kendi hesaplarınızı bağlayın.\n2. Shield / TV bağlantısı sayfasını izleyerek PIN eşleştirmesini yapın.\n3. Moonlight'ta Oyun Kütüphanesi kutusunu seçin.\n\nAyar uygulaması Windows Başlat menüsündeki SofaRelay klasörüne eklendi."),I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Information);
     }else if(action=="Diagnostics" && result.Data!=null){string file=Convert.ToString(result.Data["File"]);status.Text=I18n.L("Kimlik bilgileri içermeyen rapor: ")+file;Open(Path.GetDirectoryName(file));}
+    else if(action=="Uninstall"){
+     string message=I18n.L("Entegrasyon kaldırıldı. Uygulamayı kapatıp uygulama dosyalarını silebilirsiniz. Yedekleri ve oyun verilerini koruyun; ayrıntılar kaldırma rehberindedir.");
+     foreach(string scope in new[]{"System","User"}){object value;if(result.Data.TryGetValue(scope,out value)){var details=value as Dictionary<string,object>;object steps;if(details!=null&&details.TryGetValue("ManualSteps",out steps)){var items=steps as IEnumerable;if(items!=null)foreach(object item in items)message+="\r\n\r\n• "+Convert.ToString(item);}}}
+     LocalizedMessage.Show(this,message,"SofaRelay");
+    }
     else if(action=="InstallRetroArch")LocalizedMessage.Show(this,Convert.ToString(result.Data["Next"]),I18n.L("RetroArch hazır"));
     else status.Text=I18n.L("İşlem tamamlandı.");
    }catch(Exception ex){status.Text=I18n.L("İşlem tamamlanmadı.");LocalizedMessage.Show(this,ex.Message,I18n.L("SofaRelay"),MessageBoxButtons.OK,MessageBoxIcon.Error);}

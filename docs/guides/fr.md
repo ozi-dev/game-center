@@ -2,7 +2,7 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Projet](../readme/fr.md)
 
-L’installateur 2.2.0 est disponible en anglais, turc, français et espagnol. Choisissez **Français** dans la barre latérale ; le choix est enregistré et l’aide hors ligne suit cette langue. Appliquer les réglages sélectionne aussi le français dans Playnite. Utilisez Windows 10/11 Intel/AMD x64 avec .NET Framework 4.8, PowerShell 5.1, un pilote GPU récent et un encodeur compatible Sunshine. Internet sert à télécharger les composants ; PC et client doivent partager le même réseau.
+L’installateur 2.3.0 est disponible en anglais, turc, français et espagnol. Choisissez **Français** dans la barre latérale ; le choix est enregistré et l’aide hors ligne suit cette langue. Appliquer les réglages sélectionne aussi le français dans Playnite. Utilisez Windows 10/11 Intel/AMD x64 avec .NET Framework 4.8, PowerShell 5.1, un pilote GPU récent et un encodeur compatible Sunshine. Internet sert à télécharger les composants ; PC et client doivent partager le même réseau.
 
 ## Parcours de configuration
 
@@ -46,3 +46,15 @@ Les sauvegardes se trouvent dans `data/backups`. La restauration refuse d’écr
 Les jeux, ROM, BIOS, firmware, clés et sauvegardes ne sont pas fournis. Les profils FPS facultatifs exigent déjà un mod local compatible et ne garantissent pas de performances.
 
 [Tests](../TESTING.md) · [Crédits](../CREDITS.md) · [Manuel turc complet](manual.tr.html)
+
+## Vérification, récupération et suppression (2.3)
+
+Avant d’exécuter cet installateur non signé, vérifiez la somme et la provenance du build. L’aide propose une suppression selon la propriété des composants, une récupération à la connexion et un mode réseau local. Vous créez le mot de passe Sunshine ; aucune redirection de port du routeur n’est nécessaire.
+
+Fritchii/Lichii désignent des builds d’émulateur choisis par l’utilisateur, avec formats de lancement/historique compatibles ; ils ne sont ni inclus ni approuvés.
+
+[Verification](../VERIFYING.md) · [Troubleshooting](../TROUBLESHOOTING.md) · [Uninstall](../UNINSTALL.md) · [Security model](../../SECURITY.md)
+
+**RecoveryWatchdog / LANOnly / RemoveOwnedComponents**: La récupération utilise le compte normal et démarre après redémarrage à la connexion, sans garantie avant connexion. Le mode local limite Sunshine à Private/LocalSubnet, désactive UPnP et conserve l’interface web sur le PC. La suppression des composants est désactivée par défaut et exige une preuve protégée ; les fichiers partagés restent à vérifier. Installez les runtimes Visual C++ x64/x86 manquants via les installateurs Microsoft signés des prérequis. Ne lancez pas toute l’interface en administrateur.
+
+Microsoft prerequisites: [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) · [Visual C++ x64 + x86](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist).

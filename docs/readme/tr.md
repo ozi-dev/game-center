@@ -143,3 +143,15 @@ Yıldız ver, tekrarlanabilir bir hata bildir, çeviriyi iyileştir veya kod kat
 <sub>Özgün entegrasyon kodu MIT lisanslıdır. Diğer yazılımlar kendi lisanslarını korur. Görüntülerdeki oyun adları ve kapaklar ilgili hak sahiplerine aittir. <a href="../../THIRD-PARTY.md">Lisanslar ve bildirimler</a>.</sub>
 
 <p align="center"><sub>Bağımsız bir topluluk projesi. Geliştirici: <a href="https://github.com/ozi-dev"><b>ozi-dev</b></a>.</sub></p>
+
+## Neden SofaRelay?
+
+Kütüphaneyi Playnite, yayın sunucusunu Sunshine, istemciyi Moonlight sağlar. SofaRelay bunların kurulumunu birleştirir: mağaza ve emülatör bağlantıları, uyumlu oynanma geçmişi, TV’den kurulum yardımcıları, Desktop/kütüphane kutuları, ekran modları ve dört dilde ayarlar. Temel projeleri ayrı da kullanabilirsiniz.
+
+Fritchii/Lichii, uyumlu başlatma ve geçmiş biçimleriyle desteklenen, kullanıcının seçtiği emülatör derlemeleridir; pakete dahil değildir ve onaylı ortaklık iddiası yoktur.
+
+## Doğrulama, kurtarma ve kaldırma
+
+İmzasız kurucuyu çalıştırmadan önce sürümün hash ve derleme kaynağını doğrulayın. Yardımda sahiplik kontrollü kaldırma, isteğe bağlı oturum açılışı ekran kurtarma ve yalnız yerel ağ ayarları bulunur. Sunshine parolanızı siz oluşturursunuz; yerel yayın için modem portu açılmaz.
+
+[SHA-256 / provenance](../VERIFYING.md) · [Troubleshooting](../TROUBLESHOOTING.md) · [Uninstall](../UNINSTALL.md) · [Validation / upstream versions](../TESTING.md) · [2.3 audit](../AUDIT-2.3.md)

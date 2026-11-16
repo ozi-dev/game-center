@@ -1,0 +1,20 @@
+{
+    "Operations":  [
+                       "Apply-Protected.ps1",
+                       "Assert-PlayniteClosed.ps1",
+                       "Assert-Settings.ps1",
+                       "Device-Connect.ps1",
+                       "Initialize-Runtime.ps1",
+                       "Install-Addon.ps1",
+                       "Install-ClientMoonlight.ps1",
+                       "Install-PlayniteCore.ps1",
+                       "Install-StoreClients.ps1",
+                       "Invoke-Protected.ps1",
+                       "Protected-Uninstall.ps1",
+                       "Recover-Display.ps1",
+                       "Remove-UserIntegration.ps1",
+                       "Restore-Protected.ps1",
+                       "Save-DisplayBaseline.ps1",
+                       "Set-TotkProfile.ps1"
+                   ]
+}

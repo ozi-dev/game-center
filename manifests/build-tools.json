@@ -1,0 +1,25 @@
+{
+  "Tools": [
+    {
+      "Id": "roslyn",
+      "Version": "4.12.0",
+      "Url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/4.12.0/microsoft.net.compilers.toolset.4.12.0.nupkg",
+      "FileName": "roslyn.zip",
+      "Sha256": "fe24ef31a6ffcb7c49383d2fd362763dee291ad9b9d98cc0c19ef80203b99ebc"
+    },
+    {
+      "Id": "analyzer",
+      "Version": "1.25.0",
+      "Url": "https://github.com/PowerShell/PSScriptAnalyzer/releases/download/1.25.0/PSScriptAnalyzer.1.25.0.nupkg",
+      "FileName": "analyzer.zip",
+      "Sha256": "14e634c828eb98efb9f40b2918ba90f139ed5eccdf663a2a747736d996995d60"
+    },
+    {
+      "Id": "pester",
+      "Version": "5.7.1",
+      "Url": "https://www.powershellgallery.com/api/v2/package/Pester/5.7.1",
+      "FileName": "pester.zip",
+      "Sha256": "4a27904c6814a5fbe4758f8e49861f6a1994aee77b71165a5c43c0371ba6c580"
+    }
+  ]
+}

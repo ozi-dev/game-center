@@ -1,58 +1,48 @@
-﻿param([string]$BuildDirectory='build')
+﻿param([string]$BuildDirectory='build',[string]$ArtifactDirectory='dist')
 $ErrorActionPreference='Stop'
-$root=$PSScriptRoot;$build=Join-Path $root $BuildDirectory
-$release=Join-Path $root ('dist\SofaRelay-2.2.0-'+(Get-Date -Format yyyyMMdd-HHmmss))
-New-Item -ItemType Directory -Force -Path $release | Out-Null
-foreach($name in @('Installer.exe','SofaRelay.exe','SofaRelay.Core.dll','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
-$source=Join-Path $release 'source';New-Item -ItemType Directory -Force -Path $source | Out-Null
-foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','locales','manifests','docs','README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
-    $from=Join-Path $root $name
-    if(!(Get-Item -LiteralPath $from -Force).PSIsContainer){Copy-Item -LiteralPath $from -Destination $source;continue}
-    foreach($file in Get-ChildItem -LiteralPath $from -Recurse -File -Force){
-        $relative=$file.FullName.Substring($root.Length+1)
-        if($relative -match '^(src|tests|assets\\plugin|assets\\compat)\\.*\.(dll|exe)$'){continue}
-        $destination=Join-Path $source $relative;New-Item -ItemType Directory -Force -Path (Split-Path $destination -Parent) | Out-Null
-        Copy-Item -LiteralPath $file.FullName -Destination $destination
-    }
+$root=$PSScriptRoot
+. (Join-Path $root 'scripts\maintainer\BuildSupport.ps1')
+Import-Module (Join-Path $root 'scripts\Common.psm1') -Force -DisableNameChecking
+$version=(Get-Content -LiteralPath (Join-Path $root 'VERSION') -Raw).Trim()
+$build=Join-Path $root $BuildDirectory
+$output=Assert-InRoot (Join-Path $root $ArtifactDirectory) $root
+New-Item -ItemType Directory -Force -Path $output | Out-Null
+$zip=Join-Path $output ('SofaRelay-'+$version+'-Windows-x64.zip')
+if(Test-Path -LiteralPath $zip) { throw 'A versioned artifact already exists. Published release assets must not be overwritten.' }
+$public=@(Get-PublicSourceFiles $root)
+$files=[ordered]@{}
+foreach($name in @('Installer.exe','SofaRelay.exe','SofaRelay.Core.dll','SofaRelay.Native.dll','SofaRelay.Broker.exe','SofaRelay.Broker.exe.config','VERSION','BUILD-INFO.json')) { $files[$name]=Join-Path $build $name }
+foreach($name in $public) {
+    if($name -match '^(scripts|assets|locales|manifests|docs)/' -or $name -in @('README.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')) { $files[$name]=Join-Path $build $name }
+    if($name -notmatch '^(src|tests|assets/plugin|assets/compat)/.*\.(dll|exe)$') { $files['source/'+$name]=Join-Path $root $name }
 }
-@'
-SOFARELAY 2.2.0
-
-1. Extract the entire ZIP archive to a writable folder.
-2. Run Installer.exe and follow the seven guided pages.
-3. Project: README.md (English), docs/readme/tr.md, fr.md, es.md.
-   Offline help: docs/guides/en.html, tr.html, fr.html, es.html.
-   Extended Turkish manual: docs/guides/manual.tr.html.
-   Installer languages: English, Turkce, Francais, Espanol.
-
-Complete store sign-in and initial Moonlight PIN pairing on your own devices.
-For NVIDIA Shield, start with 4K at 60 Hz.
-Start menu: SofaRelay > SofaRelay Settings / Restore Display.
-Source code and tests are in the source directory.
-No games, credentials, saves or another user's configuration are included.
-Internet access downloads the selected components.
-Existing installation folders and emulator paths are preserved during upgrade.
-'@ | Set-Content -LiteralPath (Join-Path $release 'START-HERE.txt') -Encoding UTF8
-$files=@(Get-ChildItem -LiteralPath $release -Recurse -File)
+foreach($name in @('SofaRelay.Core.dll','SofaRelay.Plugin.dll','SteamTvInstall.exe')) { $files['assets/plugin/'+$name]=Join-Path $build ('assets\plugin\'+$name) }
+$files['assets/compat/LegacyLauncher.exe']=Join-Path $build 'assets\compat\LegacyLauncher.exe'
+$files['source/SOURCE-FILES.txt']=Join-Path $build 'SOURCE-FILES.txt'
+$start=Join-Path $output 'START-HERE.txt'
+[IO.File]::WriteAllText($start,("SOFARELAY $version`n`nExtract the complete ZIP, then run Installer.exe.`nStart menu: SofaRelay > SofaRelay Settings / Restore Display.`nRead docs/VERIFYING.md before running an unsigned download.`nOffline guides: docs/guides/en.html, tr.html, fr.html, es.html.`nUninstall and recovery: docs/UNINSTALL.md and docs/TROUBLESHOOTING.md.`nKeep your account data, game libraries and backups.`nNo games, firmware, keys, credentials or personal settings are included.`n"),[Text.UTF8Encoding]::new($false))
+$files['START-HERE.txt']=$start
 $blocked=@([Environment]::GetFolderPath('UserProfile'))
-$localSettings=Join-Path $root 'data\settings.json'
-if(Test-Path $localSettings){$private=Get-Content $localSettings -Raw -Encoding UTF8 | ConvertFrom-Json;foreach($property in @('DisplayId','DeviceAddress')){if($private.$property){$blocked+=@([string]$private.$property)}}}
-foreach($file in $files){
-    $relative=$file.FullName.Substring($release.Length+1)
-    if($relative -match '(?i)(^|\\)(data|downloads|reports|library|ExtensionsData)(\\|$)' -or $relative -match '(?i)\.(nsp|nup|xci|rom|sav|db)$' -or $relative -match '(?i)(prod\.keys|title\.keys|playtime\.bin|sunshine_state\.json)'){throw "Private payload forbidden: $relative"}
-    if($file.Extension -in '.cs','.ps1','.psm1','.py','.json','.yaml','.html','.md','.txt'){
-        $text=[IO.File]::ReadAllText($file.FullName)
-        $normalized=$text.Replace('\\','\').Replace('/','\')
-        foreach($marker in $blocked){if($marker -and $normalized.IndexOf($marker,[StringComparison]::OrdinalIgnoreCase) -ge 0){throw "Personal data detected: $relative"}}
+$settings=Read-Json (Join-Path $root 'data\settings.json')
+if($settings){foreach($key in @('DisplayId','DeviceAddress')){if($settings.PSObject.Properties[$key] -and $settings.$key){$blocked+=@([string]$settings.$key)}}}
+foreach($name in $files.Keys) {
+    $file=[string]$files[$name]
+    if(!(Test-Path -LiteralPath $file -PathType Leaf)) { throw "Required package file is missing: $name" }
+    if($name -match '(?i)(^|/)(data|downloads|reports|library|ExtensionsData)(/|$)|\.(nsp|nup|xci|rom|sav|db)$|prod\.keys|title\.keys|playtime\.bin|sunshine_state\.json') { throw "Private payload forbidden: $name" }
+    if([IO.Path]::GetExtension($file) -in @('.cs','.ps1','.psm1','.py','.json','.yaml','.html','.md','.txt')) {
+        $text=[IO.File]::ReadAllText($file).Replace('\\','\').Replace('/','\')
+        foreach($marker in $blocked){if($marker -and $text.IndexOf($marker,[StringComparison]::OrdinalIgnoreCase) -ge 0){throw "Personal data detected: $name"}}
     }
 }
-$hashes=@($files | ForEach-Object {((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())+'  '+$_.FullName.Substring($release.Length+1)})
-[IO.File]::WriteAllLines((Join-Path $release 'SHA256SUMS.txt'),$hashes,[Text.UTF8Encoding]::new($false))
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-$zip=Join-Path $root 'dist\SofaRelay-2.2.0-Windows-x64.zip'
-if(Test-Path -LiteralPath $zip){throw 'Release ZIP already exists; review or rename it before packaging.'}
-[IO.Compression.ZipFile]::CreateFromDirectory($release,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
+$internal=Join-Path $output 'payload-SHA256SUMS.txt'
+$lines=@($files.Keys | Sort-Object -CaseSensitive | ForEach-Object { (Get-FileHash -LiteralPath ([string]$files[$_]) -Algorithm SHA256).Hash.ToLowerInvariant()+'  '+$_ })
+[IO.File]::WriteAllText($internal,($lines -join "`n")+"`n",[Text.UTF8Encoding]::new($false))
+$files['SHA256SUMS.txt']=$internal
+New-DeterministicZip $zip $files
 $digest=(Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
-[IO.File]::WriteAllText(($zip+'.sha256'),$digest+'  '+[IO.Path]::GetFileName($zip)+"`r`n",[Text.UTF8Encoding]::new($false))
-@{Zip=$zip;Folder=$release;Files=$files.Count;Size=(Get-Item $zip).Length;SHA256=$digest} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'reports\release.json') -Encoding UTF8
-Write-Host "Ready: $zip ($([Math]::Round((Get-Item $zip).Length/1MB,2)) MB), $($files.Count) files; privacy allowlist passed."
+$checksum=$digest+'  '+[IO.Path]::GetFileName($zip)+"`n"
+[IO.File]::WriteAllText(($zip+'.sha256'),$checksum,[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $output 'SHA256SUMS.txt'),$checksum,[Text.UTF8Encoding]::new($false))
+New-Item -ItemType Directory -Force -Path (Join-Path $root 'reports') | Out-Null
+Write-Json (Join-Path $root 'reports\release.json') @{Zip=$zip;Version=$version;Files=$files.Count;Size=(Get-Item -LiteralPath $zip).Length;SHA256=$digest}
+Write-Output "Package ready: $zip; $($files.Count) allowlisted files; SHA256 $digest"

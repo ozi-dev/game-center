@@ -40,9 +40,15 @@ Assert ((Get-PlayniteDataDirectory $play) -eq (Join-Path $env:APPDATA 'Playnite'
 # Run the real protected configuration functions with all system/driver/service
 # boundaries mocked; writes are confined to this disposable project fixture.
 Add-Type -Path (Join-Path $root ($OutputDirectory+'\SofaRelay.Core.dll'))
-$workerAst=[Management.Automation.Language.Parser]::ParseFile((Join-Path $root 'scripts\Worker.ps1'),[ref]$null,[ref]$null)
-foreach($name in @('Assert-Settings','Apply-Protected','Restore-Protected')){$definition=$workerAst.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name},$true);. ([scriptblock]::Create($definition.Extent.Text))}
+. (Join-Path $root 'scripts\ProtectedState.ps1')
+. (Join-Path $root 'scripts\ConfigTransaction.ps1')
+foreach($name in @('Assert-Settings','Apply-Protected','Restore-Protected')){. (Join-Path $root ('scripts\operations\'+$name+'.ps1'))}
 function Is-Admin{return $true}
+function Assert-PrivilegedContext{}
+function Assert-ComponentDirectory{param($Directory)}
+function Set-LanFirewallPolicy{param($Sunshine,$Enabled)}
+function Set-RecoveryTask{param($Enabled)}
+function Invoke-IntegrationTransaction{param($Sunshine,$Operation) & $Operation}
 function Assert-StreamIdle{}
 function Save-DisplayBaseline{}
 function Get-ItemPropertyValue{param($Path,$Name,$ErrorAction) return 528040}

@@ -13,9 +13,29 @@ function Write-Json([string]$Path,$Object) {
     }else{[IO.File]::Move($temp,$Path)}
 }
 function Resolve-Full([string]$Path) { [IO.Path]::GetFullPath([Environment]::ExpandEnvironmentVariables($Path)) }
+function Write-BytesAtomic([string]$Path,[byte[]]$Bytes) {
+    $parent=Split-Path $Path -Parent
+    New-Item -ItemType Directory -Force -Path $parent | Out-Null
+    $temp=Join-Path $parent ([guid]::NewGuid().ToString('N')+'.tmp')
+    [IO.File]::WriteAllBytes($temp,$Bytes)
+    try {
+        if(Test-Path -LiteralPath $Path) {
+            for($attempt=0;$attempt -lt 25;$attempt++) {
+                try { [IO.File]::Replace($temp,$Path,[System.Management.Automation.Language.NullString]::Value,$true);break }
+                catch [IO.IOException] { if($attempt -eq 24){throw};Start-Sleep -Milliseconds 80 }
+            }
+        }
+        else { [IO.File]::Move($temp,$Path) }
+    } finally { if(Test-Path -LiteralPath $temp) { Remove-Item -LiteralPath $temp -Force } }
+}
 function Assert-InRoot([string]$Path,[string]$Root) {
     $full=Resolve-Full $Path;$boundary=(Resolve-Full $Root).TrimEnd('\')+'\'
     if(!$full.StartsWith($boundary,[StringComparison]::OrdinalIgnoreCase)){throw (L 'Beklenmeyen hedef: {0}' @($full))}
+    $part=$full
+    while($part -and $part -ne [IO.Path]::GetPathRoot($part)) {
+        if((Test-Path -LiteralPath $part) -and ((Get-Item -LiteralPath $part -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Reparse points are not accepted for managed file writes.' }
+        $part=Split-Path $part -Parent
+    }
     $full
 }
 function Quote-WindowsArgument([string]$Value) {
@@ -35,7 +55,7 @@ function Get-Component([string]$Id,[string]$PackageRoot,[string]$DataRoot) {
     $manifest=Read-Json (Join-Path $PackageRoot 'manifests\packages.json')
     $item=$manifest.Packages | Where-Object Id -eq $Id | Select-Object -First 1
     if(!$item){throw (L 'Bileşen listede yok: {0}' @(($Id)))}
-    if($item.Url -notmatch '^https://(github\.com|playnite\.link|dl\.google\.com|buildbot\.libretro\.com)/' -or $item.Sha256 -notmatch '^[0-9a-fA-F]{64}$'){throw (L 'Geçersiz paket kaynağı veya özeti.')}
+    if(!$item.Version -or $item.Url -match '/(?:latest|master|main)(?:/|$)' -or $item.FileName -ne [IO.Path]::GetFileName($item.FileName) -or $item.FileName -match '[:\\/]' -or $item.Url -notmatch '^https://(github\.com|playnite\.link|dl\.google\.com|buildbot\.libretro\.com)/' -or $item.Sha256 -notmatch '^[0-9a-fA-F]{64}$'){throw (L 'Geçersiz paket kaynağı veya özeti.')}
     $cache=Join-Path $DataRoot 'downloads';New-Item -ItemType Directory -Force -Path $cache | Out-Null
     $path=Assert-InRoot (Join-Path $cache $item.FileName) $cache
     $valid=(Test-Path -LiteralPath $path) -and ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -eq $item.Sha256)
@@ -43,9 +63,16 @@ function Get-Component([string]$Id,[string]$PackageRoot,[string]$DataRoot) {
         Write-Output (L 'İndiriliyor: {0} {1}' @(($item.Name),($item.Version))) | Out-Host
         $part=$path+'.part'
         [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $item.Url -OutFile $part -UseBasicParsing -TimeoutSec 300
-        if((Get-FileHash -LiteralPath $part -Algorithm SHA256).Hash -ne $item.Sha256){throw (L '{0} dosya doğrulaması başarısız; çalıştırılmadı.' @(($item.Name)))}
-        Move-Item -LiteralPath $part -Destination $path -Force
+        $previousProgress = $ProgressPreference
+        try {
+            $ProgressPreference = 'SilentlyContinue'
+            Invoke-WebRequest -Uri $item.Url -OutFile $part -UseBasicParsing -TimeoutSec 300
+            if((Get-FileHash -LiteralPath $part -Algorithm SHA256).Hash -ne $item.Sha256){throw (L '{0} dosya doğrulaması başarısız; çalıştırılmadı.' @(($item.Name)))}
+            Move-Item -LiteralPath $part -Destination $path -Force
+        } finally {
+            $ProgressPreference = $previousProgress
+            if(Test-Path -LiteralPath $part){Remove-Item -LiteralPath $part -Force}
+        }
     }
     return $path
 }
@@ -54,6 +81,11 @@ function Expand-ZipSafe([string]$Archive,[string]$Destination) {
     New-Item -ItemType Directory -Force -Path $Destination | Out-Null
     $zip=[IO.Compression.ZipFile]::OpenRead($Archive)
     try {
+        # Validate the complete archive before the first file is extracted.
+        foreach($entry in $zip.Entries){
+            if($entry.FullName -match '[:]' -or (($entry.ExternalAttributes -shr 16) -band 0xF000) -eq 0xA000){throw 'Unsafe archive entry.'}
+            $null=Assert-InRoot (Join-Path $Destination $entry.FullName) $Destination
+        }
         foreach($entry in $zip.Entries){
             $out=Assert-InRoot (Join-Path $Destination $entry.FullName) $Destination
             if($entry.FullName.EndsWith('/')){New-Item -ItemType Directory -Force -Path $out | Out-Null;continue}
@@ -111,7 +143,7 @@ function Get-SunshineDisplays([string]$Directory) {
         if($lines[$i] -notmatch 'Currently available display devices:'){continue}
         $block=[Collections.Generic.List[string]]::new()
         for($j=$i+1;$j -lt $lines.Count;$j++){$block.Add($lines[$j]);if($lines[$j].Trim() -eq ']'){break}}
-        try{return @((($block -join "`n") | ConvertFrom-Json))}catch{}
+        try{return @((($block -join "`n") | ConvertFrom-Json))}catch{Write-Verbose 'A display-log block was incomplete; trying an earlier block.'}
     };return @()
 }
 function Get-StreamState {

@@ -16,6 +16,7 @@ using Playnite.SDK.Events;
 namespace SofaRelay {
  [LoadPlugin]
  public class CenterPlugin : GenericPlugin {
+  // Legacy identity: do not rename; existing libraries/playtime state depend on it.
   public override Guid Id { get { return new Guid("15378b45-7634-47ed-8570-69ad2d7a9067"); } }
   readonly string pluginDirectory;
   readonly string stateFile;

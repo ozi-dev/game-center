@@ -1,0 +1,22 @@
+name: Weekly links and upstream review
+on:
+  schedule:
+    - cron: '30 7 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check public documentation URLs
+        run: python scripts/maintainer/CheckLinks.py
+      - name: Report upstream releases without changing pins
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/maintainer/CheckUpstream.py

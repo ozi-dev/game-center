@@ -2,7 +2,7 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Project](../../README.md)
 
-The 2.2.0 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
+The 2.3.0 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
 
 ## Before you begin
 
@@ -58,3 +58,15 @@ Start with 1080p60 / 20 Mbps, then raise quality if the network is stable. Shiel
 Backups and settings are under the installed folder's `data` directory. Use Start → SofaRelay → **SofaRelay Settings** afterward. The optional TOTK buttons only edit an already installed compatible local Dynamic FPS profile; use the emulator/mod's own documentation for compatibility.
 
 [Full original Turkish manual](manual.tr.html) · [Testing limits](../TESTING.md) · [Credits](../CREDITS.md)
+
+## Verification, recovery and removal (2.3)
+
+Before running the unsigned installer, verify the release checksum and build provenance. Help includes ownership-aware removal, optional sign-in display recovery and LAN-only controls. Sunshine asks you to create your own password; local streaming needs no router port forwarding.
+
+Fritchii/Lichii are user-selected emulator builds supported through compatible launch/history formats; they are not bundled or endorsed.
+
+[Verification](../VERIFYING.md) · [Troubleshooting](../TROUBLESHOOTING.md) · [Uninstall](../UNINSTALL.md) · [Security model](../../SECURITY.md)
+
+**RecoveryWatchdog / LANOnly / RemoveOwnedComponents**: Optional recovery runs with the user token and after reboot at sign-in, not before login. LAN-only limits Sunshine to Private/LocalSubnet, disables UPnP and keeps the web UI local. Component removal is off by default; only protected ownership permits removal, and driver-store/shared files need manual review. A missing Visual C++ x64/x86 runtime must be installed with Microsoft’s signed installer linked in Requirements before applying system settings. Never elevate the whole GUI.
+
+Microsoft prerequisites: [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) · [Visual C++ x64 + x86](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist).

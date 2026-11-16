@@ -143,3 +143,15 @@ Ajoutez une étoile, signalez un bogue reproductible, améliorez une traduction 
 <sub>Code d’intégration original sous licence MIT. Les logiciels tiers gardent leurs licences. Les titres et jaquettes appartiennent à leurs ayants droit. <a href="../../THIRD-PARTY.md">Licences et mentions</a>.</sub>
 
 <p align="center"><sub>Un projet communautaire indépendant par <a href="https://github.com/ozi-dev"><b>ozi-dev</b></a>.</sub></p>
+
+## Pourquoi SofaRelay ?
+
+Playnite fournit la bibliothèque, Sunshine le serveur et Moonlight le client. SofaRelay relie leur configuration : boutiques et émulateurs, historique compatible, aides à l’installation depuis le canapé, tuiles Desktop/bibliothèque, modes d’affichage et réglages guidés en quatre langues. Les projets d’origine restent utilisables séparément.
+
+Fritchii/Lichii désignent des builds d’émulateur choisis par l’utilisateur, avec formats de lancement/historique compatibles ; ils ne sont ni inclus ni approuvés.
+
+## Vérification, récupération et suppression
+
+Avant d’exécuter cet installateur non signé, vérifiez la somme et la provenance du build. L’aide propose une suppression selon la propriété des composants, une récupération à la connexion et un mode réseau local. Vous créez le mot de passe Sunshine ; aucune redirection de port du routeur n’est nécessaire.
+
+[SHA-256 / provenance](../VERIFYING.md) · [Troubleshooting](../TROUBLESHOOTING.md) · [Uninstall](../UNINSTALL.md) · [Validation / upstream versions](../TESTING.md) · [2.3 audit](../AUDIT-2.3.md)

@@ -8,7 +8,11 @@
       "FileName": "Playnite-10.64.7z",
       "Sha256": "a4538628d6a0f49cd337c8a8640294849d736217bf4d2d7c99c1eb1b68428611",
       "Kind": "7z",
-      "Version": "10.64"
+      "Version": "10.64",
+      "ExpectedPublisher": "SignPath Foundation",
+      "SignerThumbprints": [
+        "E491F092639A94BA474A1B8BD14D2CFA4B7A9059"
+      ]
     },
     {
       "Id": "steam",
@@ -98,7 +102,11 @@
       "FileName": "Sunshine-Windows-AMD64-installer.msi",
       "Sha256": "1d7fed8beecd5889dc7ff14cf9f42d6d38f37c3066c13c6c2a5f4e91847e0ccf",
       "Kind": "msi",
-      "Version": "2026.914.233613"
+      "Version": "2026.914.233613",
+      "ExpectedPublisher": "David Lane",
+      "SignerThumbprints": [
+        "A3B692F446B48AEF2F40D34F1FCE91F268654DEC"
+      ]
     },
     {
       "Id": "vdd",
@@ -107,7 +115,11 @@
       "FileName": "VirtualDisplayDriver-x86.Driver.Only.zip",
       "Sha256": "e24210692b442b39af763536330ce78b423f19342b7a7792c26de3944e418b3a",
       "Kind": "driver",
-      "Version": "25.7.23"
+      "Version": "25.7.23",
+      "ExpectedPublisher": "SignPath Foundation",
+      "SignerThumbprints": [
+        "3CF8CF26D8BA266C3A483AB7D26D4A818E317D76"
+      ]
     },
     {
       "Id": "vigem",
@@ -116,7 +128,11 @@
       "FileName": "ViGEmBus_1.22.0_x64_x86_arm64.exe",
       "Sha256": "89220a7865076b342892f98865f3499fb7c4cfd673159e89d352c360fd014c6a",
       "Kind": "exe",
-      "Version": "1.22.0"
+      "Version": "1.22.0",
+      "ExpectedPublisher": "Nefarius Software Solutions e.U.",
+      "SignerThumbprints": [
+        "1F431092EC96A80B41AB5317F53AC02EA6F9B89B"
+      ]
     },
     {
       "Id": "adb",

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3.0 — 2026-11-16
+
+- Replace elevated user-folder scripts with an embedded, hash-bound broker and protected Program Files code / ProgramData machine state; validate request ownership and exact restore targets.
+- Separate normal-user restore/settings from protected restore. Reject legacy mutable privileged journals and unprotected component directories.
+- Add ownership-aware integration removal, preserving shared applications, games and driver-store packages; report manual cleanup steps.
+- Pin reviewed Authenticode certificate identities; clean partial downloads and record library-update failures.
+- Add optional unelevated sign-in display recovery, LAN-only Sunshine/firewall controls and caught-error configuration/task/firewall rollback.
+- Centralize VERSION; use a pinned deterministic compiler and fixed ZIP timestamps. Build/test tagged releases in Windows 2022/2025 CI, publish SHA-256 checksums and GitHub build-provenance attestations.
+- Split worker operations, add security-focused PowerShell analysis, Pester/privacy/tamper/broker-boundary tests, link checks and weekly upstream review.
+- Expand four-language setup/help with verification, troubleshooting, removal, trust boundaries and explicit hardware/signing test limits.
+
 ## 2.2.0 — 2026-11-16
 
 - Rename the project to SofaRelay; use Installer.exe, SofaRelay.exe and START-HERE.txt.

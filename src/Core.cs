@@ -21,7 +21,8 @@ namespace SofaRelay {
   public Dictionary<string,string> TitleMappings=new Dictionary<string,string>();
  }
  public class CenterSettings {
-  public int SchemaVersion=2;
+  public int SchemaVersion=3;
+  public bool RecoveryWatchdog=true,LANOnly=true,RemoveOwnedComponents=false;
   public string UILanguage="";
   public string InstallRoot="", PlaynitePath="", SunshineDirectory="", ClientKind="Shield", DeviceAddress="", DisplayId="", VddDirectory=@"C:\VirtualDisplayDriver";
   public bool AutoInstallStoreClients=true, MouseKeyboard=true, SyncPlaytime=true, AutomaticCovers=true, SteamAutoInstall=true, EpicDirectInstall=true, ShowDesktop=true, ShowLibrary=true, PreserveExistingApps=true, VirtualDisplay=true, TurnOffPhysicalMonitor=true, RestoreDisplay=true, AutomaticDisplayMode=true, HDR=false, Gamepad=true;
@@ -30,6 +31,17 @@ namespace SofaRelay {
   public List<EmulatorConfig> Emulators=new List<EmulatorConfig>();
  }
  public class IntegrationConfig { public string SettingsPath="", RuntimeRoot="", SettingsApp=""; }
+ public class RecoveryCheckpoint { public bool Pending;public int IdleSamples; }
+ public static class RecoveryPolicy {
+  public static bool Advance(RecoveryCheckpoint state,bool enabled,string stream,bool physicalMissing) {
+   if(!enabled){state.Pending=false;state.IdleSamples=0;return false;}
+   if(stream=="SUNSHINE_SERVER_BUSY"){state.Pending=true;state.IdleSamples=0;return false;}
+   if(stream!="SUNSHINE_SERVER_FREE"&&stream!="NOT_RUNNING"){state.IdleSamples=0;return false;}
+   if(!state.Pending&&!physicalMissing){state.IdleSamples=0;return false;}
+   state.Pending=true;state.IdleSamples++;
+   return state.IdleSamples>=3;
+  }
+ }
  public class MergeState { public ulong SourceSeconds, UnifiedSeconds; }
  public static class Data {
   public static JavaScriptSerializer Serializer() { return new JavaScriptSerializer { MaxJsonLength=16*1024*1024, RecursionLimit=60 }; }

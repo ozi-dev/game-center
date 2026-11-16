@@ -82,9 +82,13 @@ function OnApplicationStarted {
         }
         $profiles=@(Update-CenterLibrary $Settings);Update-CenterFilters $Settings
         @{Success=$true;SettingsHash=$hash;Profiles=$profiles;Games=$PlayniteApi.Database.Games.Count;Time=(Get-Date).ToString('o')} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $control.ReportPath -Encoding UTF8
-    }catch{if($control){@{Success=$false;Message=$_.Exception.Message;Stack=$_.ScriptStackTrace} | ConvertTo-Json | Set-Content -LiteralPath $control.ReportPath -Encoding UTF8}else{try{@{Success=$false;Message=$_.Exception.Message;Stack=$_.ScriptStackTrace} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $CurrentExtensionInstallPath 'setup-error.json') -Encoding UTF8}catch{}}}
+    }catch{if($control){@{Success=$false;Message=$_.Exception.Message;Stack=$_.ScriptStackTrace} | ConvertTo-Json | Set-Content -LiteralPath $control.ReportPath -Encoding UTF8}else{try{@{Success=$false;Message=$_.Exception.Message;Stack=$_.ScriptStackTrace} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $CurrentExtensionInstallPath 'setup-error.json') -Encoding UTF8}catch{Write-Warning 'SofaRelay could not write the library setup error report.'}}}
 }
 function OnLibraryUpdated {
-    try{$context=Read-CenterSetup;[void](Update-CenterLibrary $context.Settings)}catch{}
+    $context=$null
+    try{$context=Read-CenterSetup;[void](Update-CenterLibrary $context.Settings)}catch{
+        $path=if($context){$context.Control.ReportPath}else{Join-Path $CurrentExtensionInstallPath 'setup-error.json'}
+        @{Success=$false;Stage='OnLibraryUpdated';Message=$_.Exception.Message;Time=(Get-Date).ToString('o')} | ConvertTo-Json | Set-Content -LiteralPath $path -Encoding UTF8
+    }
 }
 Export-ModuleMember -Function *

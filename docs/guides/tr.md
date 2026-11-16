@@ -2,7 +2,7 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proje](../readme/tr.md)
 
-2.2.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
+2.3.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
 
 Tam Türkçe rehber paketteki **[Ayrıntılı Türkçe rehber](manual.tr.html)** dosyasında bulunur ve çevrimdışı okunabilir.
 
@@ -30,3 +30,15 @@ Sonraki ayarlar **Başlat → SofaRelay → SofaRelay Settings** içindedir. **A
 - **Hesaplar ve dosyalar:** hesap girişi/PIN kullanıcıya aittir. Paket oyun, firmware, BIOS, anahtar ve kişisel kayıt içermez. EA/Ubisoft/Xbox ve bazı üçüncü taraf oyunların kurulum akışı ek onay isteyebilir.
 
 [Gereksinimler ve ayrıntılı sorun çözme](manual.tr.html) · [Test kapsamı](../TESTING.md) · [Emeği geçenler](../CREDITS.md)
+
+## Doğrulama, kurtarma ve kaldırma (2.3)
+
+İmzasız kurucuyu çalıştırmadan önce sürümün hash ve derleme kaynağını doğrulayın. Yardımda sahiplik kontrollü kaldırma, isteğe bağlı oturum açılışı ekran kurtarma ve yalnız yerel ağ ayarları bulunur. Sunshine parolanızı siz oluşturursunuz; yerel yayın için modem portu açılmaz.
+
+Fritchii/Lichii, uyumlu başlatma ve geçmiş biçimleriyle desteklenen, kullanıcının seçtiği emülatör derlemeleridir; pakete dahil değildir ve onaylı ortaklık iddiası yoktur.
+
+[Verification](../VERIFYING.md) · [Troubleshooting](../TROUBLESHOOTING.md) · [Uninstall](../UNINSTALL.md) · [Security model](../../SECURITY.md)
+
+**RecoveryWatchdog / LANOnly / RemoveOwnedComponents**: İsteğe bağlı kurtarma normal kullanıcı yetkisiyle, yeniden başlatmada oturum açılınca çalışır; giriş ekranından önce garanti yoktur. Yerel ağ seçeneği Sunshine’ı Private/LocalSubnet ile sınırlar, UPnP’yi kapatır ve web arayüzünü PC’de tutar. Bileşen kaldırma varsayılan kapalıdır; korumalı sahiplik kaydı gerekir, sürücü deposu ve paylaşılan dosyalar elle incelenir. Visual C++ x64/x86 eksikse Gereksinimler’deki imzalı Microsoft kurucusunu çalıştırın. Arayüzün tamamını yönetici olarak açmayın.
+
+Microsoft prerequisites: [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) · [Visual C++ x64 + x86](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist).

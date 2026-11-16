@@ -5,37 +5,83 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      package:
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   windows:
-    runs-on: windows-2022
-    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Check public source and documentation
+      - name: Check public source and local links
         shell: powershell
-        run: python scripts/maintainer/CheckPublic.py --tracked
+        run: |
+          python scripts/maintainer/CheckPublic.py --tracked
+          if ($LASTEXITCODE) { throw 'Public source check failed' }
+          python scripts/maintainer/CheckLinks.py --offline
+          if ($LASTEXITCODE) { throw 'Documentation link check failed' }
       - name: Fetch pinned Playnite SDK
         shell: powershell
         run: |
-          Import-Module .\scripts\Common.psm1 -Force -DisableNameChecking
-          $archive = Get-Component 'playnite' $PWD (Join-Path $PWD 'downloads')
-          & .\assets\tools\7zip\7za.exe x $archive '-odownloads\Playnite' -y -bso0 -bsp0
+          Import-Module ./scripts/Common.psm1 -Force -DisableNameChecking
+          $archive = Get-Component playnite $PWD (Join-Path $PWD downloads)
+          & ./assets/tools/7zip/7za.exe x $archive '-odownloads/Playnite' -y -bso0 -bsp0
           if ($LASTEXITCODE) { throw 'Playnite extraction failed' }
-      - name: Compile and test core
+      - name: Compile deterministic binaries and test core/localization
         shell: powershell
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./Build.ps1
       - name: Test backend against isolated fixtures
         shell: powershell
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\BackendTests.ps1
-      - name: Check wizard
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/BackendTests.ps1
+      - name: Run Pester security and privacy regressions
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/maintainer/Run-SecurityTests.ps1
+      - name: Run security-focused PSScriptAnalyzer
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/maintainer/Test-Scripts.ps1
+      - name: Exercise actual diagnostic export
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/DiagnosticsSmoke.ps1
+      - name: Check broker boundaries and runtime tampering
         shell: powershell
         run: |
-          $process = Start-Process .\build\SofaRelay.exe -ArgumentList '--selftest' -Wait -PassThru
+          powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/BrokerBoundaryTests.ps1
+          if ($LASTEXITCODE) { throw 'Broker boundary tests failed' }
+          powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/RuntimeIntegrityTests.ps1
+          if ($LASTEXITCODE) { throw 'Runtime tampering tests failed' }
+      - name: Check wizard and embedded broker
+        shell: powershell
+        run: |
+          $process = Start-Process ./build/SofaRelay.exe -ArgumentList '--selftest' -WindowStyle Hidden -Wait -PassThru
           if ($process.ExitCode) { throw 'Wizard self-test failed' }
+          ./build/SofaRelay.Broker.exe --selftest
+          if ($LASTEXITCODE) { throw 'Broker payload self-test failed' }
+      - name: Package verified release files
+        if: inputs.package && matrix.os == 'windows-2022'
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./Package.ps1
+      - name: Upload verified release files
+        if: inputs.package && matrix.os == 'windows-2022'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-windows-2022
+          path: |
+            dist/SofaRelay-*-Windows-x64.zip
+            dist/SofaRelay-*-Windows-x64.zip.sha256
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

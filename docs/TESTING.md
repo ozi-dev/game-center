@@ -1,28 +1,59 @@
-# Validation for 2.2.0
+# Validation for 2.3.0
 
-Validated on Windows 11 x64, PowerShell 5.1, .NET Framework 4.8 and Playnite 10.64.
+The implementation is checked against isolated project fixtures on Windows 11 x64, PowerShell 5.1, .NET Framework 4.8 and Playnite 10.64. The current CI matrix runs **windows-2022 and windows-2025**. Test output and release provenance provide the actual run status; a configured workflow alone is not evidence of a passing run.
 
-- 20 core assertions: historical import, overlapping sessions counted once, separate direct sessions, repeated synchronization, source counter reset, binary record parsing, incomplete writes, title ID matching, RetroArch aggregate/per-core transition, Shield mode validation.
-- 55 backend assertions: atomic file writes, original backups and applied hashes, path/ZIP traversal rejection, Windows argument quoting, configuration preservation, provider selection and correct IDs, authentication-field preservation, installed/portable Playnite data paths, all pinned component records, real configuration functions exercised against isolated fixtures, custom VDD modes, repeat apply without duplicate apps/modes, restore conflict preflight and original settings restoration.
-- 1,950 localization assertions: all four 241-string catalogs, nonempty translations, format-placeholder parity, language normalization, translated validation, argument preservation and settings persistence.
-- Separate worker processes rejected invalid settings with the expected translated validation message in all four languages, before creating an installation directory.
-- WinForms seven-page navigation and settings binding and four-language switching self-test; all seven pages rendered, with sample layouts visually inspected during development.
-- Actual fresh Playnite extraction and native extension loading from a folder containing spaces. Native emulator registration, automatic scanner import and a synthetic 1,234-second playtime record succeeded. Restart and repeated setup preserved the same game/profile and duration. No actual game was launched for these tests.
-- Existing installation migration reused the existing emulator profile/scanner IDs, preserved cumulative playtime and enabled the mouse cursor.
-- Release is assembled from an explicit allowlist. Personal paths, device IDs, user data directories, game databases, credentials, ROMs, keys and saves are rejected. ZIP contents and per-file SHA-256 values are checked after extraction.
+| Check | Scope |
+| --- | --- |
+| Core assertions | 29 checks including playtime imports/overlap/reset, title matching, migration, mode validation and crash/sign-in/unknown/active-stream recovery policy. |
+| Localization assertions | 2,062 checks over 255 keys in EN/TR/FR/ES: exact key parity, nonempty translations, placeholder equality, normalization, validation and persistence. |
+| Backend fixtures (62 assertions) | Atomic writes/backups, ZIP/path traversal, quoting, provider IDs/auth preservation, real configuration apply/reapply/restore/conflict preflight and upgrades. System/driver/service boundaries are mocked. |
+| Pester security/privacy (13 tests) | Bad-download cleanup, whole-ZIP preflight, forged protected targets/backups, valid-but-wrong signers, exact-byte configuration rollback, shared-component preservation, invalid driver ownership and firewall preflight. |
+| Broker boundary checks | Local path confinement, existing result rejection, mismatched owner/system root rejection, junction rejection, runtime directory lease prevents rename while permitting child result writes. No UAC/elevation occurs. |
+| Actual Diagnostics action | Runs the real worker against read-only system diagnosis; examines the exported schema for current username/hostname, addresses, paths and account fields. Injected token/email/name fixtures are separate Pester tests. |
+| Runtime tamper checks | An unchanged runtime succeeds; altered Worker.ps1, changed package manifest and an injected operation are rejected before setup. |
+| Static analysis | All tracked PowerShell is parsed; selected PSScriptAnalyzer security rules reject IEX, empty catches, plaintext credential patterns and related issues. No machine-wide execution-policy mutation. |
+| UI/package | Seven-page wizard self-test; broker embedded-payload self-test; explicit public allowlist, per-file/ZIP SHA-256; local documentation references and four-language navigation. |
 
-Hardware and accounts still require a first-use check on the receiving computer. A clean Windows VM, physical Shield playback, HDMI high-refresh output, new Sunshine/ViGEm/VDD installation and ADB authorization were not tested on the friend's hardware. System/driver/service boundaries in protected configuration tests are mocked; existing local Sunshine streaming settings were not changed for those tests. Store UI revisions may require the documented controller-mouse fallback.
-
-To reproduce the code checks, use separate PowerShell processes (loading a DLL locks it for that process):
+Reproduce in separate PowerShell processes (loaded DLLs remain locked):
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1 -PlayniteSdkPath "D:\Playnite\Playnite.SDK.dll"
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\BackendTests.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\maintainer\Run-SecurityTests.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\maintainer\Test-Scripts.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\BrokerBoundaryTests.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\DiagnosticsSmoke.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\RuntimeIntegrityTests.ps1
 .\build\SofaRelay.exe --selftest
+python scripts/maintainer/CheckPublic.py --tracked
+python scripts/maintainer/CheckLinks.py --offline
 ```
 
-`tests/Prepare-Smoke.ps1` creates a synthetic scanner fixture under `reports`; its executable is a placeholder and its fake ROM must never be launched. Advanced `Worker.ps1 -Action CoreOnly -NoShortcuts` isolates the Playnite installation stage from system changes.
+## Limits requiring a clean VM / receiving hardware
 
-Documentation media: all seven wizard pages were captured in each of the four languages with example paths. Fullscreen store/emulator screenshots and navigation GIFs were captured from the maintainer’s real connected library in each native Playnite language, without launching games. Game/library databases and account data are not included in the package.
+A fresh end-to-end elevated broker install/uninstall, alternate-admin UAC, power interruption during machine changes, real reboot/sign-in restoration, driver-store cleanup and forced process-crash hardware restoration have **not** been validated by these fixture tests. Real Sunshine/ViGEm/VDD installation, physical Shield playback/HDMI high refresh/HDR, ADB authorization and store account interaction require first-use validation on the receiving computer. Tests do not silently change the maintainer's live streaming settings. Recovery-policy simulations are not hardware recovery tests. The watchdog cannot repair firmware/OS failures or guarantee a pre-login display.
 
-Upgrade regression coverage checks legacy settings discovery without moving installation folders; stable English Start menu targets and the recovery hotkey; backup and retirement of owned old shortcuts while preserving unrelated ones; old/new emulator-root placeholders; and Playnite version detection from its actual managed assembly instead of the native bootstrapper?s 1.0 file metadata.
+Driver/MSI installs may remain after later setup failure; uninstall removes only proven owned components and leaves shared driver-store/files/state for manual review. There is no claim of a universally automatic clean uninstall. Source changes are not an independent human security audit. Signing remains pending owner/provider approval.
+
+## Existing feature evidence
+
+Earlier validation loaded the native extension in fresh portable Playnite, imported a synthetic scanner/title and 1,234-second record without launching a game, and verified repeated setup preserved profile IDs and duration. Migration preserves library state, the legacy extension IDs and owned shortcuts. Playnite version detection reads its managed assembly rather than the native bootstrapper's 1.0 file metadata.
+
+Documentation images show the maintainer's real connected libraries in each native Playnite language; databases and account data are excluded. Wizard screenshots show example paths. Some screenshots predate the 2.3 security controls; guides describe the current options.
+
+## Reviewed upstream pins
+
+This table means pinned bytes/signatures and integration code were reviewed, **not** that every hardware path was exercised:
+
+| Component | Pinned version | Evidence / boundary |
+| --- | --- | --- |
+| Playnite | 10.64 | SDK compilation, extension/import and configuration fixtures. |
+| Sunshine | 2026.914.233613 | Verified MSI hash/signer; configuration fixtures, no new live service install in this audit. |
+| Moonlight Android | 12.1 | Verified package pin; Shield/TV playback needs device validation. |
+| Virtual Display Driver | 25.7.23 | Verified ZIP/catalog signer; native/configuration code tests, no new device installation. |
+| ViGEmBus | 1.22.0 | Verified installer signer; optional compatibility driver, upstream end-of-life. |
+| Legendary CLI / Playnite extension | 0.21.1 / 1.17.0 | Fixed downloads; account login/download behavior depends on upstream. |
+
+See [audit report](AUDIT-2.3.md), [security model](../SECURITY.md), [verification](VERIFYING.md) and [troubleshooting](TROUBLESHOOTING.md).
+
+Local unsigned reproducibility check: independent output directories produced matching hashes for seven binaries and byte-identical ZIPs; all 382 listed payload checksums were verified. The final release is rebuilt in CI from its tag rather than reusing that local test ZIP.

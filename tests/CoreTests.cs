@@ -32,6 +32,19 @@ class CoreTests {
    Data.Write(current,new CenterSettings());True(Branding.SettingsPath(app,local)==current,"current installation takes precedence");
    Data.Write(own,new CenterSettings());True(Branding.SettingsPath(app,local)==own,"explicit portable settings take precedence");
   }finally{if(Path.GetFullPath(fixture).StartsWith(Path.GetFullPath(Path.GetTempPath())+"sofarelay-upgrade-",StringComparison.OrdinalIgnoreCase)&&Directory.Exists(fixture))Directory.Delete(fixture,true);}
+  var recovery=new RecoveryCheckpoint();
+  True(!RecoveryPolicy.Advance(recovery,true,"SUNSHINE_SERVER_BUSY",true),"active stream never triggers recovery");
+  True(recovery.Pending,"stream observation survives a watchdog restart");
+  True(!RecoveryPolicy.Advance(recovery,true,"NOT_RUNNING",true),"crash requires consecutive idle samples");
+  True(!RecoveryPolicy.Advance(recovery,true,"NOT_RUNNING",true),"crash recovery grace period");
+  True(RecoveryPolicy.Advance(recovery,true,"NOT_RUNNING",true),"crashed stream restores after grace period");
+  recovery=new RecoveryCheckpoint {Pending=true};
+  True(!RecoveryPolicy.Advance(recovery,true,"UNKNOWN",true)&&recovery.IdleSamples==0,"unknown stream state does not interrupt a possibly active stream");
+  True(!RecoveryPolicy.Advance(recovery,false,"NOT_RUNNING",true)&&!recovery.Pending,"disabled watchdog never changes displays");
+  recovery=new RecoveryCheckpoint();
+  RecoveryPolicy.Advance(recovery,true,"SUNSHINE_SERVER_FREE",true);RecoveryPolicy.Advance(recovery,true,"SUNSHINE_SERVER_FREE",true);
+  True(RecoveryPolicy.Advance(recovery,true,"SUNSHINE_SERVER_FREE",true),"missing physical monitor recovers after sign-in even without prior busy sample");
+  recovery=new RecoveryCheckpoint();True(!RecoveryPolicy.Advance(recovery,true,"SUNSHINE_SERVER_FREE",false),"normal idle desktop is left alone");
   Console.WriteLine("PASS "+count+" core assertions");return 0;
  }
 }

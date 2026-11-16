@@ -1,0 +1,71 @@
+name: Release verified Windows package
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/ci.yml
+    with:
+      package: true
+    permissions:
+      contents: read
+
+  publish:
+    needs: verify
+    runs-on: windows-2022
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Checkout exact release tag
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Download the verified Windows package
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release-windows-2022
+          path: release
+      - name: Validate version and extract release notes
+        shell: powershell
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          if ($env:GITHUB_REF_NAME -ne ('v'+$version)) { throw 'Tag does not match VERSION' }
+          python scripts/maintainer/ReleaseNotes.py $env:GITHUB_REF_NAME | Set-Content release/NOTES.md -Encoding UTF8
+          if ($LASTEXITCODE) { throw 'Release note extraction failed' }
+          $zip = Get-ChildItem release -Filter 'SofaRelay-*-Windows-x64.zip'
+          $expected = (Get-Content ($zip.FullName+'.sha256') -Raw).Split(' ')[0]
+          if ((Get-FileHash $zip.FullName -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw 'Artifact checksum failed' }
+      - name: Attest the build provenance
+        id: provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: release/SofaRelay-*-Windows-x64.zip
+      - name: Preserve the verification bundle
+        shell: powershell
+        env:
+          BUNDLE_PATH: ${{ steps.provenance.outputs.bundle-path }}
+        run: |
+          Copy-Item -LiteralPath $env:BUNDLE_PATH -Destination release/provenance.intoto.jsonl
+      - name: Publish immutable versioned assets
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          $assets = @("release/SofaRelay-$version-Windows-x64.zip", "release/SofaRelay-$version-Windows-x64.zip.sha256", 'release/SHA256SUMS.txt', 'release/provenance.intoto.jsonl')
+          gh release create $env:GITHUB_REF_NAME @assets --repo $env:GITHUB_REPOSITORY --verify-tag --title "SofaRelay $version" --notes-file release/NOTES.md
+          if ($LASTEXITCODE) { throw 'Release publication failed; existing releases were not overwritten' }

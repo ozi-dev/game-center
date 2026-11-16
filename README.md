@@ -143,3 +143,15 @@ Star the project, share a reproducible issue, improve a translation or contribut
 <sub>Original integration code: MIT. Third-party software retains its own licenses. Game names and covers shown in documentation belong to their respective owners. <a href="THIRD-PARTY.md">Licenses &amp; notices</a>.</sub>
 
 <p align="center"><sub>An independent community project by <a href="https://github.com/ozi-dev"><b>ozi-dev</b></a>.</sub></p>
+
+## Why SofaRelay?
+
+Playnite supplies the library, Sunshine the host and Moonlight the client. SofaRelay connects their setup: store/emulator integration, compatible playtime history, couch install helpers, Desktop/library tiles, display modes, monitor restoration and a guided four-language settings app. You can still use each upstream project independently.
+
+Fritchii/Lichii are user-selected emulator builds supported through compatible launch/history formats; they are not bundled or endorsed.
+
+## Verification, recovery and removal
+
+Before running the unsigned installer, verify the release checksum and build provenance. Help includes ownership-aware removal, optional sign-in display recovery and LAN-only controls. Sunshine asks you to create your own password; local streaming needs no router port forwarding.
+
+[SHA-256 / provenance](docs/VERIFYING.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [Uninstall](docs/UNINSTALL.md) · [Validation / upstream versions](docs/TESTING.md) · [2.3 audit](docs/AUDIT-2.3.md)

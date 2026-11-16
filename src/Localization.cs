@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 
 namespace SofaRelay {
  public static class I18n {
-  public const string Version="2.2.0";
+  public const string Version=BuildVersion.Value;
   public static readonly string[] Languages={"en","tr","fr","es"};
   static Dictionary<string,string> translations=new Dictionary<string,string>(StringComparer.Ordinal);
   static Dictionary<string,string> reverse=new Dictionary<string,string>(StringComparer.Ordinal);
