@@ -5,7 +5,16 @@ $release=Join-Path $root ('dist\Oyun-Merkezi-2.0.0-'+(Get-Date -Format yyyyMMdd-
 New-Item -ItemType Directory -Force -Path $release | Out-Null
 foreach($name in @('Kurulum.exe','OyunMerkezi.exe','GamingCenter.Core.dll','scripts','assets','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $build $name) -Destination $release -Recurse}
 $source=Join-Path $release 'source';New-Item -ItemType Directory -Force -Path $source | Out-Null
-foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){Copy-Item -LiteralPath (Join-Path $root $name) -Destination $source -Recurse}
+foreach($name in @('.gitignore','.gitattributes','.github','Build.ps1','Package.ps1','src','tests','scripts','assets','manifests','docs','README.html','README.md','README.tr.md','README.fr.md','README.es.md','LICENSE.txt','THIRD-PARTY.md','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md')){
+    $from=Join-Path $root $name
+    if(!(Get-Item -LiteralPath $from -Force).PSIsContainer){Copy-Item -LiteralPath $from -Destination $source;continue}
+    foreach($file in Get-ChildItem -LiteralPath $from -Recurse -File -Force){
+        $relative=$file.FullName.Substring($root.Length+1)
+        if($relative -match '^(src|tests|assets\\plugin)\\.*\.(dll|exe)$'){continue}
+        $destination=Join-Path $source $relative;New-Item -ItemType Directory -Force -Path (Split-Path $destination -Parent) | Out-Null
+        Copy-Item -LiteralPath $file.FullName -Destination $destination
+    }
+}
 @'
 OYUN MERKEZI 2.0.0
 
