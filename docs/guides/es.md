@@ -37,7 +37,7 @@ Empieza con 1080p60 / 20 Mbps y aumenta la calidad si la red lo permite. Shield 
 
 ## Solución de problemas
 
-Pantalla negra o monitor físico sin señal: termina la transmisión y usa **Ctrl+Alt+F11**, o Inicio → SofaRelay → **Restaurar pantalla**. También puedes usar Win+P y los ajustes de pantalla de Windows.
+Pantalla negra o monitor físico sin señal: termina la transmisión y usa **Ctrl+Alt+F11**, o Inicio → SofaRelay → **Restore Display**. También puedes usar Win+P y los ajustes de pantalla de Windows.
 
 Si falta una frecuencia, comprueba la salida del cliente, la decodificación, el cable y los FPS de Moonlight. Reinicia cuando se solicite tras añadir un modo VDD. Si ADB aparece como unauthorized, acepta el aviso RSA del TV; puedes seguir usando la ruta de la tienda sin ADB.
 

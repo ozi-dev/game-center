@@ -30,7 +30,7 @@ Commencez en 1080p60 / 20 Mbit/s, puis augmentez selon le réseau. Sur Shield, l
 
 ## Utilisation quotidienne
 
-- Réglages ultérieurs : Démarrer → SofaRelay → **Réglages SofaRelay**.
+- Réglages ultérieurs : Démarrer → SofaRelay → **SofaRelay Settings**.
 - Confirmation d’une boutique : maintenez Start sur la manette pour activer le mode souris ; stick pour déplacer, A clic gauche, B clic droit. Le bouton Steam peut nécessiter un redémarrage de Steam avec `-cef-force-accessibility`. EA/Ubisoft/Xbox et certains jeux demandent leur propre interface.
 - Historique : dossier utilisateur Fritchii/Lichii contenant un `play_time\playtime.bin` compatible, ou journaux `.lrtl` de RetroArch. Un journal absent ne permet pas de reconstruire les anciennes durées. Pour les fichiers hors NUP, un identifiant correct de 16 caractères hexadécimaux ou une correspondance explicite peut être nécessaire.
 - Jaquette locale : `Jeu.cover.jpg` ou `Jeu.cover.png` à côté de `Jeu.xci`. Les icônes NUP disponibles et les métadonnées Playnite complètent les autres cas.
