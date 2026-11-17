@@ -25,6 +25,9 @@ foreach($name in $sections.Keys){
     $text=[IO.File]::ReadAllText($path)
     if(![regex]::IsMatch($text,$pattern)){throw "Support section missing: $name"}
     $content=$sections[$name]
+    if($name -eq 'docs\SUPPORT.md'){
+        $content="<a href=`"$url`"><img src=`"media/support/support-en.svg`" alt=`"Buy Ozi a coffee — help with fixes, testing and guides`" width=`"100%`"></a>`n`n"+$content
+    }
     if($visuals.ContainsKey($name)){
         $language,$media,$alt=$visuals[$name]
         $content="<a href=`"$url`"><img src=`"$media/support-$language.svg`" alt=`"$alt`" width=`"100%`"></a>`n`n"+$content
@@ -33,7 +36,9 @@ foreach($name in $sections.Keys){
             $text=[regex]::Replace($text,$topPattern,[Text.RegularExpressions.MatchEvaluator]{param($match)$top})
         }else{
             # Place support after the badges, preserving the beta notice and primary download links.
-            $badgeEnd=$text.IndexOf('</p>',$text.IndexOf('badge.svg'))
+            $badgeStart=$text.IndexOf('badge.svg')
+            if($badgeStart -lt 0){throw "Badge block missing: $name"}
+            $badgeEnd=$text.IndexOf('</p>',$badgeStart)
             if($badgeEnd -lt 0){throw "Badge block missing: $name"}
             $text=$text.Insert($badgeEnd+4,"`n`n"+$top)
         }
