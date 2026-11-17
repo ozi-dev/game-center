@@ -4,6 +4,8 @@ SofaRelay is an independent integration tool. It is not affiliated with Valve, E
 
 The MIT license applies to the original application, integration code and documentation. External programs remain under their own licenses.
 
+The unmodified yellow Buy Me a Coffee button in `docs/media/support/buy-me-a-coffee.png` comes from the [official button CDN](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png), provided for linking to a creator's page through the [Buy Me a Coffee brand kit](https://buymeacoffee.com/brand). Its name, logo and button artwork remain Buy Me a Coffee's property. The adjacent cover and localized support banners are original SofaRelay artwork. A support link does not imply affiliation or endorsement.
+
 The only external executable bundled with this release is unmodified **7-Zip 26.06 Extra x64 7za.exe**, copyright Igor Pavlov, LGPL and other terms described in `assets/tools/7zip/License-26.06.txt`. Corresponding complete source is included in `assets/tools/7zip/7z2606-src.7z`. Source/build instructions and full license notices are inside that archive. Official releases: https://github.com/ip7z/7zip/releases/tag/26.06 . The extractor is run as a separate process and is replaceable; no 7-Zip code is linked into this application.
 
 Other components are downloaded on demand from pinned official URLs with SHA-256 validation. They are not copied from another user's installation:

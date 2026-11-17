@@ -3,31 +3,23 @@
 SofaRelay is free and open source. Stars, reproducible bug reports, translations, documentation improvements and code contributions are useful forms of support. Please also support the [upstream projects](CREDITS.md) that provide the library, streaming and emulation foundations.
 
 <!-- SUPPORT-LINK:START -->
-The maintainer's financial-support page is not active yet. No payment link is published until its ownership and payout setup are confirmed. You never need to donate to use the software.
+You can [buy the maintainer a coffee](https://buymeacoffee.com/oziooztrk). Donations are optional, provide no special entitlement and do not change the project's free/open-source status. Please support the upstream maintainers too.
 <!-- SUPPORT-LINK:END -->
 
-## Maintainer: enable Buy Me a Coffee
+## A coffee for the next game night
 
-1. Create your own account at [Buy Me a Coffee](https://www.buymeacoffee.com/signup). Use your own email, password and two-factor authentication.
-2. Pick an available public handle. An available `ozi-dev` or `ozidev` handle would match the GitHub profile, but availability is not assumed.
-3. Complete payout onboarding in the provider's UI. The [official supported-country page](https://help.buymeacoffee.com/en/articles/6258038-supported-countries-for-payouts-on-buy-me-a-coffee) lists Türkiye under Stripe Express as checked on 16 November 2026. Availability and provider terms can change.
-4. Confirm that the public page opens and can accept support. Do not put bank details, identity documents, passwords or private dashboard URLs in this repository.
-5. Run the helper below with the **actual public URL**, then review and commit the changes. It updates GitHub's Sponsor button and the support sections in all four READMEs.
+<a href="https://buymeacoffee.com/oziooztrk"><img src="media/support/support-en.svg" alt="Buy Ozi a coffee — help with fixes, testing and guides" width="100%"></a>
+
+SofaRelay is maintained by [Ozi](https://github.com/ozi-dev). A coffee supports time spent on fixes, compatibility testing and documentation. It does not purchase features, priority support or a compatibility guarantee. The project is a [public beta](RELEASE-STATUS.md), and its current limits remain documented.
+
+Thank you for supporting this project and the people behind [Playnite, Sunshine, Moonlight and the other foundations](CREDITS.md).
+
+## Maintainer: keep the links in sync
+
+The confirmed public profile is [buymeacoffee.com/oziooztrk](https://buymeacoffee.com/oziooztrk). If the handle changes, update GitHub's Sponsor button, the top buttons and all four localized README support banners together:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\maintainer\Set-Funding.ps1 -PublicUrl "https://www.buymeacoffee.com/YOUR-ACTUAL-HANDLE"
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\maintainer\Set-Funding.ps1 -PublicUrl "https://buymeacoffee.com/oziooztrk"
 ```
 
-## Ready-to-use profile copy
-
-**Display name:** Ozi · SofaRelay
-
-**Headline:** Making PC gaming more comfortable, one open-source tool at a time.
-
-**About:**
-
-> Hi, I'm Ozi. I build practical tools that make everyday tech easier to use. SofaRelay brings store libraries, emulators and couch streaming into one guided setup built around Playnite, Sunshine and Moonlight. If it saves you some setup time, you can buy me a coffee. The project stays free and open source, and contributions of every kind are welcome. Please support the upstream developers too — their work makes this possible.
-
-**Short thank-you:** Thanks for supporting the project! Your coffee helps me spend more time on fixes, documentation and compatibility. Enjoy your games, and thank the upstream maintainers too.
-
-The hero artwork is [here](media/hero.svg); screenshots for the profile are under [screenshots](screenshots/). Payment onboarding must be completed by the account owner.
+Editable [cover artwork](media/support/coffee-cover.svg), a ready-to-upload [1600 × 400 PNG cover](media/support/coffee-cover.png) and a [project introduction image](media/support/coffee-intro.png) are available. The introduction uses the maintainer's real connected game library. Keep private account, payout and identity details outside this repository.

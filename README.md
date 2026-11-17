@@ -19,6 +19,10 @@
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
+<!-- SUPPORT-TOP:START -->
+<p align="center"><a href="https://buymeacoffee.com/oziooztrk"><img src="docs/media/support/buy-me-a-coffee.png" alt="Support Ozi on Buy Me a Coffee" width="218" height="61"></a></p>
+<!-- SUPPORT-TOP:END -->
+
 <p align="center"><b>Steam &nbsp; / &nbsp; Epic &nbsp; / &nbsp; EA &nbsp; / &nbsp; Ubisoft &nbsp; / &nbsp; Xbox &nbsp; / &nbsp; Retro</b></p>
 
 ---
@@ -135,7 +139,9 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 ## Make the next setup easier.
 
 <!-- SUPPORT-LINK:START -->
-Star the project, share a reproducible issue, improve a translation or contribute a fix. Support the upstream developers too.
+<a href="https://buymeacoffee.com/oziooztrk"><img src="docs/media/support/support-en.svg" alt="Support Ozi on Buy Me a Coffee" width="100%"></a>
+
+If this project saves you setup time, you can [buy me a coffee](https://buymeacoffee.com/oziooztrk). Contributions, translations and support for the upstream projects are welcome too. Donations are optional; the software remains free and open source.
 <!-- SUPPORT-LINK:END -->
 
 [Contribute](CONTRIBUTING.md) &nbsp; · &nbsp; [Build from source](docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Report an issue](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Support](docs/SUPPORT.md)

@@ -19,6 +19,10 @@
   <a href="../../LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>
 
+<!-- SUPPORT-TOP:START -->
+<p align="center"><a href="https://buymeacoffee.com/oziooztrk"><img src="../media/support/buy-me-a-coffee.png" alt="Ozi’ye bir kahve ısmarla" width="218" height="61"></a></p>
+<!-- SUPPORT-TOP:END -->
+
 <p align="center"><b>Steam &nbsp; / &nbsp; Epic &nbsp; / &nbsp; EA &nbsp; / &nbsp; Ubisoft &nbsp; / &nbsp; Xbox &nbsp; / &nbsp; Retro</b></p>
 
 ---
@@ -135,7 +139,9 @@ VirtualDrivers · Legendary · hawkeye116477 · Libretro · Nefarius · Igor Pav
 ## Bir sonraki kurulumu kolaylaştır.
 
 <!-- SUPPORT-LINK:START -->
-Yıldız ver, tekrarlanabilir bir hata bildir, çeviriyi iyileştir veya kod katkısı yap. Temel projelerin geliştiricilerini de destekle.
+<a href="https://buymeacoffee.com/oziooztrk"><img src="../media/support/support-tr.svg" alt="Ozi’ye bir kahve ısmarla" width="100%"></a>
+
+Bu proje kurulumda zaman kazandırdıysa [bir kahve ısmarlayabilirsin](https://buymeacoffee.com/oziooztrk). Koda, çevirilere ve temel projelere katkıların da değerli. Destek isteğe bağlıdır; yazılım ücretsiz ve açık kaynak kalır.
 <!-- SUPPORT-LINK:END -->
 
 [Katkıda bulun](../../CONTRIBUTING.md) &nbsp; · &nbsp; [Kaynaktan derle](../../docs/DEVELOPMENT.md) &nbsp; · &nbsp; [Hata bildir](https://github.com/ozi-dev/sofarelay/issues/new/choose) &nbsp; · &nbsp; [Destek](../../docs/SUPPORT.md)
