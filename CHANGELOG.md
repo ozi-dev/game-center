@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.2 — 2026-11-17 (public beta)
+
+- Keep physical monitors enabled by default on fresh installations; preserve existing explicit monitor-off choices.
+- Display a public-beta notice in all four wizard languages and documentation entry points.
+- Publish tagged builds as pre-releases rather than automatically marking them stable. Record the remaining clean-install, reboot/sign-in, multi-client and removal checks before stable promotion.
+- Direct downloads to the release list so pre-release classification cannot silently send users back to an older stable package.
+- Add regression checks for the monitor-on default, preserved opt-in and real configuration branches. Known display identity/client-state fixes from 2.3.1 remain included.
+
 ## 2.3.1 — 2026-11-17
 
 - Restore display snapshots by stable monitor paths and current adapter/source/target identities. Pre-reboot snapshots no longer replay invalid session IDs; disconnected monitors are rejected instead of selecting another output.

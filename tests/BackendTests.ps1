@@ -60,6 +60,7 @@ function Get-SunshineDisplays{param($Directory) @([pscustomobject]@{device_id='{
 $PackageRoot=Join-Path $root $OutputDirectory;$DataRoot=Join-Path $fixture 'protected-data';$SettingsPath=Join-Path $fixture 'protected-settings.json'
 $typed=[SofaRelay.CenterSettings]::new();$typed.InstallRoot=Join-Path $fixture 'runtime';$typed.PlaynitePath=$play;$typed.VddDirectory=Join-Path $fixture 'vdd'
 $typed.Width=1920;$typed.Height=1080;$typed.RefreshRate=120
+$typed.TurnOffPhysicalMonitor=$true # Exercise the explicit opt-in, independent of fresh-install defaults.
 [SofaRelay.Data]::Write($SettingsPath,$typed);$Settings=Read-Json $SettingsPath
 New-Item -ItemType Directory -Force -Path (Join-Path $typed.InstallRoot 'data'),$typed.VddDirectory,(Join-Path $fixture 'Sunshine\config') | Out-Null
 $sunConfig=Join-Path $fixture 'Sunshine\config\sunshine.conf';$apps=Join-Path $fixture 'Sunshine\config\apps.json';$vdd=Join-Path $typed.VddDirectory 'vdd_settings.xml'
@@ -69,6 +70,12 @@ Write-Json $apps @{env=@{};apps=@(@{name='Other app';cmd='example.exe'},@{name='
 $result=Apply-Protected
 Assert ($result.PhysicalMonitorOff -and $result.RefreshRate -eq 120) 'Requested display and monitor settings applied'
 Assert ((Get-Content $sunConfig -Raw) -match 'ensure_only_display') 'Physical displays disabled only via Sunshine session configuration'
+$Settings.TurnOffPhysicalMonitor=$false
+$monitorOn=Apply-Protected
+Assert (!$monitorOn.PhysicalMonitorOff) 'Monitor-on selection is reflected in the result'
+Assert ((Get-Content $sunConfig -Raw) -match 'dd_configuration_option = ensure_primary') 'Monitor-on selection keeps other physical outputs enabled'
+$Settings.TurnOffPhysicalMonitor=$true
+[void](Apply-Protected)
 Assert ((Get-Content $sunConfig -Raw) -match 'encoder = nvenc') 'Existing encoder preserved'
 Assert (@((Read-Json $apps).apps).Count -eq 3) 'Desktop and library added; other app preserved'
 Assert (@(([xml](Get-Content $vdd -Raw)).vdd_settings.resolutions.resolution).Count -eq 4) 'Custom refresh mode added to VDD'

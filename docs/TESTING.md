@@ -1,12 +1,14 @@
-# Validation for 2.3.1
+# Validation for 2.3.2 public beta
+
+See [public-beta readiness](RELEASE-STATUS.md) for the remaining clean-install/hardware checks. New-install defaults keep the physical monitor on; explicit existing choices are regression-tested.
 
 The implementation is checked against isolated project fixtures on Windows 11 x64, PowerShell 5.1, .NET Framework 4.8 and Playnite 10.64. The current CI matrix runs **windows-2022 and windows-2025**. Test output and release provenance provide the actual run status; a configured workflow alone is not evidence of a passing run.
 
 | Check | Scope |
 | --- | --- |
-| Core assertions | 29 checks including playtime imports/overlap/reset, title matching, migration, mode validation and crash/sign-in/unknown/active-stream recovery policy. |
-| Localization assertions | 2,062 checks over 255 keys in EN/TR/FR/ES: exact key parity, nonempty translations, placeholder equality, normalization, validation and persistence. |
-| Backend fixtures (62 assertions) | Atomic writes/backups, ZIP/path traversal, quoting, provider IDs/auth preservation, real configuration apply/reapply/restore/conflict preflight and upgrades. System/driver/service boundaries are mocked. |
+| Core assertions | 32 checks including playtime imports/overlap/reset, title matching, migration, mode validation and crash/sign-in/unknown/active-stream recovery policy. |
+| Localization assertions | 2,070 checks over 256 keys in EN/TR/FR/ES: exact key parity, nonempty translations, placeholder equality, normalization, validation and persistence. |
+| Backend fixtures (64 assertions) | Atomic writes/backups, ZIP/path traversal, quoting, provider IDs/auth preservation, real configuration apply/reapply/restore/conflict preflight and upgrades. System/driver/service boundaries are mocked. |
 | Pester security/privacy (17 tests) | Bad-download cleanup, whole-ZIP preflight, forged protected targets/backups, valid-but-wrong signers, exact-byte configuration rollback, shared-component preservation, invalid driver ownership, firewall preflight and active/paused/multiple-client log interpretation. |
 | Display identity assertions | 11 pure checks: adapter LUID/source/target rebinding after reboot, saved mode/layout preservation, immutable original snapshots, missing monitor rejection and invalid references. No display API is invoked by this fixture executable. |
 | Broker boundary checks | Local path confinement, existing result rejection, mismatched owner/system root rejection, junction rejection, runtime directory lease prevents rename while permitting child result writes. No UAC/elevation occurs. |

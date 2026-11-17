@@ -253,5 +253,6 @@
   "audit.vdd-store": "Le magasin de pilotes et les fichiers C:\\VirtualDisplayDriver sont conservés. Supprimez-les manuellement seulement si aucun autre écran virtuel ne les utilise.",
   "audit.sunshine-manual": "La propriété ou la version de Sunshine n’a pas pu être vérifiée. Si nécessaire, supprimez-le depuis les applications installées de Windows.",
   "audit.vigem-manual": "La propriété de ViGEmBus ou son désinstalleur vérifié manque. Supprimez-le manuellement seulement si aucune autre application ne l’utilise.",
-  "audit.portable-manual": "Après fermeture de SofaRelay, vous pouvez supprimer ses fichiers portables. Conservez les sauvegardes ; jeux, comptes et sauvegardes de jeu sont préservés."
+  "audit.portable-manual": "Après fermeture de SofaRelay, vous pouvez supprimer ses fichiers portables. Conservez les sauvegardes ; jeux, comptes et sauvegardes de jeu sont préservés.",
+  "release.beta": "Bêta publique : la validation sur différents matériels continue. L’extinction du moniteur physique est désactivée par défaut pour les nouvelles installations."
 }

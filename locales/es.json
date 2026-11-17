@@ -253,5 +253,6 @@
   "audit.vdd-store": "Se conservaron el almacén de controladores y C:\\VirtualDisplayDriver. Elimínalos manualmente solo si ninguna otra pantalla virtual los utiliza.",
   "audit.sunshine-manual": "No se pudo verificar la propiedad o versión de Sunshine. Si ya no se necesita, elimínalo desde Aplicaciones instaladas de Windows.",
   "audit.vigem-manual": "No se dispone de la propiedad de ViGEmBus o de su desinstalador verificado. Elimínalo manualmente solo si otras aplicaciones no lo usan.",
-  "audit.portable-manual": "Tras cerrar SofaRelay puedes borrar sus archivos portátiles. Conserva las copias; juegos, cuentas y partidas no se eliminaron."
+  "audit.portable-manual": "Tras cerrar SofaRelay puedes borrar sus archivos portátiles. Conserva las copias; juegos, cuentas y partidas no se eliminaron.",
+  "release.beta": "Beta pública: continúa la validación en distintos equipos. Apagar el monitor físico está desactivado por defecto en instalaciones nuevas."
 }

@@ -131,7 +131,7 @@ namespace SofaRelay {
   }
   NumericUpDown Number(int min,int max,int value){return new NumericUpDown {Minimum=min,Maximum=max,Value=value,Width=105,BackColor=panelColor,ForeColor=Color.White,Margin=new Padding(0,6,15,6)};}
   void BuildPages() {
-   var p=Page();p.Controls.Add(Paragraph(I18n.L("Tek kütüphane, kumanda veya klavye/fare, Moonlight üzerinden TV yayını. Bu uygulama kurulumu yapar; daha sonra aynı yerden ayarları değiştirebilirsiniz.")));
+   var p=Page();p.Controls.Add(Paragraph(I18n.L("Genel beta: farklı donanımlarda doğrulama sürüyor. Yeni kurulumlarda fiziksel monitörü kapatma varsayılan olarak kapalıdır.")));p.Controls.Add(Paragraph(I18n.L("Tek kütüphane, kumanda veya klavye/fare, Moonlight üzerinden TV yayını. Bu uygulama kurulumu yapar; daha sonra aynı yerden ayarları değiştirebilirsiniz.")));
    install=PathField(p,I18n.L("SofaRelay kurulum klasörü"),v=>settings.InstallRoot=v);
    playnite=PathField(p,I18n.L("Mevcut Playnite klasörü (yoksa boş bırakın; otomatik kurulur)"),v=>settings.PlaynitePath=v);
    sunshine=PathField(p,I18n.L("Sunshine klasörü (var olan kurulum tanıyla bulunur)"),v=>settings.SunshineDirectory=v);

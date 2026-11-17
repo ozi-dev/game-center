@@ -1,12 +1,14 @@
 # Instalar y usar SofaRelay
 
+> **BETA PÚBLICA** — La validación de hardware continúa. Las instalaciones nuevas mantienen el monitor físico encendido; apagarlo es opcional. [Casos probados y comprobaciones pendientes](../RELEASE-STATUS.md).
+
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proyecto](../readme/es.md)
 
-El instalador 2.3.0 admite inglés, turco, francés y español. Elige **Español** en la barra lateral; la selección se guarda y la ayuda sin conexión usa ese idioma. Aplicar los ajustes también selecciona español en Playnite. Necesitas Windows 10/11 Intel/AMD x64, .NET Framework 4.8, PowerShell 5.1, un controlador GPU actual y un codificador compatible con Sunshine. La conexión a Internet descarga los componentes; PC y cliente deben estar en la misma red.
+El instalador 2.3.2 admite inglés, turco, francés y español. Elige **Español** en la barra lateral; la selección se guarda y la ayuda sin conexión usa ese idioma. Aplicar los ajustes también selecciona español en Playnite. Necesitas Windows 10/11 Intel/AMD x64, .NET Framework 4.8, PowerShell 5.1, un controlador GPU actual y un codificador compatible con Sunshine. La conexión a Internet descarga los componentes; PC y cliente deben estar en la misma red.
 
 ## Configuración paso a paso
 
-Descarga el ZIP de [Versiones](https://github.com/ozi-dev/sofarelay/releases/latest), extrae todo y abre `Installer.exe`.
+Descarga el ZIP de [Versiones](https://github.com/ozi-dev/sofarelay/releases), extrae todo y abre `Installer.exe`.
 
 | Página | Etiqueta | Acción |
 | --- | --- | --- |

@@ -1,9 +1,11 @@
 # Verify a download
 
+Current builds are public betas. Read [release readiness](RELEASE-STATUS.md) before changing system/display settings. New installations keep physical-monitor shutdown off; existing explicit preferences are retained.
+
 Download the complete Windows x64 ZIP and `SHA256SUMS.txt` from the same [official release](https://github.com/ozi-dev/sofarelay/releases). Before extracting or running it, compare the full 64-character digest:
 
 ```powershell
-Get-FileHash .\SofaRelay-2.3.1-Windows-x64.zip -Algorithm SHA256
+Get-FileHash .\SofaRelay-2.3.2-Windows-x64.zip -Algorithm SHA256
 Get-Content .\SHA256SUMS.txt
 ```
 
@@ -12,7 +14,7 @@ Stop if they differ. A checksum detects changed bytes; a checksum downloaded bes
 For releases starting with 2.3.0, verify GitHub's build-provenance attestation with a current [GitHub CLI](https://cli.github.com/):
 
 ```powershell
-gh attestation verify .\SofaRelay-2.3.1-Windows-x64.zip --repo ozi-dev/sofarelay --signer-workflow ozi-dev/sofarelay/.github/workflows/release.yml
+gh attestation verify .\SofaRelay-2.3.2-Windows-x64.zip --repo ozi-dev/sofarelay --signer-workflow ozi-dev/sofarelay/.github/workflows/release.yml
 ```
 
 The release also includes `provenance.intoto.jsonl`; the CLI can verify that bundle with `--bundle .\provenance.intoto.jsonl`. Check the expected repository, tag and workflow identity in the output. See [GitHub CLI's verification documentation](https://cli.github.com/manual/gh_attestation_verify). Provenance associates bytes with a workflow and source revision; it is not a security audit or an Authenticode signature. Older releases do not have this attestation.

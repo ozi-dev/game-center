@@ -67,5 +67,7 @@ jobs:
         run: |
           $version = (Get-Content VERSION -Raw).Trim()
           $assets = @("release/SofaRelay-$version-Windows-x64.zip", "release/SofaRelay-$version-Windows-x64.zip.sha256", 'release/SHA256SUMS.txt', 'release/provenance.intoto.jsonl')
-          gh release create $env:GITHUB_REF_NAME @assets --repo $env:GITHUB_REPOSITORY --verify-tag --title "SofaRelay $version" --notes-file release/NOTES.md
+          # A passing fixture matrix does not certify fresh installs or real display recovery.
+          # Stable promotion is a separate maintainer decision after documented hardware checks.
+          gh release create $env:GITHUB_REF_NAME @assets --repo $env:GITHUB_REPOSITORY --verify-tag --prerelease --latest=false --title "SofaRelay $version - Public beta" --notes-file release/NOTES.md
           if ($LASTEXITCODE) { throw 'Release publication failed; existing releases were not overwritten' }

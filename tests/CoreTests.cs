@@ -6,6 +6,9 @@ class CoreTests {
  static void Eq(ulong a,ulong b,string name){count++;if(a!=b)throw new Exception(name+": "+a+" != "+b);}
  static void True(bool value,string name){count++;if(!value)throw new Exception(name);}
  static int Main(){
+  True(!new CenterSettings().TurnOffPhysicalMonitor,"fresh installations keep the physical monitor enabled");
+  True(new CenterSettings().RestoreDisplay&&new CenterSettings().RecoveryWatchdog,"recovery safeguards remain enabled by default");
+  True(Data.Serializer().Deserialize<CenterSettings>("{\"TurnOffPhysicalMonitor\":true}").TurnOffPhysicalMonitor,"an existing explicit monitor-off preference is preserved");
   Eq(Playtime.Merge(0,55829,null),55829,"initial history");
   Eq(Playtime.Merge(70000,55829,null),70000,"existing higher total");
   var state=new MergeState {SourceSeconds=100,UnifiedSeconds=150};

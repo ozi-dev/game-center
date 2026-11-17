@@ -1,18 +1,20 @@
 <p align="center"><img src="../../docs/media/hero-es.svg" alt="SofaRelay — Tu biblioteca merece una pantalla más grande." width="100%"></p>
 
+<p align="center"><strong>BETA PÚBLICA</strong> · La validación de hardware continúa. Las instalaciones nuevas mantienen el monitor físico encendido; apagarlo es opcional.<br><a href="../RELEASE-STATUS.md">Casos probados y comprobaciones pendientes</a></p>
+
 <p align="center"><a href="../../README.md">English</a> &nbsp; · &nbsp; <a href="../../docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="../../docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="../../docs/readme/es.md"><b>Español</b></a></p>
 
 <h3 align="center">Tu biblioteca merece una pantalla más grande.</h3>
 <p align="center">Reúne tus tiendas y emuladores. Toma el mando. Lleva tus juegos al televisor.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="../../docs/media/ui/download-es.svg" alt="Descargar para Windows" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases"><img src="../../docs/media/ui/download-es.svg" alt="Descargar para Windows" width="290" height="54"></a>
   &nbsp;
   <a href="../../docs/guides/es.md"><img src="../../docs/media/ui/guide-es.svg" alt="Guía de instalación" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases"><img src="https://img.shields.io/badge/channel-public%20beta-ff793f?style=flat-square" alt="Public beta"></a>
   <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="../../LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>

@@ -253,5 +253,6 @@
   "audit.vdd-store": "Sürücü deposu ve C:\\VirtualDisplayDriver dosyaları korundu. Başka sanal ekran kullanmıyorsa Aygıt Yöneticisi üzerinden elle kaldırabilirsiniz.",
   "audit.sunshine-manual": "Sunshine kurulumunun sahipliği veya sürümü doğrulanamadı. Artık gerekmiyorsa Windows Yüklü uygulamalar bölümünden elle kaldırın.",
   "audit.vigem-manual": "ViGEmBus sahipliği veya doğrulanmış kaldırıcı bulunamadı. Başka uygulamalar kullanmıyorsa Windows Yüklü uygulamalar bölümünden elle kaldırın.",
-  "audit.portable-manual": "SofaRelay kapandıktan sonra taşınabilir uygulama dosyalarını silebilirsiniz. Yedekleri koruyun; oyunlar, hesaplar ve kayıtlar silinmedi."
+  "audit.portable-manual": "SofaRelay kapandıktan sonra taşınabilir uygulama dosyalarını silebilirsiniz. Yedekleri koruyun; oyunlar, hesaplar ve kayıtlar silinmedi.",
+  "release.beta": "Genel beta: farklı donanımlarda doğrulama sürüyor. Yeni kurulumlarda fiziksel monitörü kapatma varsayılan olarak kapalıdır."
 }

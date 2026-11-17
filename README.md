@@ -1,18 +1,20 @@
 <p align="center"><img src="docs/media/hero-en.svg" alt="SofaRelay — Your PC library deserves a bigger screen." width="100%"></p>
 
+<p align="center"><strong>PUBLIC BETA</strong> · Hardware validation is ongoing. New installations keep the physical monitor on; monitor shutdown is opt-in.<br><a href="docs/RELEASE-STATUS.md">Tested scenarios and remaining checks</a></p>
+
 <p align="center"><a href="README.md"><b>English</b></a> &nbsp; · &nbsp; <a href="docs/readme/tr.md">Türkçe</a> &nbsp; · &nbsp; <a href="docs/readme/fr.md">Français</a> &nbsp; · &nbsp; <a href="docs/readme/es.md">Español</a></p>
 
 <h3 align="center">Your PC library deserves a bigger screen.</h3>
 <p align="center">Bring your stores and emulators together. Pick up a controller. Make the TV your next place to play.</p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="docs/media/ui/download-en.svg" alt="Download for Windows" width="290" height="54"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases"><img src="docs/media/ui/download-en.svg" alt="Download for Windows" width="290" height="54"></a>
   &nbsp;
   <a href="docs/guides/en.md"><img src="docs/media/ui/guide-en.svg" alt="Setup guide" width="235" height="54"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ozi-dev/sofarelay/releases/latest"><img src="https://img.shields.io/github/v/release/ozi-dev/sofarelay?style=flat-square&amp;color=ff793f&amp;label=release" alt="GitHub release"></a>
+  <a href="https://github.com/ozi-dev/sofarelay/releases"><img src="https://img.shields.io/badge/channel-public%20beta-ff793f?style=flat-square" alt="Public beta"></a>
   <a href="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml"><img src="https://github.com/ozi-dev/sofarelay/actions/workflows/ci.yml/badge.svg" alt="Windows build and validation"></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-52d4df?style=flat-square" alt="MIT license"></a>
 </p>

@@ -253,5 +253,6 @@
   "audit.vdd-store": "The driver store and C:\\VirtualDisplayDriver files were retained. Remove them manually in Device Manager only if no other virtual display uses them.",
   "audit.sunshine-manual": "Sunshine ownership or version could not be verified. If no longer needed, remove it manually from Windows Installed apps.",
   "audit.vigem-manual": "ViGEmBus ownership or its verified uninstaller is unavailable. Remove it manually from Windows Installed apps only if other applications do not use it.",
-  "audit.portable-manual": "After closing SofaRelay, you may delete its portable files. Keep backups; games, accounts and saves were not deleted."
+  "audit.portable-manual": "After closing SofaRelay, you may delete its portable files. Keep backups; games, accounts and saves were not deleted.",
+  "release.beta": "Public beta: validation across hardware is ongoing. Physical-monitor shutdown is off by default for new installations."
 }

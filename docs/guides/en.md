@@ -1,14 +1,16 @@
 # Install and use SofaRelay
 
+> **PUBLIC BETA** — Hardware validation is ongoing. New installations keep the physical monitor on; monitor shutdown is opt-in. [Tested scenarios and remaining checks](../RELEASE-STATUS.md).
+
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Project](../../README.md)
 
-The 2.3.1 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
+The 2.3.2 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
 
 ## Before you begin
 
 Use Intel/AMD x64 Windows 10/11 with .NET Framework 4.8, PowerShell 5.1 and a current GPU driver. The host needs a Sunshine-compatible encoder. Keep PC and client on the same network; Ethernet is preferable. Internet is required to download components.
 
-Download the ZIP from [Releases](https://github.com/ozi-dev/sofarelay/releases/latest), extract everything, and open `Installer.exe`. Do not run it inside the ZIP or copy only the EXE. Existing Playnite installations and games can be reused. Nothing here supplies games, firmware, keys or store accounts.
+Download the ZIP from [Releases](https://github.com/ozi-dev/sofarelay/releases), extract everything, and open `Installer.exe`. Do not run it inside the ZIP or copy only the EXE. Existing Playnite installations and games can be reused. Nothing here supplies games, firmware, keys or store accounts.
 
 ## The seven pages
 

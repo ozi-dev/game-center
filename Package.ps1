@@ -20,7 +20,7 @@ foreach($name in @('SofaRelay.Core.dll','SofaRelay.Plugin.dll','SteamTvInstall.e
 $files['assets/compat/LegacyLauncher.exe']=Join-Path $build 'assets\compat\LegacyLauncher.exe'
 $files['source/SOURCE-FILES.txt']=Join-Path $build 'SOURCE-FILES.txt'
 $start=Join-Path $output 'START-HERE.txt'
-[IO.File]::WriteAllText($start,("SOFARELAY $version`n`nExtract the complete ZIP, then run Installer.exe.`nStart menu: SofaRelay > SofaRelay Settings / Restore Display.`nRead docs/VERIFYING.md before running an unsigned download.`nOffline guides: docs/guides/en.html, tr.html, fr.html, es.html.`nUninstall and recovery: docs/UNINSTALL.md and docs/TROUBLESHOOTING.md.`nKeep your account data, game libraries and backups.`nNo games, firmware, keys, credentials or personal settings are included.`n"),[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText($start,("SOFARELAY $version - PUBLIC BETA`n`nExtract the complete ZIP, then run Installer.exe.`nRead docs/RELEASE-STATUS.md for tested scenarios and remaining hardware checks.`nNew installations keep the physical monitor enabled; monitor shutdown is opt-in.`nStart menu: SofaRelay > SofaRelay Settings / Restore Display.`nRead docs/VERIFYING.md before running an unsigned download.`nOffline guides: docs/guides/en.html, tr.html, fr.html, es.html.`nUninstall and recovery: docs/UNINSTALL.md and docs/TROUBLESHOOTING.md.`nKeep your account data, game libraries and backups.`nNo games, firmware, keys, credentials or personal settings are included.`n"),[Text.UTF8Encoding]::new($false))
 $files['START-HERE.txt']=$start
 $blocked=@([Environment]::GetFolderPath('UserProfile'))
 $settings=Read-Json (Join-Path $root 'data\settings.json')

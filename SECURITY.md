@@ -1,5 +1,7 @@
 # Reporting security issues
 
+**Release channel: public beta.** See [release readiness](docs/RELEASE-STATUS.md). CI, checksums and provenance do not establish full hardware compatibility. New installs keep physical-monitor shutdown off starting with 2.3.2.
+
 Use this repository's **Security → Report a vulnerability** option if available. Include affected version, impact and a minimal reproduction. Do not publish live tokens, passwords, account exports, keys or unredacted personal logs. If private reporting is unavailable, open a minimal issue asking for a private contact channel without publishing exploit details.
 
 ## Trust model (2.3)

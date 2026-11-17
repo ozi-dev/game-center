@@ -25,7 +25,7 @@ namespace SofaRelay {
   public bool RecoveryWatchdog=true,LANOnly=true,RemoveOwnedComponents=false;
   public string UILanguage="";
   public string InstallRoot="", PlaynitePath="", SunshineDirectory="", ClientKind="Shield", DeviceAddress="", DisplayId="", VddDirectory=@"C:\VirtualDisplayDriver";
-  public bool AutoInstallStoreClients=true, MouseKeyboard=true, SyncPlaytime=true, AutomaticCovers=true, SteamAutoInstall=true, EpicDirectInstall=true, ShowDesktop=true, ShowLibrary=true, PreserveExistingApps=true, VirtualDisplay=true, TurnOffPhysicalMonitor=true, RestoreDisplay=true, AutomaticDisplayMode=true, HDR=false, Gamepad=true;
+  public bool AutoInstallStoreClients=true, MouseKeyboard=true, SyncPlaytime=true, AutomaticCovers=true, SteamAutoInstall=true, EpicDirectInstall=true, ShowDesktop=true, ShowLibrary=true, PreserveExistingApps=true, VirtualDisplay=true, TurnOffPhysicalMonitor=false, RestoreDisplay=true, AutomaticDisplayMode=true, HDR=false, Gamepad=true;
   public int Width=3840, Height=2160, RefreshRate=60, BitrateMbps=60;
   public string[] Libraries=new string[]{"Steam","Epic","EA","Ubisoft"};
   public List<EmulatorConfig> Emulators=new List<EmulatorConfig>();

@@ -1,12 +1,14 @@
 # SofaRelay kurulum rehberi
 
+> **GENEL BETA** — Donanım doğrulaması sürüyor. Yeni kurulumlarda fiziksel monitör açık kalır; kapatma isteğe bağlıdır. [Test edilenler ve kalan kontroller](../RELEASE-STATUS.md).
+
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Proje](../readme/tr.md)
 
-2.3.0 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
+2.3.2 kurucusu İngilizce, Türkçe, Fransızca ve İspanyolca çalışır. Sol menüden **Türkçe** seç; dil kaydedilir ve çevrimdışı yardım aynı dilde açılır. Ayarları uygulayınca Playnite dili de Türkçe seçilir.
 
 Tam Türkçe rehber paketteki **[Ayrıntılı Türkçe rehber](manual.tr.html)** dosyasında bulunur ve çevrimdışı okunabilir.
 
-1. [Sürümler](https://github.com/ozi-dev/sofarelay/releases/latest) sayfasından Windows x64 ZIP'i indir; tamamını çıkar ve `Installer.exe` aç.
+1. [Sürümler](https://github.com/ozi-dev/sofarelay/releases) sayfasından Windows x64 ZIP'i indir; tamamını çıkar ve `Installer.exe` aç.
 2. **Başlangıç ve tanı:** var olan Playnite/Sunshine bulunur. Playnite yoksa alanı boş bırak; kurucu indirir.
 3. **Kitaplıklar ve giriş:** mağazaları seç. Epic doğrudan indirmede Legendary kullanılır. Hesaplarını kendi giriş pencerelerinde bağlayacaksın.
 4. **Emülatörler:** uygulama EXE'sini, ROM klasörünü, platform/uzantıları ve veri klasörünü seç. RetroArch'ta her sistem için uygun çekirdek DLL'sini göster. Veri klasörü kayıtların taşınacağı yer değildir; mevcut ayar/geçmiş klasörüdür.
