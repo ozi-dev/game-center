@@ -1,4 +1,4 @@
-# Validation for 2.3.0
+# Validation for 2.3.1
 
 The implementation is checked against isolated project fixtures on Windows 11 x64, PowerShell 5.1, .NET Framework 4.8 and Playnite 10.64. The current CI matrix runs **windows-2022 and windows-2025**. Test output and release provenance provide the actual run status; a configured workflow alone is not evidence of a passing run.
 
@@ -7,7 +7,8 @@ The implementation is checked against isolated project fixtures on Windows 11 x6
 | Core assertions | 29 checks including playtime imports/overlap/reset, title matching, migration, mode validation and crash/sign-in/unknown/active-stream recovery policy. |
 | Localization assertions | 2,062 checks over 255 keys in EN/TR/FR/ES: exact key parity, nonempty translations, placeholder equality, normalization, validation and persistence. |
 | Backend fixtures (62 assertions) | Atomic writes/backups, ZIP/path traversal, quoting, provider IDs/auth preservation, real configuration apply/reapply/restore/conflict preflight and upgrades. System/driver/service boundaries are mocked. |
-| Pester security/privacy (13 tests) | Bad-download cleanup, whole-ZIP preflight, forged protected targets/backups, valid-but-wrong signers, exact-byte configuration rollback, shared-component preservation, invalid driver ownership and firewall preflight. |
+| Pester security/privacy (17 tests) | Bad-download cleanup, whole-ZIP preflight, forged protected targets/backups, valid-but-wrong signers, exact-byte configuration rollback, shared-component preservation, invalid driver ownership, firewall preflight and active/paused/multiple-client log interpretation. |
+| Display identity assertions | 11 pure checks: adapter LUID/source/target rebinding after reboot, saved mode/layout preservation, immutable original snapshots, missing monitor rejection and invalid references. No display API is invoked by this fixture executable. |
 | Broker boundary checks | Local path confinement, existing result rejection, mismatched owner/system root rejection, junction rejection, runtime directory lease prevents rename while permitting child result writes. No UAC/elevation occurs. |
 | Actual Diagnostics action | Runs the real worker against read-only system diagnosis; examines the exported schema for current username/hostname, addresses, paths and account fields. Injected token/email/name fixtures are separate Pester tests. |
 | Runtime tamper checks | An unchanged runtime succeeds; altered Worker.ps1, changed package manifest and an injected operation are rejected before setup. |
@@ -30,6 +31,8 @@ python scripts/maintainer/CheckLinks.py --offline
 ```
 
 ## Limits requiring a clean VM / receiving hardware
+
+During the 2.3.1 incident investigation, an actual pre-reboot physical-monitor snapshot failed raw validation with Windows error 87. Rebinding the same snapshot to current device identities validated successfully; applying it restored the saved 3440×1440 / 180 Hz primary display and the owner confirmed visible output. The existing Sunshine disconnect path then cleared its stale persisted state. A limited-user recovery task with an interactive sign-in trigger was installed on that host. An actual client disconnect while the application remained BUSY was then observed: client activity changed to idle, the task reported Windows code 0 and the physical 3440×1440 / 180 Hz primary layout was confirmed by enumeration. These observations do not substitute for a forced reboot/power-loss test, which was not performed during an active game.
 
 A fresh end-to-end elevated broker install/uninstall, alternate-admin UAC, power interruption during machine changes, real reboot/sign-in restoration, driver-store cleanup and forced process-crash hardware restoration have **not** been validated by these fixture tests. Real Sunshine/ViGEm/VDD installation, physical Shield playback/HDMI high refresh/HDR, ADB authorization and store account interaction require first-use validation on the receiving computer. Tests do not silently change the maintainer's live streaming settings. Recovery-policy simulations are not hardware recovery tests. The watchdog cannot repair firmware/OS failures or guarantee a pre-login display.
 

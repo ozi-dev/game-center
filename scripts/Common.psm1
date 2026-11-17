@@ -149,6 +149,44 @@ function Get-SunshineDisplays([string]$Directory) {
 function Get-StreamState {
     try{$request=[Net.HttpWebRequest]::Create('http://127.0.0.1:47989/serverinfo');$request.Timeout=3000;$response=$request.GetResponse();try{$reader=[IO.StreamReader]::new($response.GetResponseStream());try{$xml=[xml]$reader.ReadToEnd();if($xml.root.state){return [string]$xml.root.state};return 'UNKNOWN'}finally{$reader.Dispose()}}finally{$response.Dispose()}}catch{if(Get-Process sunshine -ErrorAction SilentlyContinue){return 'UNKNOWN'};return 'NOT_RUNNING'}
 }
+function Resolve-StreamLogActivity {
+    param([string[]]$Lines)
+    $active=-1;$pending=0
+    foreach($line in $Lines) {
+        if($line -match 'Sunshine version:'){$active=0;$pending=0}
+        elseif($line -match 'New streaming session started \[active sessions: (\d+)\]') {
+            $confirmed=if($active -ge 0){[Math]::Max(0,$active-$pending)}else{0}
+            $active=[int]$Matches[1];$pending=[Math]::Max(0,$active-$confirmed)
+        }
+        elseif($line -match 'CLIENT CONNECTED') {if($pending -gt 0){$pending--}elseif($active -ge 0){$active++}}
+        elseif($line -match 'CLIENT DISCONNECTED') {if($active -gt 0){$active--;$pending=[Math]::Min($pending,$active)}else{$active=-1;$pending=0}}
+    }
+    return $active
+}
+function Get-StreamActivity {
+    # /serverinfo BUSY means an app is retained for resume, not a connected client.
+    # The watchdog additionally requires a complete, current log session history.
+    $state=Get-StreamState
+    if($state -notin @('SUNSHINE_SERVER_BUSY','SUNSHINE_SERVER_FREE')){return $state}
+    try {
+        $sun=Get-SunshineDirectory
+        if(!$sun){return 'UNKNOWN'}
+        $file=Join-Path $sun 'config\sunshine.log'
+        $item=Get-Item -LiteralPath $file -ErrorAction Stop
+        $process=Get-CimInstance Win32_Process -Filter "Name='sunshine.exe'" -ErrorAction Stop | Select-Object -First 1
+        if(!$process -or !$process.CreationDate -or $item.LastWriteTimeUtc -lt $process.CreationDate.ToUniversalTime()){return 'UNKNOWN'}
+        $active=Resolve-StreamLogActivity @(Get-Content -LiteralPath $file -Tail 12000 -Encoding UTF8 -ErrorAction Stop)
+        if($active -gt 0){return 'SUNSHINE_SERVER_BUSY'}
+        if($active -eq 0){return 'SUNSHINE_SERVER_FREE'}
+        return 'UNKNOWN'
+    } catch {Write-Verbose 'Stream activity could not be established from the current Sunshine log.';return 'UNKNOWN'}
+}
+function Read-DisplaySnapshot {
+    param([string]$Path)
+    Add-Type -AssemblyName System.Web.Extensions
+    $serializer=[Web.Script.Serialization.JavaScriptSerializer]::new()
+    return $serializer.Deserialize([IO.File]::ReadAllText($Path,[Text.Encoding]::UTF8),[SavedDisplayState])
+}
 function Assert-StreamIdle { $state=Get-StreamState;if($state -eq 'SUNSHINE_SERVER_BUSY'){throw (L 'Aktif Moonlight yayını var. Yayından çıkıp tekrar uygulayın; mevcut oturum kesilmedi.')};if($state -notin @('SUNSHINE_SERVER_FREE','NOT_RUNNING')){throw (L 'Sunshine yayın durumu okunamadı; açık oturum kesilmemesi için ayarlar değiştirilmedi. Sunshine panelini kontrol edip tekrar deneyin.')} }
 function Is-Admin { $p=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent());return $p.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) }
 function Find-Playnite {

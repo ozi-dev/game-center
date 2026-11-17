@@ -85,4 +85,57 @@ public static class NativeDisplayState {
         if (allowChanges) flags |= 0x400u;
         return SetDisplayConfig(paths,p,modes,m,flags);
     }
+
+    // Adapter LUIDs and source IDs are session identities. Rebind a saved layout
+    // to the currently enumerated paths instead of replaying pre-reboot bytes.
+    // This method is pure so hotplug/reboot behavior can be tested without a GPU.
+    public static SavedDisplayState Rebind(SavedDisplayState saved, SavedDisplayState available) {
+        if(saved==null||available==null||saved.Displays==null||available.Displays==null||saved.PathCount==0||saved.Displays.Count!=saved.PathCount||available.Displays.Count!=available.PathCount)
+            throw new ArgumentException("Invalid display snapshot metadata");
+        byte[] paths=Convert.FromBase64String(saved.PathsBase64),modes=Convert.FromBase64String(saved.ModesBase64),fresh=Convert.FromBase64String(available.PathsBase64);
+        if(paths.LongLength!=saved.PathCount*72L||modes.LongLength!=saved.ModeCount*64L||fresh.LongLength!=available.PathCount*72L)
+            throw new ArgumentException("Invalid display snapshot length");
+        var assigned=new Dictionary<string,string>();
+        var used=new HashSet<string>();
+        var screens=new List<ScreenPath>();
+        for(int n=0;n<saved.Displays.Count;n++) {
+            var screen=saved.Displays[n];
+            if(screen==null||string.IsNullOrWhiteSpace(screen.DevicePath))throw new ArgumentException("A saved display has no stable device path");
+            int path=n*72,selected=-1;
+            string original=SourceKey(paths,path),required;
+            assigned.TryGetValue(original,out required);
+            // Prefer an already active route, then another valid unused source.
+            for(int pass=0;pass<2&&selected<0;pass++)for(int j=0;j<available.Displays.Count;j++) {
+                var candidate=available.Displays[j];
+                if(!candidate.Available||!screen.DevicePath.Equals(candidate.DevicePath,StringComparison.OrdinalIgnoreCase)||(pass==0&&!candidate.Active))continue;
+                string key=SourceKey(fresh,j*72);
+                if(required!=null?key!=required:used.Contains(key))continue;
+                selected=j*72;break;
+            }
+            if(selected<0)throw new Win32Exception(1167,"A saved display is disconnected or has no compatible current route");
+            string chosen=SourceKey(fresh,selected);
+            assigned[original]=chosen;used.Add(chosen);
+            Array.Copy(fresh,selected,paths,path,12);
+            Array.Copy(fresh,selected+20,paths,path+20,12);
+            WriteU(paths,path+60,1);WriteU(paths,path+68,U(paths,path+68)|1);
+            RebindMode(modes,saved.ModeCount,U(paths,path+12),1,paths,path,U(paths,path+8));
+            RebindMode(modes,saved.ModeCount,U(paths,path+32),2,paths,path+20,U(paths,path+28));
+            screens.Add(new ScreenPath {Name=screen.Name,DevicePath=screen.DevicePath,DisplayName=available.Displays[selected/72].DisplayName,Active=true,Available=true,Primary=screen.Primary,TargetId=U(paths,path+28),Width=screen.Width,Height=screen.Height,RefreshNumerator=screen.RefreshNumerator,RefreshDenominator=screen.RefreshDenominator,X=screen.X,Y=screen.Y});
+        }
+        return new SavedDisplayState {PathCount=saved.PathCount,ModeCount=saved.ModeCount,PathsBase64=Convert.ToBase64String(paths),ModesBase64=Convert.ToBase64String(modes),Displays=screens};
+    }
+    static string SourceKey(byte[] data,int offset) {return U(data,offset)+":"+U(data,offset+4)+":"+U(data,offset+8);}
+    static void WriteU(byte[] data,int offset,uint value) {Array.Copy(BitConverter.GetBytes(value),0,data,offset,4);}
+    static void RebindMode(byte[] modes,uint count,uint index,uint kind,byte[] paths,int adapter,uint id) {
+        if(index>=count||U(modes,(int)index*64)!=kind)throw new ArgumentException("Invalid saved display mode reference");
+        int offset=(int)index*64;
+        WriteU(modes,offset+4,id);Array.Copy(paths,adapter,modes,offset+8,8);
+    }
+    public static int Restore(SavedDisplayState saved,bool validateOnly) {
+        SavedDisplayState current;
+        try {current=Rebind(saved,Capture(false));}catch(Win32Exception ex){return ex.NativeErrorCode;}
+        // Force a real driver mode set and persist the repaired layout. Missing
+        // monitors are rejected before this call, never replaced by another output.
+        return SetDisplayConfig(current.PathCount,Convert.FromBase64String(current.PathsBase64),current.ModeCount,Convert.FromBase64String(current.ModesBase64),validateOnly?0x460u:0x7a0u);
+    }
 }

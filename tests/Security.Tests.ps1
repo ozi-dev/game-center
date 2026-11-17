@@ -24,6 +24,23 @@ Describe 'Redacted diagnostic exports' {
     }
 }
 
+Describe 'Actual stream clients versus a paused application' {
+    It 'recognizes a disconnected stream even while serverinfo retains a busy app' {
+        Resolve-StreamLogActivity @('Sunshine version: test','New streaming session started [active sessions: 1]','CLIENT CONNECTED','CLIENT DISCONNECTED') | Should -Be 0
+    }
+    It 'keeps another client active when only one of two clients disconnects' {
+        Resolve-StreamLogActivity @('Sunshine version: test','New streaming session started [active sessions: 1]','CLIENT CONNECTED','New streaming session started [active sessions: 2]','CLIENT CONNECTED','CLIENT DISCONNECTED') | Should -Be 1
+    }
+    It 'keeps a pending connection busy and handles overlapping handshakes' {
+        Resolve-StreamLogActivity @('Sunshine version: test','New streaming session started [active sessions: 1]') | Should -Be 1
+        Resolve-StreamLogActivity @('Sunshine version: test','New streaming session started [active sessions: 1]','New streaming session started [active sessions: 2]','CLIENT CONNECTED','CLIENT CONNECTED','CLIENT DISCONNECTED','CLIENT DISCONNECTED') | Should -Be 0
+    }
+    It 'does not infer idle from a truncated or unmatched disconnect event' {
+        Resolve-StreamLogActivity @('CLIENT DISCONNECTED') | Should -Be -1
+        Resolve-StreamLogActivity @('encoder info only') | Should -Be -1
+    }
+}
+
 Describe 'Download verification and extraction' {
     It 'rejects a bad package hash and deletes the incomplete part' {
         $package=Join-Path $TestDrive 'package';$cache=Join-Path $TestDrive 'cache'

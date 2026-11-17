@@ -51,8 +51,8 @@ $hashFile=Join-Path $generated 'RuntimeHashes.json'
 $appManifest=Join-Path $generated 'app.manifest'
 [IO.File]::WriteAllText($appManifest,([IO.File]::ReadAllText((Join-Path $root 'src\app.manifest')) -replace 'version="\d+\.\d+\.\d+\.\d+"',('version="'+$version+'.0"')),$utf8)
 Compile @('/target:winexe','/platform:x64',('/win32manifest:'+$appManifest),('/out:'+(Join-Path $out 'SofaRelay.exe')),('/reference:'+$core),'/reference:System.Windows.Forms.dll','/reference:System.Drawing.dll','/reference:System.Web.Extensions.dll',('/resource:'+$hashFile+',SofaRelay.RuntimeHashes'),$metadata,(Join-Path $root 'src\App.cs'),(Join-Path $root 'src\LocalizedControls.cs'),(Join-Path $root 'src\RuntimeIntegrity.cs'),(Join-Path $root 'src\BrokerLauncher.cs'))
-foreach($test in @('CoreTests','LocalizationTests')) {
-    Compile @('/target:exe',('/out:'+(Join-Path $out ($test+'.exe'))),('/reference:'+$core),'/reference:System.Core.dll',(Join-Path $root ('tests\'+$test+'.cs')))
+foreach($test in @('CoreTests','LocalizationTests','DisplayStateTests')) {
+    Compile @('/target:exe',('/out:'+(Join-Path $out ($test+'.exe'))),('/reference:'+$core),('/reference:'+(Join-Path $out 'SofaRelay.Native.dll')),'/reference:System.Core.dll',(Join-Path $root ('tests\'+$test+'.cs')))
     & (Join-Path $out ($test+'.exe')) $root
     if($LASTEXITCODE) { throw ($test+' failed.') }
 }

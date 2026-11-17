@@ -2,7 +2,7 @@
 
 [English](en.md) · [Türkçe](tr.md) · [Français](fr.md) · [Español](es.md) · [Project](../../README.md)
 
-The 2.3.0 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
+The 2.3.1 installer supports English, Turkish, French and Spanish. Choose **English** in the sidebar; the selection is saved and offline help follows it. Applying settings also selects English in Playnite.
 
 ## Before you begin
 

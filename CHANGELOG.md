@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.1 — 2026-11-17
+
+- Restore display snapshots by stable monitor paths and current adapter/source/target identities. Pre-reboot snapshots no longer replay invalid session IDs; disconnected monitors are rejected instead of selecting another output.
+- Force and persist the repaired physical display mode while preserving the saved resolution, refresh rate and primary layout.
+- Distinguish actual streaming clients from a paused application retained for resume. Display recovery no longer stays blocked by `/serverinfo` reporting BUSY after the last client disconnects.
+- Keep pending connections and multiple clients protected; missing/truncated/current-process log uncertainty postpones recovery.
+- Add 11 pure display-rebinding assertions and four stream-lifecycle Pester regressions. Existing core, backend, privacy and four-language checks remain enabled.
+
 ## 2.3.0 — 2026-11-16
 
 - Replace elevated user-folder scripts with an embedded, hash-bound broker and protected Program Files code / ProgramData machine state; validate request ownership and exact restore targets.

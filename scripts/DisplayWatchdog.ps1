@@ -17,15 +17,16 @@ try {
         $flag = Join-Path $data 'watchdog-enabled.json'
         if(!$settings -or !(Test-Path -LiteralPath $flag)) { break }
         $enabled = $settings.RecoveryWatchdog -and $settings.VirtualDisplay -and $settings.TurnOffPhysicalMonitor -and $settings.RestoreDisplay
-        $baseline = Read-Json (Join-Path $data 'display-baseline.json')
+        $baselinePath=Join-Path $data 'display-baseline.json'
+        $baseline=if(Test-Path -LiteralPath $baselinePath){Read-DisplaySnapshot $baselinePath}else{$null}
         if(!$enabled -or !$baseline) { break }
         $current = [NativeDisplayState]::Capture($true)
         $physical = @($baseline.Displays | Where-Object { $_.Active -and $_.Name -notmatch 'VDD|Virtual' } | ForEach-Object {$_.DevicePath})
         $present = @($current.Displays | Where-Object { $_.Active -and $_.DevicePath -in $physical })
         $missing = $physical.Count -gt 0 -and !$present.Count
-        $recover = [SofaRelay.RecoveryPolicy]::Advance($checkpoint,$enabled,(Get-StreamState),$missing)
+        $recover = [SofaRelay.RecoveryPolicy]::Advance($checkpoint,$enabled,(Get-StreamActivity),$missing)
         if($recover) {
-            $code = [NativeDisplayState]::Apply($baseline.PathCount,$baseline.PathsBase64,$baseline.ModeCount,$baseline.ModesBase64,$false,$true)
+            $code = [NativeDisplayState]::Restore($baseline,$false)
             if($code -eq 0) { $checkpoint.Pending=$false;$checkpoint.IdleSamples=0 }
             Write-Json (Join-Path $data 'recovery-status.json') @{Recovered=($code -eq 0);WindowsCode=$code;At=(Get-Date).ToString('o')}
         }
